@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz 1 · Sessão 1 — Ciclo do Negócio de Cibersegurança</title>
+<style>
+  :root{
+    --azul:#1F4E79; --azul2:#2E74B5; --claro:#DEEBF7; --ok:#2e7d32; --okbg:#e8f5e9;
+    --erro:#c62828; --errobg:#fdecea; --cinza:#595959; --borda:#d9d9d9;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:'Segoe UI',Calibri,system-ui,sans-serif; background:#f4f6f9; color:#222; line-height:1.55; padding:24px 12px}
+  .wrap{max-width:760px; margin:0 auto}
+  header{background:var(--azul); color:#fff; border-radius:14px 14px 0 0; padding:26px 28px}
+  header h1{font-size:1.35rem; font-weight:700}
+  header p{opacity:.85; font-size:.95rem; margin-top:6px}
+  .card{background:#fff; border:1px solid var(--borda); border-top:none; border-radius:0 0 14px 14px; padding:28px}
+  .progress{height:8px; background:#e4e9f0; border-radius:99px; margin-bottom:22px; overflow:hidden}
+  .progress > div{height:100%; background:var(--azul2); width:0; transition:width .3s}
+  .qnum{font-size:.85rem; color:var(--cinza); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px}
+  .qtext{font-size:1.12rem; font-weight:600; margin-bottom:18px}
+  .opt{display:block; width:100%; text-align:left; background:#fff; border:1.5px solid var(--borda); border-radius:10px;
+       padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; transition:all .15s; font-family:inherit}
+  .opt:hover:not(:disabled){border-color:var(--azul2); background:var(--claro)}
+  .opt:disabled{cursor:default}
+  .opt.correta{border-color:var(--ok); background:var(--okbg); font-weight:600}
+  .opt.errada{border-color:var(--erro); background:var(--errobg)}
+  .letra{display:inline-block; width:1.6em; font-weight:700; color:var(--azul2)}
+  .feedback{border-radius:10px; padding:14px 16px; margin-top:14px; font-size:.97rem; display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--okbg); border-left:5px solid var(--ok)}
+  .feedback.ko{background:var(--errobg); border-left:5px solid var(--erro)}
+  .feedback b{display:block; margin-bottom:4px}
+  .nav{display:flex; justify-content:flex-end; margin-top:20px}
+  button.next{background:var(--azul); color:#fff; border:none; border-radius:10px; padding:12px 26px; font-size:1rem;
+       cursor:pointer; font-family:inherit; display:none}
+  button.next.show{display:inline-block}
+  button.next:hover{background:var(--azul2)}
+  .resultado{text-align:center; display:none}
+  .resultado.show{display:block}
+  .score{font-size:3rem; font-weight:800; color:var(--azul); margin:14px 0 4px}
+  .nivel{font-size:1.15rem; font-weight:600; margin-bottom:14px}
+  .msg{color:var(--cinza); margin-bottom:22px}
+  .rev{text-align:left; border-top:1px solid var(--borda); padding-top:18px; margin-top:8px}
+  .rev h3{font-size:1rem; color:var(--azul); margin-bottom:10px}
+  .rev-item{font-size:.92rem; margin-bottom:8px; padding-left:22px; position:relative}
+  .rev-item::before{content:attr(data-i); position:absolute; left:0; font-weight:700; color:var(--azul2)}
+  .rev-item.certa::after{content:" ✓"; color:var(--ok); font-weight:700}
+  .rev-item.errada2::after{content:" ✗"; color:var(--erro); font-weight:700}
+  button.retry{background:#fff; color:var(--azul); border:1.5px solid var(--azul); border-radius:10px;
+       padding:12px 26px; font-size:1rem; cursor:pointer; font-family:inherit; margin-top:18px}
+  button.retry:hover{background:var(--claro)}
+  footer{text-align:center; color:var(--cinza); font-size:.82rem; margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quiz 1 · Sessão 1</h1>
+    <p>Do mundo interdependente ao ponto de situação da NIS2 (matéria até ao slide 27) · 9 perguntas · anónimo</p>
+  </header>
+  <div class="card">
+    <div class="progress"><div id="bar"></div></div>
+    <div id="quiz"></div>
+    <div class="nav"><button class="next" id="btnNext" onclick="proxima()">Próxima pergunta →</button></div>
+    <div class="resultado" id="res">
+      <div class="qnum">Resultado final</div>
+      <div class="score" id="scoreTxt"></div>
+      <div class="nivel" id="nivelTxt"></div>
+      <div class="msg" id="msgTxt"></div>
+      <div class="rev" id="revisao"></div>
+      <button class="retry" onclick="reiniciar()">↻ Repetir o quiz</button>
+    </div>
+  </div>
+  <footer>Ciclo do Negócio de Cibersegurança · ISCAC · Formador: Nuno Salvador</footer>
+</div>
+
+<script>
+const QUESTOES = [
+ {
+  q:"Os negócios operam hoje em ecossistemas digitais interdependentes. Segundo o que vimos, onde está o risco relevante para a organização?",
+  opts:["Apenas dentro do perímetro da empresa — é aí que estão os nossos sistemas","Sobretudo nos utilizadores finais e nos seus dispositivos","Também nas dependências externas que sustentam o modelo de negócio — fornecedores, cloud, cadeias de abastecimento","Apenas nas grandes plataformas tecnológicas globais"],
+  c:2,
+  exp:"O risco cyber deixou de ser um problema isolado de TI: numa 'queda em dominó', uma falha num ponto do ecossistema propaga impacto operacional, reputacional e regulatório por toda a cadeia de valor. O risco relevante já não está só 'dentro da empresa'."
+ },
+ {
+  q:"O que mudou no papel da CONFIANÇA para as organizações?",
+  opts:["Continua a ser essencialmente um fator reputacional, gerido pelo marketing","Passou de valor reputacional a elemento central da estratégia de cibersegurança — condição para operar, crescer e manter clientes","Tornou-se irrelevante: o que conta são os controlos técnicos","É um tema exclusivo do setor financeiro"],
+  c:1,
+  exp:"Num ambiente interconectado, a resiliência deixou de ser um tema técnico e tornou-se condição para operar. A confiança é hoje um pilar da economia digital — e um imperativo estratégico, não um extra de imagem."
+ },
+ {
+  q:"Durante décadas, a segurança esteve desalinhada do negócio. Qual é o PAR de sintomas que caracteriza esse desalinhamento?",
+  opts:["Falta de ferramentas + falta de formação","Over-investment em áreas pouco críticas + under-protection dos ativos verdadeiramente estratégicos","Excesso de auditorias + falta de certificações","Orçamentos altos + equipas grandes demais"],
+  c:1,
+  exp:"Sem critérios de negócio, gasta-se onde não há risco (desperdício de CAPEX/OPEX) e desprotege-se o que sustenta a estratégia. E sem linguagem de impacto no negócio, o CISO perde credibilidade junto do board — o ciclo vicioso completo."
+ },
+ {
+  q:"'A conformidade não é o destino da cibersegurança.' O que significa esta afirmação, no modelo que vimos?",
+  opts:["A conformidade é dispensável se houver bons controlos técnicos","Cumprir a lei chega, desde que documentado","O investimento deve ser proporcional ao RISCO e o objetivo final é a resiliência estratégica — a conformidade é consequência, não meta","As normas ISO substituem a análise de risco"],
+  c:2,
+  exp:"A segurança é uma capacidade estratégica que protege o modelo de negócio e viabiliza a transformação com confiança. Não é segurança informática, é segurança de informação; não é custo de conformidade, é investimento proporcional ao risco."
+ },
+ {
+  q:"'Security = Business Enabler.' Qual das frases traduz corretamente esta ideia?",
+  opts:["A segurança protege a capacidade da organização de operar, crescer e ser confiável — não apenas os sistemas","A segurança serve para autorizar ou bloquear projetos de TI","A segurança é um seguro: paga-se e espera-se nunca usar","A segurança gera receita direta através da venda de dados protegidos"],
+  c:0,
+  exp:"A mudança de paradigma: de função técnica de suporte (custo, reativa, sem voz) para função estratégica de continuidade e confiança — um pilar que habilita o crescimento do negócio."
+ },
+ {
+  q:"O curso assenta em 4 temas do novo modelo para o CISO. Qual é o conjunto CORRETO?",
+  opts:["Firewalls, antivírus, backups e formação","IA & inovação · terceiros & ecossistemas · regulação & stakeholders · secure by design","Cloud, mobilidade, redes sociais e teletrabalho","Orçamento, equipa, ferramentas e certificações"],
+  c:1,
+  exp:"São os 4 vetores que vamos trabalhar nas 9 sessões: a IA acelera mas cria novas vulnerabilidades; a dependência de parceiros amplia o risco; a regulação (NIS2, DORA, AI Act…) coloca a governação cyber na agenda executiva; e a segurança desde o desenho evita o custo do 'add-on' tardio."
+ },
+ {
+  q:"Qual é o principal risco de um CISO atuar apenas como função técnica? (o quiz da sala!)",
+  opts:["Necessidade de contratação de serviços","Aumento de custos de IT","Desalinhamento com as prioridades de negócio","Redução de compliance"],
+  c:2,
+  exp:"O CISO que permanece no paradigma técnico perde influência nos momentos que mais importam: as decisões críticas de gestão. Custos e compliance são sintomas; o desalinhamento é a causa."
+ },
+ {
+  q:"NIS2 em Portugal — o QUANDO. Qual é a combinação correta?",
+  opts:["A diretiva aplica-se diretamente desde 2022, sem lei portuguesa","DL 125/2025 em vigor a 3 de abril; portal de registo de entidades a 22 de abril; período de transição de 24 meses","Ainda não há transposição portuguesa da NIS2","Só se aplica a partir de 2030, com a Década Digital"],
+  c:1,
+  exp:"O Regime Jurídico da Cibersegurança (DL 125/2025) é o quadro de execução português da diretiva NIS2. As datas importam: o relógio da adaptação já está a correr — e começa pelos ativos mais críticos e fornecedores de maior risco."
+ },
+ {
+  q:"NIS2 — o COMO: que instrumento nacional operacionaliza a implementação, e que guia europeu o complementa?",
+  opts:["A ISO 9001 e o guia da OCDE","O QNRCS (Quadro Nacional de Referência de Cibersegurança) e o guia técnico de implementação da ENISA","O RGPD e as orientações da CNPD","O COBIT e o guia do NIST para o setor federal americano"],
+  c:1,
+  exp:"O QNRCS é o instrumento de operacionalização nacional; o guia técnico da ENISA funciona como 'livro de instruções' de implementação; e os referenciais (ISO 27k, CIS…) dão as boas práticas. Vamos dissecá-los no Módulo 2."
+ }
+];
+
+let i = 0, certas = 0, respostas = [];
+const $ = id => document.getElementById(id);
+
+function render(){
+  $('bar').style.width = (i / QUESTOES.length * 100) + '%';
+  const Q = QUESTOES[i];
+  let h = `<div class="qnum">Pergunta ${i+1} de ${QUESTOES.length}</div>`;
+  h += `<div class="qtext">${Q.q}</div>`;
+  Q.opts.forEach((o, k) => {
+    h += `<button class="opt" onclick="responder(${k})"><span class="letra">${'abcd'[k]})</span>${o}</button>`;
+  });
+  h += `<div class="feedback" id="fb"></div>`;
+  $('quiz').innerHTML = h;
+  $('btnNext').classList.remove('show');
+  $('btnNext').textContent = (i === QUESTOES.length - 1) ? 'Ver resultado →' : 'Próxima pergunta →';
+}
+
+function responder(k){
+  const Q = QUESTOES[i];
+  const botoes = document.querySelectorAll('.opt');
+  botoes.forEach(b => b.disabled = true);
+  botoes[Q.c].classList.add('correta');
+  const ok = (k === Q.c);
+  if(ok){ certas++; } else { botoes[k].classList.add('errada'); }
+  respostas.push(ok);
+  const fb = $('fb');
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+  fb.innerHTML = `<b>${ok ? '✓ Correto!' : '✗ Não é essa.'}</b>${Q.exp}`;
+  $('btnNext').classList.add('show');
+}
+
+function proxima(){
+  i++;
+  if(i < QUESTOES.length){ render(); }
+  else { resultado(); }
+}
+
+function resultado(){
+  $('bar').style.width = '100%';
+  $('quiz').innerHTML = '';
+  $('btnNext').classList.remove('show');
+  const pct = Math.round(certas / QUESTOES.length * 100);
+  $('scoreTxt').textContent = `${certas}/${QUESTOES.length}`;
+  let nivel, msg;
+  if(pct >= 90){ nivel = '🏆 Nível: pronto para o board'; msg = 'Excelente. Dominas as mensagens do Módulo 1 — na próxima sessão, desafia o formador.'; }
+  else if(pct >= 70){ nivel = '👍 Nível: CISO em construção'; msg = 'Muito bom. Revê as explicações das perguntas falhadas — normalmente são as armadilhas entre "técnico" e "negócio".'; }
+  else if(pct >= 50){ nivel = '📈 Nível: no bom caminho'; msg = 'Estás a meio da viagem. Sugestão: relê a cábula da matriz de McFarlan e a grelha das 6 perguntas da NIS2.'; }
+  else { nivel = '🌱 Nível: ponto de partida'; msg = 'Sem stress — é exatamente para isto que serve a formação. Volta a este quiz depois da Sessão 2 e compara.'; }
+  $('nivelTxt').textContent = nivel;
+  $('msgTxt').textContent = msg;
+  let rev = '<h3>Revisão rápida</h3>';
+  QUESTOES.forEach((Q, k) => {
+    rev += `<div class="rev-item ${respostas[k] ? 'certa' : 'errada2'}" data-i="${k+1}.">${Q.q.substring(0, 90)}${Q.q.length > 90 ? '…' : ''}</div>`;
+  });
+  $('revisao').innerHTML = rev;
+  $('res').classList.add('show');
+}
+
+function reiniciar(){
+  i = 0; certas = 0; respostas = [];
+  $('res').classList.remove('show');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

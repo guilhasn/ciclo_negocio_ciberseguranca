@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz 2 · Sessão 1 — Ciclo do Negócio de Cibersegurança</title>
+<style>
+  :root{
+    --azul:#1F4E79; --azul2:#2E74B5; --claro:#DEEBF7; --ok:#2e7d32; --okbg:#e8f5e9;
+    --erro:#c62828; --errobg:#fdecea; --cinza:#595959; --borda:#d9d9d9;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:'Segoe UI',Calibri,system-ui,sans-serif; background:#f4f6f9; color:#222; line-height:1.55; padding:24px 12px}
+  .wrap{max-width:760px; margin:0 auto}
+  header{background:var(--azul); color:#fff; border-radius:14px 14px 0 0; padding:26px 28px}
+  header h1{font-size:1.35rem; font-weight:700}
+  header p{opacity:.85; font-size:.95rem; margin-top:6px}
+  .card{background:#fff; border:1px solid var(--borda); border-top:none; border-radius:0 0 14px 14px; padding:28px}
+  .progress{height:8px; background:#e4e9f0; border-radius:99px; margin-bottom:22px; overflow:hidden}
+  .progress > div{height:100%; background:var(--azul2); width:0; transition:width .3s}
+  .qnum{font-size:.85rem; color:var(--cinza); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px}
+  .qtext{font-size:1.12rem; font-weight:600; margin-bottom:18px}
+  .opt{display:block; width:100%; text-align:left; background:#fff; border:1.5px solid var(--borda); border-radius:10px;
+       padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; transition:all .15s; font-family:inherit}
+  .opt:hover:not(:disabled){border-color:var(--azul2); background:var(--claro)}
+  .opt:disabled{cursor:default}
+  .opt.correta{border-color:var(--ok); background:var(--okbg); font-weight:600}
+  .opt.errada{border-color:var(--erro); background:var(--errobg)}
+  .letra{display:inline-block; width:1.6em; font-weight:700; color:var(--azul2)}
+  .feedback{border-radius:10px; padding:14px 16px; margin-top:14px; font-size:.97rem; display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--okbg); border-left:5px solid var(--ok)}
+  .feedback.ko{background:var(--errobg); border-left:5px solid var(--erro)}
+  .feedback b{display:block; margin-bottom:4px}
+  .nav{display:flex; justify-content:flex-end; margin-top:20px}
+  button.next{background:var(--azul); color:#fff; border:none; border-radius:10px; padding:12px 26px; font-size:1rem;
+       cursor:pointer; font-family:inherit; display:none}
+  button.next.show{display:inline-block}
+  button.next:hover{background:var(--azul2)}
+  .resultado{text-align:center; display:none}
+  .resultado.show{display:block}
+  .score{font-size:3rem; font-weight:800; color:var(--azul); margin:14px 0 4px}
+  .nivel{font-size:1.15rem; font-weight:600; margin-bottom:14px}
+  .msg{color:var(--cinza); margin-bottom:22px}
+  .rev{text-align:left; border-top:1px solid var(--borda); padding-top:18px; margin-top:8px}
+  .rev h3{font-size:1rem; color:var(--azul); margin-bottom:10px}
+  .rev-item{font-size:.92rem; margin-bottom:8px; padding-left:22px; position:relative}
+  .rev-item::before{content:attr(data-i); position:absolute; left:0; font-weight:700; color:var(--azul2)}
+  .rev-item.certa::after{content:" ✓"; color:var(--ok); font-weight:700}
+  .rev-item.errada2::after{content:" ✗"; color:var(--erro); font-weight:700}
+  button.retry{background:#fff; color:var(--azul); border:1.5px solid var(--azul); border-radius:10px;
+       padding:12px 26px; font-size:1rem; cursor:pointer; font-family:inherit; margin-top:18px}
+  button.retry:hover{background:var(--claro)}
+  footer{text-align:center; color:var(--cinza); font-size:.82rem; margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quiz 2 · Sessão 1</h1>
+    <p>NIS2 e o órgão de gestão, a tempestade perfeita, o novo CISO e a matriz de McFarlan (2.ª parte da sessão) · 8 perguntas · anónimo</p>
+  </header>
+  <div class="card">
+    <div class="progress"><div id="bar"></div></div>
+    <div id="quiz"></div>
+    <div class="nav"><button class="next" id="btnNext" onclick="proxima()">Próxima pergunta →</button></div>
+    <div class="resultado" id="res">
+      <div class="qnum">Resultado final</div>
+      <div class="score" id="scoreTxt"></div>
+      <div class="nivel" id="nivelTxt"></div>
+      <div class="msg" id="msgTxt"></div>
+      <div class="rev" id="revisao"></div>
+      <button class="retry" onclick="reiniciar()">↻ Repetir o quiz</button>
+    </div>
+  </div>
+  <footer>Ciclo do Negócio de Cibersegurança · ISCAC · Formador: Nuno Salvador</footer>
+</div>
+
+<script>
+const QUESTOES = [
+ {
+  q:"Segundo a NIS2, qual é o papel do órgão de gestão (administração)?",
+  opts:["Delegar totalmente a segurança no CISO","Aprovar apenas orçamento e políticas, sendo informado das atividades","Supervisionar e ser responsável pela gestão do risco, incluindo aprovar o plano de meios","Intervir apenas após incidentes significativos"],
+  c:2,
+  exp:"A NIS2 responsabiliza diretamente a gestão de topo — a supervisão do risco não é delegável no CISO. É por isso que este é um curso para gestores, não para técnicos."
+ },
+ {
+  q:"E qual é o maior risco PARA o próprio órgão de gestão?",
+  opts:["Necessidade de contratar serviços externos","Risco financeiro direto","Responsabilidade por falhas de supervisão","Falta de ferramentas"],
+  c:2,
+  exp:"As falhas de supervisão têm consequências para as pessoas que gerem — incluindo responsabilização pessoal. É o argumento que muda conversas em conselhos de administração."
+ },
+ {
+  q:"A 'tempestade perfeita' que enfrenta o CISO é formada por 4 vetores. Quais?",
+  opts:["Phishing, ransomware, DDoS e insider threat","Exposição geopolítica · transformação digital · integração de terceiros · pressão regulamentar","Cloud, IA, IoT e 5G","Orçamento, talento, ferramentas e tempo"],
+  c:1,
+  exp:"Os quatro reforçam-se: o digital aprofunda dependências de terceiros; as cadeias complexas atraem escrutínio regulatório; a geopolítica torna as organizações alvos deliberados — já não apenas danos colaterais."
+ },
+ {
+  q:"Um estudo sobre a adoção de IA em Portugal revela um paradoxo. Qual é a combinação correta?",
+  opts:["97% dos profissionais já experimentaram IA, mas só 23% das organizações têm políticas formalizadas","23% experimentaram IA; 97% têm políticas","A maioria das organizações tem ambientes seguros para testar IA","66% sentem-se verdadeiramente preparados"],
+  c:0,
+  exp:"97% experimentam · 23% têm políticas · 12% têm ambientes seguros · 6% sentem-se preparados. A prática corre à frente do controlo — terreno perfeito para fugas de dados sensíveis."
+ },
+ {
+  q:"Qual é o maior risco na supply chain moderna? (quiz da sala)",
+  opts:["Falta de contratos com revisão detalhada","Falta de SLA definidos na fase da operação","Insuficiente gestão do risco através de terceiros críticos","Falta de auditorias"],
+  c:2,
+  exp:"Contratos, SLAs e auditorias são instrumentos — o risco de fundo é não gerir a exposição criada pelos terceiros críticos. É o tema central dos Módulos 3 e 4."
+ },
+ {
+  q:"'One of the most important epiphanies a CISO can have…' — o CISO moderno é, antes de mais:",
+  opts:["Um gestor de tecnologia com competências de liderança","Um gestor de risco que comunica em linguagem executiva e foca-se na resiliência","Um auditor interno especializado em cibersegurança","Um diretor de operações de TI"],
+  c:1,
+  exp:"Da postura reativa à gestão estratégica: investimentos baseados no risco, comunicação do risco em linguagem executiva, foco na capacidade de recuperar — e assento nas decisões, não só na sala das máquinas."
+ },
+ {
+  q:"Na matriz de McFarlan, um piloto de IA generativa para personalização de campanhas classifica-se tipicamente como:",
+  opts:["Estratégico — a IA é o futuro","Operacional — já está a ser usado","Suporte — é apenas marketing","Exploratório — baixo impacto atual, elevado potencial futuro"],
+  c:3,
+  exp:"Armadilha clássica: inovação não é criticidade. Um piloto ainda não sustenta o negócio — inova-se com guardrails e critérios de go/no-go. Se um dia sustentar receita e diferenciação, migra para Estratégico."
+ },
+ {
+  q:"O ERP central de uma empresa de retalho — impacto direto nas operações, sem potencial diferenciador futuro — é:",
+  opts:["Operacional — reforçar resiliência, redundância e recovery testado","Estratégico — proteção máxima","Suporte — padronizar","Exploratório — inovar com guardrails"],
+  c:0,
+  exp:"Alto impacto atual + baixo potencial futuro = Operacional. A pergunta executiva é 'o negócio pára se falhar?' — e a decisão é resiliência, não diferenciação. Nem tudo pesa o mesmo: é essa a conversa que a matriz obriga a ter."
+ }
+];
+
+let i = 0, certas = 0, respostas = [];
+const $ = id => document.getElementById(id);
+
+function render(){
+  $('bar').style.width = (i / QUESTOES.length * 100) + '%';
+  const Q = QUESTOES[i];
+  let h = `<div class="qnum">Pergunta ${i+1} de ${QUESTOES.length}</div>`;
+  h += `<div class="qtext">${Q.q}</div>`;
+  Q.opts.forEach((o, k) => {
+    h += `<button class="opt" onclick="responder(${k})"><span class="letra">${'abcd'[k]})</span>${o}</button>`;
+  });
+  h += `<div class="feedback" id="fb"></div>`;
+  $('quiz').innerHTML = h;
+  $('btnNext').classList.remove('show');
+  $('btnNext').textContent = (i === QUESTOES.length - 1) ? 'Ver resultado →' : 'Próxima pergunta →';
+}
+
+function responder(k){
+  const Q = QUESTOES[i];
+  const botoes = document.querySelectorAll('.opt');
+  botoes.forEach(b => b.disabled = true);
+  botoes[Q.c].classList.add('correta');
+  const ok = (k === Q.c);
+  if(ok){ certas++; } else { botoes[k].classList.add('errada'); }
+  respostas.push(ok);
+  const fb = $('fb');
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+  fb.innerHTML = `<b>${ok ? '✓ Correto!' : '✗ Não é essa.'}</b>${Q.exp}`;
+  $('btnNext').classList.add('show');
+}
+
+function proxima(){
+  i++;
+  if(i < QUESTOES.length){ render(); }
+  else { resultado(); }
+}
+
+function resultado(){
+  $('bar').style.width = '100%';
+  $('quiz').innerHTML = '';
+  $('btnNext').classList.remove('show');
+  const pct = Math.round(certas / QUESTOES.length * 100);
+  $('scoreTxt').textContent = `${certas}/${QUESTOES.length}`;
+  let nivel, msg;
+  if(pct >= 90){ nivel = '🏆 Nível: pronto para o board'; msg = 'Excelente. Dominas as mensagens do Módulo 1 — na próxima sessão, desafia o formador.'; }
+  else if(pct >= 70){ nivel = '👍 Nível: CISO em construção'; msg = 'Muito bom. Revê as explicações das perguntas falhadas — normalmente são as armadilhas entre "técnico" e "negócio".'; }
+  else if(pct >= 50){ nivel = '📈 Nível: no bom caminho'; msg = 'Estás a meio da viagem. Sugestão: relê a cábula da matriz de McFarlan e a grelha das 6 perguntas da NIS2.'; }
+  else { nivel = '🌱 Nível: ponto de partida'; msg = 'Sem stress — é exatamente para isto que serve a formação. Volta a este quiz depois da Sessão 2 e compara.'; }
+  $('nivelTxt').textContent = nivel;
+  $('msgTxt').textContent = msg;
+  let rev = '<h3>Revisão rápida</h3>';
+  QUESTOES.forEach((Q, k) => {
+    rev += `<div class="rev-item ${respostas[k] ? 'certa' : 'errada2'}" data-i="${k+1}.">${Q.q.substring(0, 90)}${Q.q.length > 90 ? '…' : ''}</div>`;
+  });
+  $('revisao').innerHTML = rev;
+  $('res').classList.add('show');
+}
+
+function reiniciar(){
+  i = 0; certas = 0; respostas = [];
+  $('res').classList.remove('show');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
