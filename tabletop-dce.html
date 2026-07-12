@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · Incidente no Fornecedor do DCE — InterMed</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+  .painel{background:#fff; border:1px solid var(--borda); border-radius:14px; padding:26px; box-shadow:0 1px 4px rgba(0,0,0,.06); margin-bottom:18px}
+  .relogios{display:flex; gap:12px; flex-wrap:wrap; margin:14px 0}
+  .relogio{flex:1; min-width:180px; background:#0e2a45; color:#fff; border-radius:12px; padding:12px 16px; text-align:center}
+  .relogio .rot{font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; opacity:.75}
+  .relogio .val{font-size:1.5rem; font-weight:800; font-variant-numeric:tabular-nums}
+  .relogio.alerta{background:#7a1f1f}
+  .narrativa{background:var(--claro); border-radius:10px; padding:16px 18px; margin:14px 0; font-size:1.02rem}
+  .narrativa .hora{font-weight:800; color:var(--azul)}
+  .decisao{border:1px solid var(--borda); border-radius:12px; padding:16px 18px; margin:14px 0}
+  .decisao h4{color:var(--azul); margin-bottom:10px}
+  .opcao{display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border:1.5px solid var(--borda); border-radius:10px; margin-bottom:8px; cursor:pointer}
+  .opcao:hover{border-color:var(--azul2); background:#f6faff}
+  .opcao input{width:auto; margin-top:4px}
+  .opcao.sel{border-color:var(--azul); background:var(--claro)}
+  .consequencia{display:none; background:var(--amarelobg); border-left:5px solid var(--amarelo); border-radius:8px; padding:12px 16px; margin-top:14px}
+  .consequencia.show{display:block}
+  .fase-tag{display:inline-block; background:var(--azul); color:#fff; border-radius:99px; padding:4px 14px; font-size:.8rem; font-weight:700; letter-spacing:.04em}
+  .prog-fases{display:flex; gap:6px; margin-bottom:18px}
+  .prog-fases span{flex:1; height:7px; border-radius:99px; background:#e0e6ee}
+  .prog-fases span.done{background:var(--azul2)}
+  .resumo-item{border-left:4px solid var(--azul2); padding:8px 14px; margin-bottom:10px; background:#fff; border-radius:0 8px 8px 0}
+  .resumo-item .q{font-weight:600; font-size:.92rem}
+  .resumo-item .a{color:var(--azul); font-size:.95rem}
+  .resumo-item .j{color:var(--cinza); font-size:.88rem; font-style:italic}
+  .estado{padding:12px 16px; border-radius:10px; margin-top:12px; display:none}
+  .estado.show{display:block}
+  .estado.ok{background:var(--okbg); border-left:5px solid var(--ok)}
+  .estado.erro{background:var(--errobg); border-left:5px solid var(--erro)}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+</nav>
+
+<main class="wrap" style="max-width:860px">
+  <h1 style="color:var(--azul)">🎲 Exercício Tabletop — Incidente no Fornecedor do DCE</h1>
+  <p style="color:var(--cinza); margin-bottom:18px">Caso InterMed · trabalho em grupo · ~60–75 minutos · as decisões são vossas, as consequências também</p>
+
+  <!-- ECRÃ 0: SETUP -->
+  <section class="painel" id="ecra-setup">
+    <span class="fase-tag">Briefing</span>
+    <h2 style="color:var(--azul); margin:12px 0 10px">A situação</h2>
+    <p>São vocês a equipa de gestão de crise da <strong>InterMed</strong> — o grupo privado de saúde que conhecem do caso.
+    O <strong>Dossier Clínico Eletrónico (DCE)</strong>, o sistema mais crítico da casa, é fornecido pela <strong>MedSoft SA</strong>,
+    que aloja parte da solução no datacenter dela. O contrato tem 6 anos e — como descobriram no exercício anterior —
+    não tem cláusula de notificação de incidentes nem direito de auditoria.</p>
+    <p style="margin-top:10px">Distribuam papéis dentro do grupo (não precisam de ser formais): <strong>CISO</strong> (lidera),
+    <strong>COO</strong> (operação clínica), <strong>Jurídico/DPO</strong> (obrigações legais), <strong>Comunicação</strong> (stakeholders).</p>
+    <div class="aviso">⏱️ Em cada fase têm um tempo-alvo. Decidam com a informação que têm — na vida real também não vão ter mais.
+    Não há respostas "certas" reveladas durante o exercício: o debrief é no plenário.</div>
+    <label for="grupo">Nome do grupo *</label>
+    <input id="grupo" maxlength="40" placeholder="ex.: Grupo 2 — Célula de Crise Norte">
+    <label for="membros">Primeiros nomes dos elementos (opcional)</label>
+    <input id="membros" maxlength="120" placeholder="ex.: Ana, José, Marta">
+    <p style="margin-top:18px"><button class="botao" onclick="comecar()">Começar o exercício →</button></p>
+  </section>
+
+  <!-- ECRÃ FASES -->
+  <section id="ecra-fase" style="display:none">
+    <div class="prog-fases" id="progFases"></div>
+    <div class="painel">
+      <span class="fase-tag" id="faseTag"></span>
+      <div class="relogios">
+        <div class="relogio"><div class="rot">Tempo simulado</div><div class="val" id="relSim">—</div></div>
+        <div class="relogio" id="relNis2Box"><div class="rot">NIS2 · alerta precoce (24h)</div><div class="val" id="relNis2">não iniciado</div></div>
+        <div class="relogio" id="relRgpdBox"><div class="rot">RGPD · CNPD (72h)</div><div class="val" id="relRgpd">não iniciado</div></div>
+        <div class="relogio"><div class="rot">Tempo-alvo desta fase</div><div class="val" id="relFase">12:00</div></div>
+      </div>
+      <div class="narrativa" id="narrativa"></div>
+      <div id="decisoes"></div>
+      <div class="consequencia" id="consequencia"></div>
+      <p style="margin-top:16px; text-align:right">
+        <button class="botao" id="btnConfirmar" onclick="confirmarFase()">Confirmar decisões desta fase</button>
+        <button class="botao" id="btnSeguinte" onclick="faseSeguinte()" style="display:none">Fase seguinte →</button>
+      </p>
+    </div>
+  </section>
+
+  <!-- ECRÃ FINAL -->
+  <section class="painel" id="ecra-final" style="display:none">
+    <span class="fase-tag">Fim do exercício</span>
+    <h2 style="color:var(--azul); margin:12px 0 10px">O registo de decisões do vosso grupo</h2>
+    <div id="resumo"></div>
+    <h3 style="color:var(--azul); margin:20px 0 6px">Entregar ao formador</h3>
+    <p style="font-size:.93rem; color:var(--cinza)">Copiem o registo de decisões (botão abaixo), colem-no na <strong>Ficha de Respostas Word</strong> — onde acrescentam a vossa reflexão final — e enviem-na ao formador conforme combinado em sala.</p>
+    <p style="margin-top:16px">
+      <button class="botao" onclick="copiar()" id="btnCopiar">📋 Copiar registo de decisões</button>
+      <a class="botao sec" href="fichas/Ficha_Tabletop_DCE.docx" download>📄 Descarregar Ficha Word</a>
+      <button class="botao sec" onclick="descarregar()">💾 Guardar registo (.txt)</button>
+    </p>
+    <div class="estado" id="estado"></div>
+  </section>
+</main>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · ISCAC · Cenário fictício para fins pedagógicos — a MedSoft SA não existe.</footer>
+
+<script>
+const FASES = [
+ {
+  tag:"Fase 1 · Sexta-feira, 17h47", sim:"Sexta 17:47", alvo:12,
+  narrativa:`<span class="hora">Sexta-feira, 17h47.</span> O gestor de conta da <strong>MedSoft</strong> liga ao diretor de IT:
+  "Detetámos atividade anómala nos nossos sistemas. Estamos a investigar. Por precaução, talvez notem alguma lentidão."
+  Dez minutos depois, o diretor clínico do hospital de Coimbra telefona: <em>"Os terminais do DCE estão lentíssimos e
+  duas enfermarias não conseguem abrir processos. Tenho urgências cheias. O que se passa?"</em>`,
+  decisoes:[
+   {q:"D1. Primeira decisão sobre o DCE:", opts:[
+     "Isolar já a ligação da InterMed aos sistemas MedSoft — mesmo sabendo que o DCE fica indisponível e as urgências passam a papel",
+     "Manter a ligação e intensificar a monitorização — só isolar com evidência concreta de compromisso",
+     "Pedir à MedSoft mais informação e aguardar a avaliação dela antes de qualquer ação"],
+    cons:["Isolaram. As urgências ativam procedimentos em papel — caos controlado, clínicos furiosos, mas contenção garantida.",
+     "Mantiveram a ligação. A monitorização da InterMed vê pouco: os sistemas são da MedSoft e os logs são dela.",
+     "Aguardam. O relógio corre e a informação que têm continua a ser a que a MedSoft quiser dar."]},
+   {q:"D2. Ativam a célula de crise (gestão de topo incluída)?", opts:[
+     "Sim, já — mesmo que se revele um falso alarme",
+     "Ainda não — primeiro reunir factos durante 2–3 horas, para não alarmar a administração",
+     "Ativar apenas a equipa técnica; a gestão é informada na segunda-feira"],
+    cons:["Célula ativada. A administração está na chamada às 18h30 — e faz perguntas para as quais ainda não têm respostas. Preparem-se.",
+     "Decidiram esperar. Às 20h a situação agravou-se e a célula arranca já cansada e atrasada.",
+     "A equipa técnica trabalha sozinha. Quando a administração souber — e vai saber — a pergunta será: 'porque é que eu soube por terceiros?'"]},
+   {q:"D3. O relógio da NIS2: quando começa a contar o prazo de alerta precoce (24h)?", opts:[
+     "Já começou — temos conhecimento de um incidente com impacto significativo em serviço essencial",
+     "Só quando a MedSoft confirmar formalmente que é um ciberataque",
+     "Só se os dados de doentes forem afetados"],
+    cons:["Assumiram que o relógio corre. Posição prudente: o conhecimento do impacto (DCE degradado em unidades de saúde) é vosso, não depende da confirmação do fornecedor.",
+     "Ficaram à espera da confirmação do fornecedor. E se ela chegar às 30 horas? O prazo é vosso, não da MedSoft.",
+     "Confundiram NIS2 com RGPD: o alerta precoce NIS2 é sobre impacto no serviço, não sobre dados pessoais."]}
+  ]
+ },
+ {
+  tag:"Fase 2 · Sexta-feira, 21h15", sim:"Sexta 21:15", alvo:12, nis2:true,
+  narrativa:`<span class="hora">21h15.</span> A MedSoft deixou de atender o gestor de conta — só responde um email genérico de "suporte".
+  O DCE está agora <strong>indisponível nas 3 unidades</strong>. Entretanto, o vosso analista encontra nos logs de rede
+  tráfego invulgar de ontem à noite entre a rede da InterMed e os IPs da MedSoft.
+  O COO pergunta: <em>"Quanto tempo aguentamos em papel? Amanhã às 8h tenho 340 consultas marcadas."</em>`,
+  decisoes:[
+   {q:"D4. Comunicação com o CNCS (alerta precoce NIS2):", opts:[
+     "Submeter já o alerta precoce com a informação disponível, assumindo incerteza",
+     "Esperar até ter um quadro completo — um alerta 'a medo' pode gerar alarme desnecessário",
+     "Contactar informalmente um conhecido no CNCS para 'sondar' antes de qualquer registo formal"],
+    cons:["Alerta submetido dentro do prazo. Incerteza declarada é aceitável; silêncio não é.",
+     "Continuam a preparar 'o quadro completo'. O prazo das 24h não espera pela perfeição.",
+     "A sondagem informal não substitui a notificação — e agora há registo de que sabiam e não notificaram."]},
+   {q:"D5. As consultas de amanhã:", opts:[
+     "Manter as consultas com processos em papel e equipas reforçadas",
+     "Cancelar as consultas não urgentes e comunicar hoje à noite aos doentes",
+     "Decidir amanhã às 7h, conforme o estado dos sistemas"],
+    cons:["Mantêm com papel. Operação degradada mas viável — desde que alguém consiga imprimir as agendas ainda hoje.",
+     "Cancelaram e comunicaram. Impacto reputacional imediato, mas expectativas geridas e risco clínico reduzido.",
+     "Adiar a decisão é decidir sem tempo: às 7h já não há como avisar 340 pessoas."]},
+   {q:"D6. O tráfego invulgar de ontem na VOSSA rede muda alguma coisa?", opts:[
+     "Sim — tratar a rede da InterMed como potencialmente comprometida: caça à ameaça interna, reset de credenciais de integração com a MedSoft",
+     "Não — o problema é da MedSoft; a nossa rede não mostra mais sinais",
+     "Registar para análise posterior; agora a prioridade é a operação"],
+    cons:["Assumiram compromisso potencial. As contas de integração MedSoft↔InterMed são exatamente o tipo de porta que um atacante usa para saltar de um para o outro.",
+     "Assumiram que 'o problema é deles'. Se o atacante entrou pela ligação de integração, é vosso também.",
+     "A operação é prioridade — mas deixar credenciais partilhadas ativas durante um incidente do fornecedor é dar tempo ao atacante."]}
+  ]
+ },
+ {
+  tag:"Fase 3 · Sábado, 09h30", sim:"Sábado 09:30", alvo:12, rgpd:true,
+  narrativa:`<span class="hora">Sábado, 09h30.</span> A MedSoft finalmente liga — o CEO dela em pessoa:
+  <em>"Fomos vítimas de ransomware. Estamos a avaliar. Pedimos que não comuniquem nada publicamente para não comprometer
+  a negociação com os atacantes. Os vossos dados... estamos a verificar se houve acesso."</em>
+  Uma hora depois, o vosso jurídico confirma o que temiam: <strong>o contrato não obriga a MedSoft a dar-vos informação
+  sobre o incidente</strong>. E o analista mostra-vos um print de um site de leaks na dark web: o nome "MedSoft" aparece numa
+  lista de "novas vítimas", com uma amostra que parece conter <strong>dados de doentes</strong>.`,
+  decisoes:[
+   {q:"D7. O pedido de silêncio da MedSoft:", opts:[
+     "Recusar — as vossas obrigações legais (CNCS, CNPD, doentes) não ficam suspensas pela negociação de terceiros",
+     "Aceitar 48h de silêncio como gesto de boa-fé com o fornecedor",
+     "Aceitar silêncio público, mas prosseguir com todas as notificações às autoridades"],
+    cons:["Recusaram. Correto e desconfortável: o fornecedor gere a crise dele; vocês respondem pela vossa.",
+     "48 horas de silêncio incluem falhar prazos legais que são vossos. O fornecedor não vos pode 'emprestar' o incumprimento.",
+     "Distinção sensata: comunicação pública é gerível; notificação às autoridades não é negociável."]},
+   {q:"D8. A amostra na dark web com possíveis dados de doentes — relógio RGPD:", opts:[
+     "Tratar como violação de dados pessoais conhecida AGORA: preparar notificação à CNPD (72h) e avaliação de risco para os titulares",
+     "Aguardar confirmação formal da MedSoft de que os dados são mesmo da InterMed",
+     "Pedir parecer jurídico externo na segunda-feira"],
+    cons:["Relógio RGPD a contar. Com dados de saúde (categoria especial), a avaliação de risco para os titulares vai quase de certeza exigir também comunicação aos doentes.",
+     "A 'confirmação formal' de um fornecedor sob ataque pode nunca chegar. O conhecimento razoável da violação já é vosso.",
+     "Segunda-feira são +48h de relógio queimadas num prazo de 72h."]},
+   {q:"D9. Quem lidera a comunicação com a MedSoft a partir de agora?", opts:[
+     "O CISO, com guião aprovado pela célula de crise e registo escrito de tudo",
+     "Continua o gestor de conta comercial — é quem tem a relação",
+     "O advogado externo — isto agora é um assunto jurídico"],
+    cons:["Comunicação centralizada e documentada. Cada chamada registada vale ouro no relatório final e em eventual litígio.",
+     "A relação comercial não sobrevive a uma crise destas — e o gestor de conta não sabe o que pode ou não prometer.",
+     "Só jurídico trava a partilha técnica de que precisam para recuperar. Jurídico assessora; não substitui a gestão do incidente."]}
+  ]
+ },
+ {
+  tag:"Fase 4 · Sábado, 16h00", sim:"Sábado 16:00", alvo:10,
+  narrativa:`<span class="hora">16h00.</span> O telefone do diretor de comunicação toca: é uma <strong>jornalista</strong> de um semanário.
+  <em>"Temos informação de que os hospitais InterMed estão a operar em papel e que dados de doentes estão à venda na internet.
+  Publicamos esta noite. Querem comentar?"</em> Em paralelo, o presidente do conselho de administração envia-vos uma mensagem:
+  <em>"Preciso de um ponto de situação de 5 linhas para os acionistas às 18h. E digam-me: vamos processar a MedSoft?"</em>`,
+  decisoes:[
+   {q:"D10. Resposta à jornalista:", opts:[
+     "Declaração curta e factual hoje: incidente num fornecedor, medidas tomadas, prioridade aos doentes, autoridades notificadas",
+     "'Sem comentários' até haver certezas",
+     "Negar impacto relevante para ganhar tempo"],
+    cons:["Controlam a narrativa com factos. A história sai na mesma — mas com a vossa versão dentro.",
+     "'Sem comentários' + operação em papel visível a todos = a jornalista escreve a história sem vocês.",
+     "Se negarem hoje e a amostra de dados se confirmar amanhã, o incidente passa a ser sobre a vossa credibilidade."]},
+   {q:"D11. As 5 linhas para o presidente do CA — qual é a mensagem central?", opts:[
+     "Factos + impacto + decisões tomadas + próximos passos + o que precisamos do CA (linguagem de negócio)",
+     "Cronologia técnica detalhada do incidente para mostrar controlo",
+     "Foco na responsabilidade da MedSoft e na estratégia de litígio"],
+    cons:["Briefing executivo como deve ser. É exatamente o formato que o curso defende: risco, impacto, decisão.",
+     "O CA não precisa da cronologia técnica — precisa de saber o que decidir. Perderam a audiência mais importante.",
+     "Litígio é conversa para daqui a semanas. Hoje o CA precisa de gerir a crise, não o tribunal."]}
+  ]
+ },
+ {
+  tag:"Fase 5 · Terça-feira, 10h00", sim:"Terça 10:00", alvo:10,
+  narrativa:`<span class="hora">Terça-feira, 10h00.</span> A MedSoft confirma: houve exfiltração de dados de cerca de
+  <strong>40% dos doentes da InterMed</strong> — identificação, contactos e, num subconjunto, informação clínica.
+  A recuperação do DCE está em curso a partir de backups (48–72h estimadas). A administração convoca-vos para uma reunião de
+  <strong>lições aprendidas preliminares</strong> e quer as três medidas que garantem que "isto não volta a acontecer assim".`,
+  decisoes:[
+   {q:"D12. As notificações formais agora exigidas (escolham o conjunto CORRETO):", opts:[
+     "CNCS (relatório NIS2 nos prazos), CNPD (violação de dados) e comunicação aos doentes afetados",
+     "Só a CNPD — os dados são o único problema confirmado",
+     "Só os doentes — as autoridades já sabem do incidente"],
+    cons:["Conjunto completo: NIS2 (serviço), RGPD/CNPD (dados) e titulares (alto risco com dados de saúde). Três obrigações distintas, três relógios distintos.",
+     "O incidente de SERVIÇO continua a existir para a NIS2 — o relatório final (1 mês) é devido na mesma.",
+     "A comunicação aos titulares não substitui as notificações às autoridades — são obrigações separadas."]},
+   {q:"D13. As 3 medidas prioritárias para a administração (escolham o pacote mais defensável):", opts:[
+     "1) Cláusulas obrigatórias de segurança/notificação/auditoria em todos os contratos críticos; 2) segmentação e credenciais dedicadas nas integrações com terceiros; 3) exercícios regulares de crise com fornecedores críticos",
+     "1) Trocar de fornecedor de DCE; 2) processar a MedSoft; 3) contratar um SOC 24/7",
+     "1) Comprar ciberseguro; 2) aumentar o orçamento de segurança; 3) formação anual de utilizadores"],
+    cons:["Pacote alinhado com a causa-raiz: o problema não foi 'a MedSoft ser má' — foi a InterMed não ter instrumentos de gestão do risco de terceiros. É a agenda dos módulos 3 e 4 do curso.",
+     "Trocar de fornecedor de DCE leva 2+ anos e o litígio não recupera doentes. Nenhuma das três medidas ataca a causa-raiz.",
+     "Medidas genéricas que qualquer organização listaria — nenhuma específica ao que falhou aqui."]}
+  ]
+ }
+];
+
+let fase = -1, grupo = "", membros = "", registo = [], tFase = null, segRestantes = 0;
+const $ = id => document.getElementById(id);
+
+function comecar(){
+  grupo = $('grupo').value.trim();
+  if(!grupo){ alert('Indiquem o nome do grupo.'); return; }
+  membros = $('membros').value.trim();
+  $('ecra-setup').style.display = 'none';
+  $('ecra-fase').style.display = 'block';
+  fase = 0; mostrarFase();
+}
+
+function mostrarFase(){
+  const F = FASES[fase];
+  $('progFases').innerHTML = FASES.map((_, k) => `<span class="${k < fase ? 'done' : ''}"></span>`).join('');
+  $('faseTag').textContent = F.tag;
+  $('relSim').textContent = F.sim;
+  $('relNis2').textContent = F.nis2 || fase >= 1 ? 'A CONTAR' : (fase === 0 ? 'decisão vossa…' : 'não iniciado');
+  $('relNis2Box').className = 'relogio' + (fase >= 1 ? ' alerta' : '');
+  $('relRgpd').textContent = fase >= 2 ? 'A CONTAR' : 'não iniciado';
+  $('relRgpdBox').className = 'relogio' + (fase >= 2 ? ' alerta' : '');
+  $('narrativa').innerHTML = F.narrativa;
+  $('decisoes').innerHTML = F.decisoes.map((d, di) => `
+    <div class="decisao"><h4>${d.q}</h4>
+      ${d.opts.map((o, oi) => `
+        <label class="opcao" id="op-${di}-${oi}">
+          <input type="radio" name="d${di}" value="${oi}" onchange="marcar(${di},${oi})">
+          <span>${o}</span>
+        </label>`).join('')}
+      <label style="margin-top:8px">Justificação (1–2 frases)</label>
+      <textarea id="just-${di}" rows="2" placeholder="Porque decidiram assim?"></textarea>
+    </div>`).join('');
+  $('consequencia').className = 'consequencia';
+  $('btnConfirmar').style.display = 'inline-block';
+  $('btnSeguinte').style.display = 'none';
+  iniciarTimer(F.alvo * 60);
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function marcar(di, oi){
+  FASES[fase].decisoes[di].opts.forEach((_, k) => {
+    $(`op-${di}-${k}`).className = 'opcao' + (k === oi ? ' sel' : '');
+  });
+}
+
+function iniciarTimer(seg){
+  clearInterval(tFase); segRestantes = seg; pintarTimer();
+  tFase = setInterval(() => { segRestantes--; pintarTimer(); if(segRestantes <= 0) clearInterval(tFase); }, 1000);
+}
+function pintarTimer(){
+  const s = Math.max(0, segRestantes);
+  $('relFase').textContent = String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+  if(s === 0) $('relFase').textContent = "tempo esgotado";
+}
+
+function confirmarFase(){
+  const F = FASES[fase];
+  const escolhas = [];
+  for(let di = 0; di < F.decisoes.length; di++){
+    const sel = document.querySelector(`input[name="d${di}"]:checked`);
+    if(!sel){ alert('Falta responder à decisão ' + F.decisoes[di].q.split('.')[0] + '.'); return; }
+    escolhas.push({
+      pergunta: F.decisoes[di].q,
+      resposta: F.decisoes[di].opts[+sel.value],
+      justificacao: $(`just-${di}`).value.trim()
+    });
+  }
+  registo.push({ fase: F.tag, decisoes: escolhas });
+  clearInterval(tFase);
+  const cons = F.decisoes.map((d, di) => {
+    const sel = document.querySelector(`input[name="d${di}"]:checked`);
+    return '• ' + d.cons[+sel.value];
+  }).join('<br>');
+  $('consequencia').innerHTML = '<strong>Consequências das vossas decisões:</strong><br>' + cons;
+  $('consequencia').className = 'consequencia show';
+  document.querySelectorAll('#decisoes input, #decisoes textarea').forEach(e => e.disabled = true);
+  $('btnConfirmar').style.display = 'none';
+  $('btnSeguinte').style.display = 'inline-block';
+  $('btnSeguinte').textContent = fase === FASES.length - 1 ? 'Terminar exercício →' : 'Fase seguinte →';
+  $('consequencia').scrollIntoView({behavior: 'smooth'});
+}
+
+function faseSeguinte(){
+  fase++;
+  if(fase < FASES.length){ mostrarFase(); }
+  else {
+    $('ecra-fase').style.display = 'none';
+    $('ecra-final').style.display = 'block';
+    $('resumo').innerHTML = registo.map(f => `
+      <h4 style="color:var(--azul); margin:14px 0 8px">${f.fase}</h4>
+      ${f.decisoes.map(d => `<div class="resumo-item"><div class="q">${d.pergunta}</div><div class="a">${d.resposta}</div>${d.justificacao ? `<div class="j">"${d.justificacao}"</div>` : ''}</div>`).join('')}
+    `).join('');
+    window.scrollTo({top: 0});
+  }
+}
+
+function pacote(){
+  return { grupo, membros, exercicio: 'tabletop-dce', registo };
+}
+
+function textoRegisto(){
+  let t = 'TABLETOP — INCIDENTE NO FORNECEDOR DO DCE (InterMed)\n';
+  t += 'Grupo: ' + grupo + (membros ? '  |  Elementos: ' + membros : '') + '\n';
+  t += 'Concluído: ' + new Date().toLocaleString('pt-PT') + '\n\n';
+  for(const f of registo){
+    t += '=== ' + f.fase + ' ===\n';
+    for(const d of f.decisoes){
+      t += d.pergunta + '\n  DECISÃO: ' + d.resposta + '\n';
+      if(d.justificacao) t += '  JUSTIFICAÇÃO: ' + d.justificacao + '\n';
+    }
+    t += '\n';
+  }
+  return t;
+}
+
+async function copiar(){
+  const est = $('estado');
+  try{
+    await navigator.clipboard.writeText(textoRegisto());
+    est.className = 'estado show ok';
+    est.textContent = '✓ Registo copiado! Colem-no na secção 2 da Ficha Word.';
+  }catch(e){
+    est.className = 'estado show erro';
+    est.textContent = 'O browser bloqueou a cópia — usem o botão "Guardar registo (.txt)".';
+  }
+}
+
+function descarregar(){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([textoRegisto()], {type: 'text/plain;charset=utf-8'}));
+  a.download = 'tabletop-dce_' + grupo.replace(/[^a-z0-9_-]/gi, '_') + '.txt';
+  a.click();
+}
+</script>
+</body>
+</html>
