@@ -17,6 +17,7 @@
   table.cal th{background:var(--azul); color:#fff; text-align:left; padding:9px 12px}
   table.cal td{padding:9px 12px; border-top:1px solid #eee; vertical-align:top}
   table.cal tr.aberta{background:var(--claro)}
+  table.cal td.mod{background:#f0f5fa; font-weight:700; color:var(--azul); vertical-align:middle; border-right:2px solid var(--azul2)}
   .pill{display:inline-block; font-size:.72rem; font-weight:700; border-radius:99px; padding:2px 9px; letter-spacing:.03em}
   .pill.ok{background:var(--okbg); color:var(--ok)}
   .pill.breve{background:#eee; color:var(--cinza)}
@@ -56,18 +57,34 @@
     <div><b>4 · Monitorização &amp; futuro</b><p>Implementar indicadores e auditorias, e antecipar os novos desafios: IA e AI GRC.</p></div>
   </div>
 
-  <h2 class="sec">Calendário — julho de 2026 (19h00–23h00; última sessão até às 22h00)</h2>
+  <h2 class="sec">Programa e calendário — julho de 2026 (19h00–23h00; última sessão até às 22h00)</h2>
   <table class="cal">
-    <tr><th>Sessão</th><th>Data</th><th>Tema</th><th>Materiais</th></tr>
-    <tr class="aberta"><td><b>S1</b></td><td>ter, 14 jul</td><td>Estado da Arte &amp; o novo CISO — a matriz de McFarlan</td><td><span class="pill ok">disponível</span> <a href="s1.html">abrir (materiais + quizzes) →</a></td></tr>
-    <tr><td><b>S2</b></td><td>qua, 15 jul</td><td>NIS2, Governance e Gestão — a InterMed vai ao board</td><td><span class="pill breve">brevemente</span></td></tr>
-    <tr><td><b>S3</b></td><td>sex, 17 jul</td><td>Boas práticas de TPRM — frameworks e casos portugueses</td><td><span class="pill breve">brevemente</span></td></tr>
-    <tr><td><b>S4</b></td><td>ter, 21 jul</td><td>Mapping de controlos NIS2 e auditoria — aquisição segura</td><td><span class="pill breve">brevemente</span></td></tr>
-    <tr><td><b>S5</b></td><td>qui, 23 jul</td><td>Risco, política de gestão e maturidade de terceiros</td><td><span class="pill breve">brevemente</span></td></tr>
+    <tr><th style="width:20%">Módulo</th><th style="width:9%">Sessão</th><th style="width:13%">Data</th><th>Tema</th><th style="width:19%">Materiais</th></tr>
+    <tr class="aberta">
+      <td rowspan="2" class="mod">1 · Estado da arte e Fundamentos</td>
+      <td><b>S1</b></td><td>ter, 14 jul</td><td>Estado da Arte &amp; o novo CISO — a matriz de McFarlan</td>
+      <td><span class="pill ok">disponível</span> <a href="s1.html">abrir →</a></td>
+    </tr>
+    <tr><td><b>S2</b></td><td>qua, 15 jul</td><td>NIS2, <em>Governance</em>, Gestão e Segurança por desenho — a InterMed vai ao board</td><td><span class="pill breve">brevemente</span></td></tr>
+    <tr>
+      <td rowspan="2" class="mod">2 · Frameworks de trabalho e controlos de auditoria</td>
+      <td><b>S3</b></td><td>sex, 17 jul</td><td>Boas práticas de TPRM — frameworks e casos portugueses</td><td><span class="pill breve">brevemente</span></td>
+    </tr>
+    <tr><td><b>S4</b></td><td>ter, 21 jul</td><td>Mapping de controlos e auditoria — aquisição segura</td><td><span class="pill breve">brevemente</span></td></tr>
+    <tr>
+      <td rowspan="2" class="mod">3 · Gestão do risco e Vendor Management</td>
+      <td><b>S5</b></td><td>qui, 23 jul</td><td>Risco, política de gestão e maturidade</td><td><span class="pill breve">brevemente</span></td>
+    </tr>
     <tr><td><b>S6</b></td><td>sex, 24 jul</td><td>Vendor Management &amp; Cloud</td><td><span class="pill breve">brevemente</span></td></tr>
-    <tr><td><b>S7</b></td><td>ter, 28 jul</td><td>ISO 27036 — o sistema de gestão de fornecedores</td><td><span class="pill breve">brevemente</span></td></tr>
+    <tr>
+      <td rowspan="2" class="mod">4 · Gestão de Fornecedores e Lifecycle</td>
+      <td><b>S7</b></td><td>ter, 28 jul</td><td>ISO 27036 — sistema de gestão integrado</td><td><span class="pill breve">brevemente</span></td>
+    </tr>
     <tr><td><b>S8</b></td><td>qua, 29 jul</td><td>Lifecycle de fornecedores e visão colaborativa</td><td><span class="pill breve">brevemente</span></td></tr>
-    <tr><td><b>S9</b></td><td>qui, 30 jul <span style="color:var(--cinza)">(19h–22h)</span></td><td>Tendências, IA e a gestão do risco de fornecedores</td><td><span class="pill breve">brevemente</span></td></tr>
+    <tr>
+      <td class="mod">5 · Desafios e riscos emergentes</td>
+      <td><b>S9</b></td><td>qui, 30 jul <span style="color:var(--cinza)">(19h–22h)</span></td><td>Tendências, IA e a gestão do risco de fornecedores</td><td><span class="pill breve">brevemente</span></td>
+    </tr>
   </table>
 
   <h2 class="sec">O caso InterMed — o fio condutor</h2>
