@@ -79,58 +79,103 @@
 <script>
 const QUESTOES = [
  {
-  q:"O que é o QNRCS?",
-  opts:["Uma certificação internacional emitida pela ENISA","O instrumento nacional de referência para normas e boas práticas de cibersegurança, previsto no Regime Jurídico da Cibersegurança e atualizado pelo CNCS de 5 em 5 anos","Um software de gestão de incidentes do Estado","A versão portuguesa do RGPD"],
-  c:1,
-  exp:"Quadro Nacional de Referência de Cibersegurança (art. 14.º do RJC): o mapa oficial português para operacionalizar a NIS2, construído com princípios de proporcionalidade e adaptado à maturidade de cada entidade. Quando perguntarem 'por onde começo?', a resposta é: pelo QNRCS."
+  "q": "O que é o QNRCS?",
+  "opts": [
+   "Uma certificação internacional de cibersegurança emitida pela ENISA para entidades públicas, como por vezes se assume erradamente",
+   "Um software de gestão e notificação de incidentes disponibilizado pelo Estado às entidades",
+   "O instrumento nacional de referência de normas e boas práticas de cibersegurança, mantido pelo CNCS",
+   "A versão portuguesa do RGPD, aplicada especificamente aos sistemas de informação críticos"
+  ],
+  "c": 2,
+  "exp": "Quadro Nacional de Referência de Cibersegurança (art. 14.º do RJC): o mapa oficial português para operacionalizar a NIS2, construído com princípios de proporcionalidade e adaptado à maturidade de cada entidade. Quando perguntarem 'por onde começo?', a resposta é: pelo QNRCS."
  },
  {
-  q:"Quantos são os objetivos estruturantes do QNRCS, e quais?",
-  opts:["Quatro: Prevenir, Proteger, Reagir, Reportar","Seis: Gerir, Identificar, Proteger, Detetar, Responder e Recuperar","Três: Pessoas, Processos, Tecnologia","Cinco: os mesmos do NIST CSF 1.0"],
-  c:1,
-  exp:"Seis objetivos organizados pelo ciclo de vida da gestão — a mesma família do NIST CSF 2.0 (que acrescentou o Govern). Cada objetivo divide-se em categorias, e estas em controlos baseados em referenciais internacionais."
+  "q": "Quantos são os objetivos estruturantes do QNRCS, e quais?",
+  "opts": [
+   "Seis: Gerir, Identificar, Proteger, Detetar, Responder e Recuperar",
+   "Quatro: Prevenir, Proteger, Reagir e Reportar ao regulador",
+   "Três: Pessoas, Processos e Tecnologia, como na gestão clássica",
+   "Cinco: exatamente os mesmos do NIST CSF na versão 1.0"
+  ],
+  "c": 0,
+  "exp": "Seis objetivos organizados pelo ciclo de vida da gestão — a mesma família do NIST CSF 2.0 (que acrescentou o Govern). Cada objetivo divide-se em categorias, e estas em controlos baseados em referenciais internacionais."
  },
  {
-  q:"Os níveis de medidas mínimas de cibersegurança (Básico, Substancial, Elevado) são…",
-  opts:["Alternativos — cada entidade escolhe o que preferir","Cumulativos — o Substancial inclui o Básico; o Elevado inclui os três","Setoriais — um nível por setor de atividade","Temporários — desaparecem após a transição de 24 meses"],
-  c:1,
-  exp:"São cumulativos: 19 controlos no Básico, +31 no Substancial (acumulado 50), +29 no Elevado (acumulado 79). Memoriza a régua 19-50-79 — é a linguagem da conversa com auditores e tutela."
+  "q": "Os níveis de medidas mínimas de cibersegurança (Básico, Substancial, Elevado) são…",
+  "opts": [
+   "Alternativos — cada entidade escolhe livremente o que preferir aplicar",
+   "Setoriais — existe um nível definido para cada setor de atividade",
+   "Temporários — deixam de se aplicar após o período de transição de 24 meses",
+   "Cumulativos — cada nível inclui os controlos do anterior"
+  ],
+  "c": 3,
+  "exp": "São cumulativos: 19 controlos no Básico, +31 no Substancial (acumulado 50), +29 no Elevado (acumulado 79). Memoriza a régua 19-50-79 — é a linguagem da conversa com auditores e tutela."
  },
  {
-  q:"Qual destas medidas pertence ao nível BÁSICO (a fundação obrigatória)?",
-  opts:["SOC 24/7 com threat hunting","Zero Trust e PAM","MFA, inventários, backups, firewalls e plano de resposta a incidentes","Avaliação do risco das comunicações entre sistemas críticos"],
-  c:2,
-  exp:"O Básico é a fundação: inventários, gestão de identidades, MFA, firewalls, cópias de segurança, resposta a incidentes e sensibilização. SOC 24/7, Zero Trust e PAM são do nível Elevado; a avaliação de comunicações críticas também. Pergunta incómoda e útil: a tua organização cumpre o Básico completo?"
+  "q": "Qual destas medidas pertence ao nível BÁSICO (a fundação obrigatória)?",
+  "opts": [
+   "SOC 24/7 com capacidade interna de threat hunting e resposta imediata",
+   "MFA, inventários, backups, firewalls e plano de resposta a incidentes",
+   "Zero Trust e gestão de acessos privilegiados (PAM) em toda a organização",
+   "Avaliação do risco das comunicações entre todos os sistemas críticos"
+  ],
+  "c": 1,
+  "exp": "O Básico é a fundação: inventários, gestão de identidades, MFA, firewalls, cópias de segurança, resposta a incidentes e sensibilização. SOC 24/7, Zero Trust e PAM são do nível Elevado; a avaliação de comunicações críticas também. Pergunta incómoda e útil: a tua organização cumpre o Básico completo?"
  },
  {
-  q:"Sobre a certificação como presunção de cumprimento (art. 27.º): qual é a armadilha clássica da ISO 27001?",
-  opts:["A ISO 27001 não é aceite em Portugal","O certificado pode ter um ÂMBITO reduzido que não cobre os serviços relevantes da entidade","A ISO 27001 só se aplica a empresas tecnológicas","A certificação é obrigatória para todas as entidades"],
-  c:1,
-  exp:"A presunção de cumprimento só vale para o que o âmbito do certificado cobre. Um certificado com scope 'datacenter' não presume cumprimento para a organização inteira — em auditoria, isso cai em 30 segundos. Verificar o âmbito é o primeiro gesto de quem avalia um certificado (também dos fornecedores!)."
+  "q": "Sobre a certificação como presunção de cumprimento (art. 27.º): qual é a armadilha clássica da ISO 27001?",
+  "opts": [
+   "O certificado pode ter um âmbito reduzido que não cobre os serviços relevantes",
+   "A ISO 27001 não é aceite em Portugal como presunção de cumprimento",
+   "A ISO 27001 aplica-se apenas a empresas tecnológicas e operadores de cloud",
+   "A certificação é obrigatória para todas as entidades essenciais e importantes"
+  ],
+  "c": 0,
+  "exp": "A presunção de cumprimento só vale para o que o âmbito do certificado cobre. Um certificado com scope 'datacenter' não presume cumprimento para a organização inteira — em auditoria, isso cai em 30 segundos. Verificar o âmbito é o primeiro gesto de quem avalia um certificado (também dos fornecedores!)."
  },
  {
-  q:"O artigo 32.º do regime português exige que as entidades mantenham e comuniquem…",
-  opts:["A lista de colaboradores com formação em cibersegurança","A lista de ativos publicamente acessíveis via Internet (serviço, versão, IP, FQDN, dependências)","O relatório anual de contas","A lista de incidentes dos últimos 5 anos"],
-  c:1,
-  exp:"O Estado quer saber o que tens exposto à Internet — com prazo inicial de 20 dias úteis após notificação. É o inventário da tua superfície de ataque externa. Quem nunca o fez costuma ter surpresas na primeira passagem."
+  "q": "O artigo 32.º do regime português exige que as entidades mantenham e comuniquem…",
+  "opts": [
+   "A lista de colaboradores com formação certificada em cibersegurança",
+   "O relatório anual de contas com o detalhe do investimento em segurança",
+   "A lista completa de incidentes registados nos últimos cinco anos",
+   "A lista de ativos publicamente acessíveis via Internet"
+  ],
+  "c": 3,
+  "exp": "O Estado quer saber o que tens exposto à Internet — com prazo inicial de 20 dias úteis após notificação. É o inventário da tua superfície de ataque externa. Quem nunca o fez costuma ter surpresas na primeira passagem."
  },
  {
-  q:"O controlo de 'dupla validação' serve para…",
-  opts:["Ter dois antivírus em cada máquina","Exigir confirmação por um segundo canal (ex.: telefonema para o número oficial) em transferências financeiras ou alterações de dados sensíveis","Fazer backup em dois suportes diferentes","Pedir duas passwords no login"],
-  c:1,
-  exp:"O pedido de mudança de IBAN que chega por email confirma-se por telefone para o número OFICIAL de contacto. É um controlo organizacional simples que teria travado grande parte das 'fraudes de CEO' — incluindo as novas, com deepfakes de voz e vídeo."
+  "q": "O controlo de 'dupla validação' serve para…",
+  "opts": [
+   "Ter dois antivírus de fabricantes diferentes em cada máquina crítica",
+   "Exigir confirmação por um segundo canal em operações sensíveis",
+   "Fazer backup em dois suportes diferentes, guardados em locais distintos",
+   "Pedir duas passwords diferentes no login dos sistemas financeiros"
+  ],
+  "c": 1,
+  "exp": "O pedido de mudança de IBAN que chega por email confirma-se por telefone para o número OFICIAL de contacto. É um controlo organizacional simples que teria travado grande parte das 'fraudes de CEO' — incluindo as novas, com deepfakes de voz e vídeo."
  },
  {
-  q:"Qual é o princípio fundamental da NIS2 na definição das medidas de cibersegurança? (o quiz da sala)",
-  opts:["Implementar todas as medidas possíveis, independentemente do contexto","Aplicar controlos apenas após incidentes","Adotar uma abordagem baseada no risco e proporcional à criticidade da organização","Seguir apenas normas internacionais voluntárias"],
-  c:2,
-  exp:"Medidas APROPRIADAS aos riscos — considerando exposição, dimensão, probabilidade/gravidade e impacto social e económico. O que a lei pune não é ser pequeno; é não conseguir explicar o racional de risco das escolhas feitas."
+  "q": "Qual é o princípio fundamental da NIS2 na definição das medidas de cibersegurança? (o quiz da sala)",
+  "opts": [
+   "Adotar uma abordagem baseada no risco e proporcional à criticidade",
+   "Implementar todas as medidas possíveis, independentemente do contexto da organização",
+   "Aplicar os controlos apenas depois de ocorrerem incidentes relevantes",
+   "Seguir exclusivamente normas internacionais de adoção voluntária"
+  ],
+  "c": 0,
+  "exp": "Medidas APROPRIADAS aos riscos — considerando exposição, dimensão, probabilidade/gravidade e impacto social e económico. O que a lei pune não é ser pequeno; é não conseguir explicar o racional de risco das escolhas feitas."
  },
  {
-  q:"Qual é o impacto de uma cultura organizacional fraca em cibersegurança, no contexto da NIS2? (o quiz da sala)",
-  opts:["Não tem impacto se existirem boas ferramentas","Pode comprometer a eficácia dos controlos e aumentar o risco de incidentes","Afeta apenas a equipa de IT","Só é relevante após um incidente"],
-  c:1,
-  exp:"A cultura é o sistema operativo dos controlos: o MFA não protege quem aprova exceções a torto e a direito. O QNRCS considera o fator humano em todos os objetivos — e a NIS2 exige formação até para os órgãos de gestão."
+  "q": "Qual é o impacto de uma cultura organizacional fraca em cibersegurança, no contexto da NIS2? (o quiz da sala)",
+  "opts": [
+   "Não tem impacto relevante se existirem boas ferramentas de segurança",
+   "Afeta apenas o desempenho e a motivação da equipa de IT",
+   "Pode comprometer a eficácia dos controlos e aumentar o risco de incidentes",
+   "Só se torna relevante depois de ocorrer um incidente grave"
+  ],
+  "c": 2,
+  "exp": "A cultura é o sistema operativo dos controlos: o MFA não protege quem aprova exceções a torto e a direito. O QNRCS considera o fator humano em todos os objetivos — e a NIS2 exige formação até para os órgãos de gestão."
  }
 ];
 

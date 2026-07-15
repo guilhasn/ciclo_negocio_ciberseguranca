@@ -79,58 +79,103 @@
 <script>
 const QUESTOES = [
  {
-  q:"Os negócios operam hoje em ecossistemas digitais interdependentes. Segundo o que vimos, onde está o risco relevante para a organização?",
-  opts:["Apenas dentro do perímetro da empresa — é aí que estão os nossos sistemas","Sobretudo nos utilizadores finais e nos seus dispositivos","Também nas dependências externas que sustentam o modelo de negócio — fornecedores, cloud, cadeias de abastecimento","Apenas nas grandes plataformas tecnológicas globais"],
-  c:2,
-  exp:"O risco cyber deixou de ser um problema isolado de TI: numa 'queda em dominó', uma falha num ponto do ecossistema propaga impacto operacional, reputacional e regulatório por toda a cadeia de valor. O risco relevante já não está só 'dentro da empresa'."
+  "q": "Os negócios operam hoje em ecossistemas digitais interdependentes. Segundo o que vimos, onde está o risco relevante para a organização?",
+  "opts": [
+   "Apenas dentro do perímetro da empresa — é aí que estão os sistemas, os dados e os utilizadores que controlamos",
+   "Sobretudo nos utilizadores finais e nos seus dispositivos, porque são o elo mais fraco da segurança",
+   "Apenas nas grandes plataformas tecnológicas globais, que concentram os dados de todos",
+   "Também nas dependências externas que sustentam o modelo de negócio"
+  ],
+  "c": 3,
+  "exp": "O risco cyber deixou de ser um problema isolado de TI: numa 'queda em dominó', uma falha num ponto do ecossistema propaga impacto operacional, reputacional e regulatório por toda a cadeia de valor. O risco relevante já não está só 'dentro da empresa'."
  },
  {
-  q:"O que mudou no papel da CONFIANÇA para as organizações?",
-  opts:["Continua a ser essencialmente um fator reputacional, gerido pelo marketing","Passou de valor reputacional a elemento central da estratégia de cibersegurança — condição para operar, crescer e manter clientes","Tornou-se irrelevante: o que conta são os controlos técnicos","É um tema exclusivo do setor financeiro"],
-  c:1,
-  exp:"Num ambiente interconectado, a resiliência deixou de ser um tema técnico e tornou-se condição para operar. A confiança é hoje um pilar da economia digital — e um imperativo estratégico, não um extra de imagem."
+  "q": "O que mudou no papel da CONFIANÇA para as organizações?",
+  "opts": [
+   "Passou a elemento central da estratégia — condição para operar e crescer",
+   "Continua a ser essencialmente um fator reputacional, gerido pela comunicação e pelo marketing institucional",
+   "Tornou-se secundária: o que conta são os controlos técnicos e a sua eficácia mensurável",
+   "É um tema relevante sobretudo no setor financeiro, onde a regulação obriga a reportar incidentes"
+  ],
+  "c": 0,
+  "exp": "Num ambiente interconectado, a resiliência deixou de ser um tema técnico e tornou-se condição para operar. A confiança é hoje um pilar da economia digital — e um imperativo estratégico, não um extra de imagem."
  },
  {
-  q:"Durante décadas, a segurança esteve desalinhada do negócio. Qual é o PAR de sintomas que caracteriza esse desalinhamento?",
-  opts:["Falta de ferramentas + falta de formação","Over-investment em áreas pouco críticas + under-protection dos ativos verdadeiramente estratégicos","Excesso de auditorias + falta de certificações","Orçamentos altos + equipas grandes demais"],
-  c:1,
-  exp:"Sem critérios de negócio, gasta-se onde não há risco (desperdício de CAPEX/OPEX) e desprotege-se o que sustenta a estratégia. E sem linguagem de impacto no negócio, o CISO perde credibilidade junto do board — o ciclo vicioso completo."
+  "q": "Durante décadas, a segurança esteve desalinhada do negócio. Qual é o PAR de sintomas que caracteriza esse desalinhamento?",
+  "opts": [
+   "Falta de ferramentas modernas + falta de formação contínua das equipas técnicas",
+   "Excesso de auditorias externas + falta de certificações reconhecidas internacionalmente",
+   "Over-investment em áreas pouco críticas + under-protection dos ativos estratégicos",
+   "Orçamentos demasiado altos + equipas sobredimensionadas para as necessidades reais"
+  ],
+  "c": 2,
+  "exp": "Sem critérios de negócio, gasta-se onde não há risco (desperdício de CAPEX/OPEX) e desprotege-se o que sustenta a estratégia. E sem linguagem de impacto no negócio, o CISO perde credibilidade junto do board — o ciclo vicioso completo."
  },
  {
-  q:"'A conformidade não é o destino da cibersegurança.' O que significa esta afirmação, no modelo que vimos?",
-  opts:["A conformidade é dispensável se houver bons controlos técnicos","Cumprir a lei chega, desde que documentado","O investimento deve ser proporcional ao RISCO e o objetivo final é a resiliência estratégica — a conformidade é consequência, não meta","As normas ISO substituem a análise de risco"],
-  c:2,
-  exp:"A segurança é uma capacidade estratégica que protege o modelo de negócio e viabiliza a transformação com confiança. Não é segurança informática, é segurança de informação; não é custo de conformidade, é investimento proporcional ao risco."
+  "q": "'A conformidade não é o destino da cibersegurança.' O que significa esta afirmação, no modelo que vimos?",
+  "opts": [
+   "A conformidade é dispensável desde que existam bons controlos técnicos e monitorização contínua",
+   "O investimento deve ser proporcional ao RISCO — a conformidade é consequência, não meta",
+   "Cumprir a lei é suficiente, desde que tudo esteja devidamente documentado para o regulador",
+   "As normas ISO substituem a análise de risco, porque já refletem as melhores práticas"
+  ],
+  "c": 1,
+  "exp": "A segurança é uma capacidade estratégica que protege o modelo de negócio e viabiliza a transformação com confiança. Não é segurança informática, é segurança de informação; não é custo de conformidade, é investimento proporcional ao risco."
  },
  {
-  q:"'Security = Business Enabler.' Qual das frases traduz corretamente esta ideia?",
-  opts:["A segurança protege a capacidade da organização de operar, crescer e ser confiável — não apenas os sistemas","A segurança serve para autorizar ou bloquear projetos de TI","A segurança é um seguro: paga-se e espera-se nunca usar","A segurança gera receita direta através da venda de dados protegidos"],
-  c:0,
-  exp:"A mudança de paradigma: de função técnica de suporte (custo, reativa, sem voz) para função estratégica de continuidade e confiança — um pilar que habilita o crescimento do negócio."
+  "q": "'Security = Business Enabler.' Qual das frases traduz corretamente esta ideia?",
+  "opts": [
+   "A segurança serve para autorizar ou bloquear projetos de TI em função do risco de cada um",
+   "A segurança é um seguro: paga-se todos os anos e espera-se nunca vir a precisar de o usar",
+   "A segurança gera receita direta, através da monetização de dados protegidos e certificações",
+   "A segurança protege a capacidade da organização de operar, crescer e ser confiável"
+  ],
+  "c": 3,
+  "exp": "A mudança de paradigma: de função técnica de suporte (custo, reativa, sem voz) para função estratégica de continuidade e confiança — um pilar que habilita o crescimento do negócio."
  },
  {
-  q:"O curso assenta em 4 temas do novo modelo para o CISO. Qual é o conjunto CORRETO?",
-  opts:["Firewalls, antivírus, backups e formação","IA & inovação · terceiros & ecossistemas · regulação & stakeholders · secure by design","Cloud, mobilidade, redes sociais e teletrabalho","Orçamento, equipa, ferramentas e certificações"],
-  c:1,
-  exp:"São os 4 vetores que vamos trabalhar nas 9 sessões: a IA acelera mas cria novas vulnerabilidades; a dependência de parceiros amplia o risco; a regulação (NIS2, DORA, AI Act…) coloca a governação cyber na agenda executiva; e a segurança desde o desenho evita o custo do 'add-on' tardio."
+  "q": "O curso assenta em 4 temas do novo modelo para o CISO. Qual é o conjunto CORRETO?",
+  "opts": [
+   "IA & inovação · terceiros & ecossistemas · regulação & stakeholders · secure by design",
+   "Firewalls de nova geração, antivírus, backups imutáveis e formação de utilizadores",
+   "Cloud híbrida, mobilidade, redes sociais e teletrabalho em ambientes distribuídos",
+   "Orçamento, equipa, ferramentas de segurança e certificações internacionais"
+  ],
+  "c": 0,
+  "exp": "São os 4 vetores que vamos trabalhar nas 9 sessões: a IA acelera mas cria novas vulnerabilidades; a dependência de parceiros amplia o risco; a regulação (NIS2, DORA, AI Act…) coloca a governação cyber na agenda executiva; e a segurança desde o desenho evita o custo do 'add-on' tardio."
  },
  {
-  q:"Qual é o principal risco de um CISO atuar apenas como função técnica? (o quiz da sala!)",
-  opts:["Necessidade de contratação de serviços","Aumento de custos de IT","Desalinhamento com as prioridades de negócio","Redução de compliance"],
-  c:2,
-  exp:"O CISO que permanece no paradigma técnico perde influência nos momentos que mais importam: as decisões críticas de gestão. Custos e compliance são sintomas; o desalinhamento é a causa."
+  "q": "Qual é o principal risco de um CISO atuar apenas como função técnica? (o quiz da sala!)",
+  "opts": [
+   "Necessidade de contratação de serviços externos especializados",
+   "Aumento significativo dos custos de operação de IT",
+   "Desalinhamento com as prioridades de negócio",
+   "Redução dos níveis de compliance regulatório"
+  ],
+  "c": 2,
+  "exp": "O CISO que permanece no paradigma técnico perde influência nos momentos que mais importam: as decisões críticas de gestão. Custos e compliance são sintomas; o desalinhamento é a causa."
  },
  {
-  q:"NIS2 em Portugal — o QUANDO. Qual é a combinação correta?",
-  opts:["A diretiva aplica-se diretamente desde 2022, sem lei portuguesa","DL 125/2025 em vigor a 3 de abril; portal de registo de entidades a 22 de abril; período de transição de 24 meses","Ainda não há transposição portuguesa da NIS2","Só se aplica a partir de 2030, com a Década Digital"],
-  c:1,
-  exp:"O Regime Jurídico da Cibersegurança (DL 125/2025) é o quadro de execução português da diretiva NIS2. As datas importam: o relógio da adaptação já está a correr — e começa pelos ativos mais críticos e fornecedores de maior risco."
+  "q": "NIS2 em Portugal — o QUANDO. Qual é a combinação correta?",
+  "opts": [
+   "A diretiva aplica-se diretamente desde 2022, sem necessidade de lei portuguesa de transposição, como muitas equipas ainda defendem",
+   "DL 125/2025 em vigor a 3 de abril; registo de entidades a partir de 22 de abril; transição de 24 meses",
+   "Ainda não existe transposição portuguesa — as entidades aguardam a publicação do decreto-lei",
+   "Só se aplica a partir de 2030, alinhada com as metas da Década Digital europeia"
+  ],
+  "c": 1,
+  "exp": "O Regime Jurídico da Cibersegurança (DL 125/2025) é o quadro de execução português da diretiva NIS2. As datas importam: o relógio da adaptação já está a correr — e começa pelos ativos mais críticos e fornecedores de maior risco."
  },
  {
-  q:"NIS2 — o COMO: que instrumento nacional operacionaliza a implementação, e que guia europeu o complementa?",
-  opts:["A ISO 9001 e o guia da OCDE","O QNRCS (Quadro Nacional de Referência de Cibersegurança) e o guia técnico de implementação da ENISA","O RGPD e as orientações da CNPD","O COBIT e o guia do NIST para o setor federal americano"],
-  c:1,
-  exp:"O QNRCS é o instrumento de operacionalização nacional; o guia técnico da ENISA funciona como 'livro de instruções' de implementação; e os referenciais (ISO 27k, CIS…) dão as boas práticas. Vamos dissecá-los no Módulo 2."
+  "q": "NIS2 — o COMO: que instrumento nacional operacionaliza a implementação, e que guia europeu o complementa?",
+  "opts": [
+   "A ISO 9001 e as orientações da OCDE para a economia digital",
+   "O RGPD e as orientações da CNPD sobre tratamento de dados",
+   "O COBIT 2019 e o guia do NIST para o setor federal norte-americano",
+   "O QNRCS e o guia técnico de implementação da ENISA"
+  ],
+  "c": 3,
+  "exp": "O QNRCS é o instrumento de operacionalização nacional; o guia técnico da ENISA funciona como 'livro de instruções' de implementação; e os referenciais (ISO 27k, CIS…) dão as boas práticas. Vamos dissecá-los no Módulo 2."
  }
 ];
 

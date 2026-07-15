@@ -79,52 +79,92 @@
 <script>
 const QUESTOES = [
  {
-  q:"Qual é a lógica do 'mapping de controlos' que estrutura a resposta a um auditor?",
-  opts:["Memorizar todos os artigos da diretiva","Para cada tema NIS2: que EVIDÊNCIA o prova e que REFERENCIAL (ISO 27001, ENISA…) dá a receita","Instalar as ferramentas recomendadas pela ENISA","Contratar um consultor certificado"],
-  c:1,
-  exp:"Requisito → evidência → norma. Exemplo: Modelo de Governo → nomeações formais + matriz RACI → ISO 27001 5.1/5.3 + ENISA 1.2. Quem domina o mapping domina a auditoria antes de ela começar."
+  "q": "Qual é a lógica do 'mapping de controlos' que estrutura a resposta a um auditor?",
+  "opts": [
+   "Para cada tema NIS2: que evidência o prova e que referencial dá a receita",
+   "Memorizar os artigos da diretiva e do decreto-lei de transposição",
+   "Instalar o conjunto de ferramentas recomendado pelas guidelines da ENISA",
+   "Contratar um consultor certificado para responder às questões do auditor"
+  ],
+  "c": 0,
+  "exp": "Requisito → evidência → norma. Exemplo: Modelo de Governo → nomeações formais + matriz RACI → ISO 27001 5.1/5.3 + ENISA 1.2. Quem domina o mapping domina a auditoria antes de ela começar."
  },
  {
-  q:"No mapping do risco de terceiros (3rd party), qual é a evidência aparentemente trivial que a maioria das organizações NÃO tem em condições?",
-  opts:["A política de passwords","O diretório único e atualizado de fornecedores e prestadores de serviços","O contrato com o fornecedor de eletricidade","O organograma da empresa"],
-  c:1,
-  exp:"A ENISA pede um registo de fornecedores com pontos de contacto, serviços prestados e classificação por criticidade, revisto pelo menos anualmente. Parece simples — e é a evidência que falha em 8 de cada 10 organizações. Sem lista, não há gestão."
+  "q": "No mapping do risco de terceiros (3rd party), qual é a evidência aparentemente trivial que a maioria das organizações NÃO tem em condições?",
+  "opts": [
+   "A política de passwords e a sua aplicação em todos os sistemas, como por vezes se assume erradamente",
+   "O contrato com o fornecedor de eletricidade e serviços básicos",
+   "O organograma da empresa com as responsabilidades de segurança",
+   "O diretório único e atualizado de fornecedores e prestadores de serviços"
+  ],
+  "c": 3,
+  "exp": "A ENISA pede um registo de fornecedores com pontos de contacto, serviços prestados e classificação por criticidade, revisto pelo menos anualmente. Parece simples — e é a evidência que falha em 8 de cada 10 organizações. Sem lista, não há gestão."
  },
  {
-  q:"'Secure by Default' significa que…",
-  opts:["A segurança se ativa quando o utilizador quiser","A configuração SEGURA é o ponto de partida, e as exceções são documentadas e compensadas","Só se usam produtos com o selo 'secure'","O sistema bloqueia tudo e não deixa trabalhar"],
-  c:1,
-  exp:"Inverter o ónus da prova: a pergunta não é 'porquê fechar este porto?' mas 'quem justificou abri-lo, quando, e com que compensação?'. Baselines documentadas + registo de exceções = metade do caminho do security by design."
+  "q": "'Secure by Default' significa que…",
+  "opts": [
+   "A segurança ativa-se quando o utilizador o decidir nas definições",
+   "Só se adquirem produtos e serviços com certificação de segurança",
+   "A configuração segura é o ponto de partida; as exceções documentam-se",
+   "O sistema bloqueia tudo por defeito, mesmo comprometendo o trabalho"
+  ],
+  "c": 2,
+  "exp": "Inverter o ónus da prova: a pergunta não é 'porquê fechar este porto?' mas 'quem justificou abri-lo, quando, e com que compensação?'. Baselines documentadas + registo de exceções = metade do caminho do security by design."
  },
  {
-  q:"O que é uma SBoM e porque interessa à NIS2?",
-  opts:["Um tipo de firewall para aplicações web","A 'lista de ingredientes' do software — os componentes e bibliotecas que o compõem — essencial para reagir a vulnerabilidades em dependências","Um relatório financeiro sobre o custo do software","Uma equipa de resposta a incidentes"],
-  c:1,
-  exp:"Software Bill of Materials. Quando rebentou o Log4Shell, quem tinha SBoM respondeu 'estamos expostos aqui e aqui' em horas; quem não tinha passou semanas às cegas. A gestão de dependências é requisito explícito do desenvolvimento seguro."
+  "q": "O que é uma SBoM e porque interessa à NIS2?",
+  "opts": [
+   "A 'lista de ingredientes' do software: os componentes que o compõem",
+   "Um tipo de firewall aplicacional para proteger serviços expostos na web",
+   "Um relatório financeiro sobre o custo total de propriedade do software",
+   "Uma equipa dedicada de resposta a incidentes de segurança aplicacional"
+  ],
+  "c": 0,
+  "exp": "Software Bill of Materials. Quando rebentou o Log4Shell, quem tinha SBoM respondeu 'estamos expostos aqui e aqui' em horas; quem não tinha passou semanas às cegas. A gestão de dependências é requisito explícito do desenvolvimento seguro."
  },
  {
-  q:"Porque é que os prazos de notificação da NIS2 (24h/72h/1 mês) são, na prática, um requisito TÉCNICO?",
-  opts:["Porque obrigam a comprar um SIEM específico","Porque não se notifica em 24 horas o que se demora semanas a DETETAR — o prazo legal exige capacidade de monitorização e deteção","Porque a notificação é feita por um sistema automático europeu","Não são: são um requisito puramente administrativo"],
-  c:1,
-  exp:"O relógio legal só se cumpre com deteção a funcionar. É o exemplo perfeito de como a conformidade se tornou uma 'restrição de engenharia': o requisito jurídico desce até à arquitetura de monitorização."
+  "q": "Porque é que os prazos de notificação da NIS2 (24h/72h/1 mês) são, na prática, um requisito TÉCNICO?",
+  "opts": [
+   "Porque obrigam à aquisição de um SIEM específico homologado pelo CNCS",
+   "Porque a notificação é submetida através de um sistema automático europeu",
+   "Não são: constituem um requisito puramente administrativo e documental",
+   "Porque não se notifica em 24h o que se demora semanas a detetar"
+  ],
+  "c": 3,
+  "exp": "O relógio legal só se cumpre com deteção a funcionar. É o exemplo perfeito de como a conformidade se tornou uma 'restrição de engenharia': o requisito jurídico desce até à arquitetura de monitorização."
  },
  {
-  q:"Na auditoria pós-NIS2, o auditor percorre o 'ciclo de vida do controlo'. Que quatro perguntas faz?",
-  opts:["Quanto custou? Quem comprou? Quando? A quem?","Foi desenhado adequadamente? Implementado e comunicado? Operado de forma consistente? Monitorizado e revisto?","É certificado? É europeu? É cloud? É seguro?","Existe política? Existe procedimento? Existe registo? Existe carimbo?"],
-  c:1,
-  exp:"As quatro perguntas que matam o 'temos uma política' seco. A diferença entre 'temos MFA' e 'o MFA é operado de forma consistente' está nas exceções, contas de serviço e acessos antigos — é nas margens que a auditoria acontece."
+  "q": "Na auditoria pós-NIS2, o auditor percorre o 'ciclo de vida do controlo'. Que quatro perguntas faz?",
+  "opts": [
+   "Quanto custou? Quem autorizou a compra? Quando foi instalado? A quem foi atribuído?",
+   "É certificado? É europeu? Está na cloud? Cumpre os requisitos do regulamento?",
+   "Desenhado? Implementado e comunicado? Operado de forma consistente? Revisto?",
+   "Existe política? Existe procedimento? Existe registo? Existe evidência de aprovação?"
+  ],
+  "c": 2,
+  "exp": "As quatro perguntas que matam o 'temos uma política' seco. A diferença entre 'temos MFA' e 'o MFA é operado de forma consistente' está nas exceções, contas de serviço e acessos antigos — é nas margens que a auditoria acontece."
  },
  {
-  q:"Segundo o estudo da ISACA sobre a cadeia de abastecimento, qual é a combinação correta?",
-  opts:["1 em 4 organizações já sofreu ataque via supply chain; 53% esperam que fique igual ou piore","1 em 100 sofreu ataques; 90% estão confiantes","Os ataques via terceiros estão a desaparecer","Só grandes empresas são afetadas"],
-  c:0,
-  exp:"E menos de metade dos profissionais confia na segurança da cadeia da própria organização — enquanto quase metade não tem práticas consistentes de teste aos terceiros. O risco está instalado; a resposta é o TPRM que começa na próxima sessão."
+  "q": "Segundo o estudo da ISACA sobre a cadeia de abastecimento, qual é a combinação correta?",
+  "opts": [
+   "1 em 100 sofreu ataques via terceiros; 90% estão confiantes na sua cadeia",
+   "1 em 4 já sofreu ataque via supply chain; 53% esperam que fique igual ou piore",
+   "Os ataques através de terceiros estão em queda desde a entrada da NIS2",
+   "Apenas as grandes empresas multinacionais são afetadas por este vetor"
+  ],
+  "c": 1,
+  "exp": "E menos de metade dos profissionais confia na segurança da cadeia da própria organização — enquanto quase metade não tem práticas consistentes de teste aos terceiros. O risco está instalado; a resposta é o TPRM que começa na próxima sessão."
  },
  {
-  q:"No caso CrowdStrike (julho 2024), qual é a pergunta de GESTÃO mais importante que o incidente deixou?",
-  opts:["Que antivírus comprar a seguir","Porque é que uma atualização foi direta para 8,5 milhões de máquinas sem faseamento — e porque é que os clientes não tinham plano para a falha do próprio fornecedor de segurança","Quanto custou o dia de paragem","Se a Microsoft devia comprar a CrowdStrike"],
-  c:1,
-  exp:"Duas falhas espelhadas: no fornecedor (validação e staged rollout) e nos clientes (confiança cega, sem cenário 'o meu protetor falha'). O teu plano de continuidade cobre a falha do teu EDR? Essa pergunta vale o caso inteiro."
+  "q": "No caso CrowdStrike (julho 2024), qual é a pergunta de GESTÃO mais importante que o incidente deixou?",
+  "opts": [
+   "Que fornecedor de segurança alternativo se deve contratar a seguir?",
+   "Porque é que uma atualização chegou a 8,5 milhões de máquinas sem faseamento?",
+   "Quanto custou, ao certo, o dia de paragem nas operações globais?",
+   "Se a Microsoft deveria adquirir a CrowdStrike para evitar repetições?, como por vezes se assume erradamente"
+  ],
+  "c": 1,
+  "exp": "Duas falhas espelhadas: no fornecedor (validação e staged rollout) e nos clientes (confiança cega, sem cenário 'o meu protetor falha'). O teu plano de continuidade cobre a falha do teu EDR? Essa pergunta vale o caso inteiro."
  }
 ];
 

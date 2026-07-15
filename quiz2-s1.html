@@ -79,52 +79,92 @@
 <script>
 const QUESTOES = [
  {
-  q:"Segundo a NIS2, qual é o papel do órgão de gestão (administração)?",
-  opts:["Delegar totalmente a segurança no CISO","Aprovar apenas orçamento e políticas, sendo informado das atividades","Supervisionar e ser responsável pela gestão do risco, incluindo aprovar o plano de meios","Intervir apenas após incidentes significativos"],
-  c:2,
-  exp:"A NIS2 responsabiliza diretamente a gestão de topo — a supervisão do risco não é delegável no CISO. É por isso que este é um curso para gestores, não para técnicos."
+  "q": "Segundo a NIS2, qual é o papel do órgão de gestão (administração)?",
+  "opts": [
+   "Delegar integralmente a segurança no CISO, que responde pelos resultados perante a administração",
+   "Supervisionar e responder pela gestão do risco, aprovando o plano de meios",
+   "Aprovar o orçamento e as políticas, sendo informado regularmente das atividades da equipa",
+   "Intervir apenas quando ocorrem incidentes significativos com impacto material"
+  ],
+  "c": 1,
+  "exp": "A NIS2 responsabiliza diretamente a gestão de topo — a supervisão do risco não é delegável no CISO. É por isso que este é um curso para gestores, não para técnicos."
  },
  {
-  q:"E qual é o maior risco PARA o próprio órgão de gestão?",
-  opts:["Necessidade de contratar serviços externos","Risco financeiro direto","Responsabilidade por falhas de supervisão","Falta de ferramentas"],
-  c:2,
-  exp:"As falhas de supervisão têm consequências para as pessoas que gerem — incluindo responsabilização pessoal. É o argumento que muda conversas em conselhos de administração."
+  "q": "E qual é o maior risco PARA o próprio órgão de gestão?",
+  "opts": [
+   "Necessidade de contratar serviços externos de consultoria especializada",
+   "Exposição financeira direta através de perdas operacionais",
+   "Responsabilidade por falhas de supervisão",
+   "Falta de ferramentas adequadas para acompanhar o risco"
+  ],
+  "c": 2,
+  "exp": "As falhas de supervisão têm consequências para as pessoas que gerem — incluindo responsabilização pessoal. É o argumento que muda conversas em conselhos de administração."
  },
  {
-  q:"A 'tempestade perfeita' que enfrenta o CISO é formada por 4 vetores. Quais?",
-  opts:["Phishing, ransomware, DDoS e insider threat","Exposição geopolítica · transformação digital · integração de terceiros · pressão regulamentar","Cloud, IA, IoT e 5G","Orçamento, talento, ferramentas e tempo"],
-  c:1,
-  exp:"Os quatro reforçam-se: o digital aprofunda dependências de terceiros; as cadeias complexas atraem escrutínio regulatório; a geopolítica torna as organizações alvos deliberados — já não apenas danos colaterais."
+  "q": "A 'tempestade perfeita' que enfrenta o CISO é formada por 4 vetores. Quais?",
+  "opts": [
+   "Phishing, ransomware, ataques DDoS e ameaças internas (insider threat)",
+   "Cloud, inteligência artificial, IoT e redes 5G em expansão acelerada",
+   "Orçamento limitado, escassez de talento, proliferação de ferramentas e falta de tempo de gestão",
+   "Exposição geopolítica, transformação digital, integração de terceiros e pressão regulamentar"
+  ],
+  "c": 3,
+  "exp": "Os quatro reforçam-se: o digital aprofunda dependências de terceiros; as cadeias complexas atraem escrutínio regulatório; a geopolítica torna as organizações alvos deliberados — já não apenas danos colaterais."
  },
  {
-  q:"Um estudo sobre a adoção de IA em Portugal revela um paradoxo. Qual é a combinação correta?",
-  opts:["97% dos profissionais já experimentaram IA, mas só 23% das organizações têm políticas formalizadas","23% experimentaram IA; 97% têm políticas","A maioria das organizações tem ambientes seguros para testar IA","66% sentem-se verdadeiramente preparados"],
-  c:0,
-  exp:"97% experimentam · 23% têm políticas · 12% têm ambientes seguros · 6% sentem-se preparados. A prática corre à frente do controlo — terreno perfeito para fugas de dados sensíveis."
+  "q": "Um estudo sobre a adoção de IA em Portugal revela um paradoxo. Qual é a combinação correta?",
+  "opts": [
+   "97% dos profissionais já experimentaram IA, mas só 23% das organizações têm políticas formalizadas",
+   "23% dos profissionais experimentaram IA e 97% das organizações já têm políticas formalizadas",
+   "A maioria das organizações dispõe de ambientes seguros e controlados para testar ferramentas de IA",
+   "66% dos profissionais sentem-se verdadeiramente preparados para usar IA no trabalho"
+  ],
+  "c": 0,
+  "exp": "97% experimentam · 23% têm políticas · 12% têm ambientes seguros · 6% sentem-se preparados. A prática corre à frente do controlo — terreno perfeito para fugas de dados sensíveis."
  },
  {
-  q:"Qual é o maior risco na supply chain moderna? (quiz da sala)",
-  opts:["Falta de contratos com revisão detalhada","Falta de SLA definidos na fase da operação","Insuficiente gestão do risco através de terceiros críticos","Falta de auditorias"],
-  c:2,
-  exp:"Contratos, SLAs e auditorias são instrumentos — o risco de fundo é não gerir a exposição criada pelos terceiros críticos. É o tema central dos Módulos 3 e 4."
+  "q": "Qual é o maior risco na supply chain moderna? (quiz da sala)",
+  "opts": [
+   "Falta de contratos com cláusulas de revisão detalhada e penalizações",
+   "Falta de SLA claramente definidos na fase de operação do serviço",
+   "Insuficiente gestão do risco através de terceiros críticos",
+   "Falta de auditorias regulares aos fornecedores mais relevantes"
+  ],
+  "c": 2,
+  "exp": "Contratos, SLAs e auditorias são instrumentos — o risco de fundo é não gerir a exposição criada pelos terceiros críticos. É o tema central dos Módulos 3 e 4."
  },
  {
-  q:"'One of the most important epiphanies a CISO can have…' — o CISO moderno é, antes de mais:",
-  opts:["Um gestor de tecnologia com competências de liderança","Um gestor de risco que comunica em linguagem executiva e foca-se na resiliência","Um auditor interno especializado em cibersegurança","Um diretor de operações de TI"],
-  c:1,
-  exp:"Da postura reativa à gestão estratégica: investimentos baseados no risco, comunicação do risco em linguagem executiva, foco na capacidade de recuperar — e assento nas decisões, não só na sala das máquinas."
+  "q": "'One of the most important epiphanies a CISO can have…' — o CISO moderno é, antes de mais:",
+  "opts": [
+   "Um gestor de tecnologia com fortes competências de liderança de equipas",
+   "Um gestor de risco que comunica em linguagem executiva",
+   "Um auditor interno especializado em cibersegurança e conformidade",
+   "Um diretor de operações de TI orientado à eficiência dos serviços"
+  ],
+  "c": 1,
+  "exp": "Da postura reativa à gestão estratégica: investimentos baseados no risco, comunicação do risco em linguagem executiva, foco na capacidade de recuperar — e assento nas decisões, não só na sala das máquinas."
  },
  {
-  q:"Na matriz de McFarlan, um piloto de IA generativa para personalização de campanhas classifica-se tipicamente como:",
-  opts:["Estratégico — a IA é o futuro","Operacional — já está a ser usado","Suporte — é apenas marketing","Exploratório — baixo impacto atual, elevado potencial futuro"],
-  c:3,
-  exp:"Armadilha clássica: inovação não é criticidade. Um piloto ainda não sustenta o negócio — inova-se com guardrails e critérios de go/no-go. Se um dia sustentar receita e diferenciação, migra para Estratégico."
+  "q": "Na matriz de McFarlan, um piloto de IA generativa para personalização de campanhas classifica-se tipicamente como:",
+  "opts": [
+   "Exploratório — baixo impacto atual, elevado potencial futuro",
+   "Estratégico — a IA é o futuro e deve ser protegida ao máximo",
+   "Operacional — já está a ser usado nas campanhas em curso",
+   "Suporte — é apenas uma ferramenta de apoio ao marketing"
+  ],
+  "c": 0,
+  "exp": "Armadilha clássica: inovação não é criticidade. Um piloto ainda não sustenta o negócio — inova-se com guardrails e critérios de go/no-go. Se um dia sustentar receita e diferenciação, migra para Estratégico."
  },
  {
-  q:"O ERP central de uma empresa de retalho — impacto direto nas operações, sem potencial diferenciador futuro — é:",
-  opts:["Operacional — reforçar resiliência, redundância e recovery testado","Estratégico — proteção máxima","Suporte — padronizar","Exploratório — inovar com guardrails"],
-  c:0,
-  exp:"Alto impacto atual + baixo potencial futuro = Operacional. A pergunta executiva é 'o negócio pára se falhar?' — e a decisão é resiliência, não diferenciação. Nem tudo pesa o mesmo: é essa a conversa que a matriz obriga a ter."
+  "q": "O ERP central de uma empresa de retalho — impacto direto nas operações, sem potencial diferenciador futuro — é:",
+  "opts": [
+   "Estratégico — exige proteção máxima e patrocínio executivo permanente",
+   "Suporte — padronizar, automatizar e aceitar o risco residual",
+   "Exploratório — inovar com guardrails e critérios de go/no-go",
+   "Operacional — reforçar resiliência, redundância e recovery testado"
+  ],
+  "c": 3,
+  "exp": "Alto impacto atual + baixo potencial futuro = Operacional. A pergunta executiva é 'o negócio pára se falhar?' — e a decisão é resiliência, não diferenciação. Nem tudo pesa o mesmo: é essa a conversa que a matriz obriga a ter."
  }
 ];
 
