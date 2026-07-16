@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sondagem · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+.opcoes{display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; margin-top:18px}
+.opcao{background:#fff; border:2px solid var(--borda); border-radius:12px; padding:20px 18px; cursor:pointer; text-align:left; font-family:inherit; transition:transform .08s, border-color .12s; box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.opcao:hover{transform:translateY(-2px); border-color:var(--azul2)}
+.opcao.escolhida{border-color:var(--azul); background:var(--claro)}
+.opcao .nivel{font-weight:800; font-size:1.08rem; color:var(--azul); display:block; margin-bottom:4px}
+.opcao .pista{font-size:.85rem; color:var(--cinza)}
+.feedback{display:none; margin-top:22px; background:#fff; border-radius:12px; border-left:6px solid var(--azul2); padding:20px 22px; box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.feedback h3{color:var(--azul); margin-bottom:8px}
+.chat{display:none; margin-top:16px; background:var(--okbg); border-left:6px solid var(--ok); border-radius:12px; padding:18px 22px}
+.chat strong{color:var(--ok)}
+.privacidade{font-size:.82rem; color:var(--cinza); margin-top:26px}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="index.html">Início</a> / Sondagem</p>
+  <h1 style="color:var(--azul); margin-bottom:6px">📊 Sondagem — sê honesto</h1>
+  <p style="font-size:1.08rem; margin-top:10px"><strong>Em que nível do QNRCS está a tua organização, hoje?</strong> Não o nível que gostavas de ter, nem o que está no papel — o que existe <em>mesmo</em>, hoje, em produção.</p>
+
+  <div class="opcoes">
+    <button class="opcao" data-op="basico" onclick="responder('basico')">
+      <span class="nivel">Básico</span>
+      <span class="pista">Os 19 fundamentais: inventários, MFA, backups, resposta a incidentes</span>
+    </button>
+    <button class="opcao" data-op="substancial" onclick="responder('substancial')">
+      <span class="nivel">Substancial</span>
+      <span class="pista">50 controlos: BCP/DRP, gestão de vulnerabilidades, SIEM, contratos com fornecedores</span>
+    </button>
+    <button class="opcao" data-op="elevado" onclick="responder('elevado')">
+      <span class="nivel">Elevado</span>
+      <span class="pista">Os 79: SOC 24/7, Zero Trust, threat hunting, CSIRT dedicado</span>
+    </button>
+    <button class="opcao" data-op="nsei" onclick="responder('nsei')">
+      <span class="nivel">Não faço ideia</span>
+      <span class="pista">E é uma resposta perfeitamente válida</span>
+    </button>
+  </div>
+
+  <div class="feedback" id="fb">
+    <h3 id="fbTitulo"></h3>
+    <p id="fbTexto"></p>
+  </div>
+
+  <div class="chat" id="chat">
+    <p>📣 <strong>Agora escreve a tua resposta no chat da sessão</strong> — uma palavra chega (Básico / Substancial / Elevado / Não sei). Vamos ver o retrato do grupo.</p>
+    <p style="font-size:.88rem; color:var(--cinza); margin-top:8px">Mudaste de opinião? Podes clicar noutro nível.</p>
+  </div>
+
+  <p class="privacidade">🔒 Esta página não regista nada — nem cookies, nem respostas, nem quem és. A honestidade fica só entre ti e o teu ecrã (até a escreveres no chat).</p>
+</main>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+
+<script>
+var FB = {
+  basico: {
+    t: "Básico — e sabes que mais? É onde está a maioria. 👍",
+    x: "Pergunta de auditor: estão lá mesmo os 19? MFA em TODAS as contas privilegiadas, ou \"quase todas\"? O último restauro de backup que TESTARAM foi quando? O Básico só protege se for Básico a sério — e é a fundação de tudo o que vem a seguir. O caminho para o Substancial começa por saber exatamente quais dos 19 estão sólidos."
+  },
+  substancial: {
+    t: "Substancial — ambicioso. Vamos verificar? 🧐",
+    x: "50 controlos. O BCP foi testado este ano ou está numa gaveta desde que foi escrito? Os contratos com os fornecedores críticos têm requisitos de segurança ou têm boa vontade? Há alguém a OLHAR para o SIEM ou ele só acumula logs? Se respondeste \"sim\" às três — respeito. Se hesitaste numa, já sabes qual é a tua primeira lacuna."
+  },
+  elevado: {
+    t: "Elevado?! A sério? 😏",
+    x: "SOC 24/7, Zero Trust, PAM, threat hunting, pentests regulares, CSIRT dedicado, melhoria contínua — os 79 controlos, todos, a funcionar. Em Portugal, as organizações que estão genuinamente aqui contam-se pelos dedos. Se é mesmo o teu caso: parabéns, és tu que devias estar a dar esta formação. Se hesitaste — bem-vindo ao Substancial, que já é excelente companhia."
+  },
+  nsei: {
+    t: "\"Não faço ideia\" — a resposta mais honesta da noite. 🏆",
+    x: "E é exatamente para isso que serve o QNRCS: é a régua que transforma \"não faço ideia\" em \"estamos aqui, falta-nos isto, o caminho é este\". No fim desta sessão vais conseguir responder — e essa é a diferença entre gerir por intuição e gerir por evidência."
+  }
+};
+function responder(op){
+  var botoes = document.querySelectorAll('.opcao');
+  for (var i=0; i<botoes.length; i++) botoes[i].classList.remove('escolhida');
+  document.querySelector('[data-op="'+op+'"]').classList.add('escolhida');
+  document.getElementById('fbTitulo').textContent = FB[op].t;
+  document.getElementById('fbTexto').textContent = FB[op].x;
+  document.getElementById('fb').style.display = 'block';
+  document.getElementById('chat').style.display = 'block';
+  document.getElementById('fb').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+</script>
+</body>
+</html>
