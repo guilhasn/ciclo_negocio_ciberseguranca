@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sondagem — Cadeia de Abastecimento · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+.opcoes{display:grid; grid-template-columns:1fr; gap:12px; margin-top:18px; max-width:720px}
+.opcao{background:#fff; border:2px solid var(--borda); border-radius:12px; padding:16px 18px; cursor:pointer; text-align:left; font-family:inherit; transition:transform .08s, border-color .12s; box-shadow:0 1px 3px rgba(0,0,0,.05); font-size:.97rem}
+.opcao:hover{transform:translateY(-1px); border-color:var(--azul2)}
+.opcao.escolhida{border-color:var(--azul); background:var(--claro)}
+.opcao .letra{font-weight:800; color:var(--azul); margin-right:8px}
+.feedback{display:none; margin-top:22px; background:#fff; border-radius:12px; border-left:6px solid var(--azul2); padding:20px 22px; box-shadow:0 1px 4px rgba(0,0,0,.06); max-width:720px}
+.feedback h3{color:var(--azul); margin-bottom:8px}
+.bench{display:none; margin-top:16px; background:#fff; border-radius:12px; padding:20px 22px; box-shadow:0 1px 4px rgba(0,0,0,.06); max-width:720px}
+.bench h3{color:var(--azul); margin-bottom:12px}
+.bar{display:flex; align-items:center; gap:10px; margin-top:8px}
+.bar .lbl{width:34px; font-weight:800; color:var(--azul)}
+.bar .track{flex:1; height:22px; background:#e7eaee; border-radius:6px; overflow:hidden}
+.bar .fill{height:100%; background:var(--azul2); border-radius:6px; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; color:#fff; font-size:.8rem; font-weight:700; min-width:36px}
+.bar.tua .fill{background:var(--amarelo)}
+.chat{display:none; margin-top:16px; background:var(--okbg); border-left:6px solid var(--ok); border-radius:12px; padding:18px 22px; max-width:720px}
+.chat strong{color:var(--ok)}
+.privacidade{font-size:.82rem; color:var(--cinza); margin-top:26px}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="index.html">Início</a> / Sondagem — Cadeia de Abastecimento</p>
+  <h1 style="color:var(--azul); margin-bottom:6px">📊 Sondagem — a tua cadeia de abastecimento</h1>
+  <p style="font-size:1.06rem; margin-top:10px; max-width:720px"><strong>Na tua organização, como é gerida hoje a segurança da cadeia de abastecimento?</strong> Não o que está planeado — o que acontece <em>mesmo</em>, hoje. No fim comparas a tua resposta com um benchmark real.</p>
+
+  <div class="opcoes">
+    <button class="opcao" data-op="a" onclick="responder('a')"><span class="letra">A</span> Existe uma política formal e monitorizada, aplicada a todos os fornecedores críticos.</button>
+    <button class="opcao" data-op="b" onclick="responder('b')"><span class="letra">B</span> Existem algumas diretrizes, mas a implementação é parcial ou depende de cada departamento.</button>
+    <button class="opcao" data-op="c" onclick="responder('c')"><span class="letra">C</span> É tratada de forma reativa — só quando surgem problemas ou incidentes.</button>
+    <button class="opcao" data-op="d" onclick="responder('d')"><span class="letra">D</span> Não existe qualquer abordagem estruturada.</button>
+  </div>
+
+  <div class="feedback" id="fb">
+    <h3 id="fbTitulo"></h3>
+    <p id="fbTexto"></p>
+  </div>
+
+  <div class="bench" id="bench">
+    <h3>📈 E as outras organizações? (benchmark, 56 respondentes)</h3>
+    <div class="bar" id="bar-a"><span class="lbl">A</span><div class="track"><div class="fill" style="width:41%">41%</div></div></div>
+    <div class="bar" id="bar-b"><span class="lbl">B</span><div class="track"><div class="fill" style="width:21%">21%</div></div></div>
+    <div class="bar" id="bar-c"><span class="lbl">C</span><div class="track"><div class="fill" style="width:23%">23%</div></div></div>
+    <div class="bar" id="bar-d"><span class="lbl">D</span><div class="track"><div class="fill" style="width:14%">14%</div></div></div>
+    <p style="margin-top:12px; font-size:.9rem; color:var(--cinza)">A barra amarela é a tua resposta. E uma nota de ceticismo saudável: 41% <em>dizem</em> ter política formal e monitorizada — mas o inquérito global da ISACA diz que <strong>menos de metade</strong> confia na segurança da própria cadeia, e quase metade não testa nem audita os terceiros com consistência. Declarar ≠ evidenciar. 😉</p>
+  </div>
+
+  <div class="chat" id="chat">
+    <p>📣 <strong>Agora escreve a tua letra no chat da sessão</strong> (A, B, C ou D) — vamos ver o retrato do grupo e compará-lo com o benchmark.</p>
+    <p style="font-size:.88rem; color:var(--cinza); margin-top:8px">Mudaste de opinião? Podes clicar noutra opção.</p>
+  </div>
+
+  <p class="privacidade">🔒 Esta página não regista nada — nem cookies, nem respostas, nem quem és.</p>
+</main>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+
+<script>
+var FB = {
+  a: { t: "Política formal e monitorizada — o clube dos 41%. 🧐",
+       x: "Se é mesmo assim, parabéns — estás na frente. Agora as perguntas de auditor: quando foi a última auditoria a um fornecedor Tier 1? A política cobre os fourth parties? O contrato do teu fornecedor mais crítico tem cláusula de notificação de incidentes com prazo em horas? Se hesitaste nalguma, talvez estejas mais perto do B — e saber isso é o primeiro passo." },
+  b: { t: "Diretrizes parciais, implementação por departamento. 📋",
+       x: "É o 'shadow vendor management': cada departamento contrata à sua maneira e o risco entra pela porta que ninguém vigia. A boa notícia: já tens matéria-prima (as diretrizes); falta o que transforma diretrizes em programa — inventário central de fornecedores, um dono por relação, e classificação por criticidade. É exatamente o que a Matriz de Classificação do site faz." },
+  c: { t: "Reativa — o fornecedor é avaliado pelo incidente. 🚒",
+       x: "É a abordagem mais cara que existe: a avaliação do fornecedor acontece no pior dia possível, feita pelo atacante. Cada incidente que ainda não aconteceu é uma avaliação que ainda vais a tempo de fazer tu. Começa pequeno: os 3 fornecedores mais críticos, a matriz de classificação, e uma cláusula de notificação no próximo contrato que renovares." },
+  d: { t: "Sem abordagem estruturada — a resposta mais honesta. 🏆",
+       x: "E estás em boa companhia: 14% admitem-no, e muitos dos 41% deviam. A honestidade é o primeiro controlo. O caminho começa exatamente onde o curso começa: inventariar quem tem acesso ao quê (não geres o que não conheces), classificar por criticidade, e exigir o mínimo contratual aos críticos. Uma tarde de trabalho com os templates do site — e sais do clube dos 14%." }
+};
+function responder(op){
+  var botoes = document.querySelectorAll('.opcao');
+  for (var i=0; i<botoes.length; i++) botoes[i].classList.remove('escolhida');
+  document.querySelector('[data-op="'+op+'"]').classList.add('escolhida');
+  document.getElementById('fbTitulo').textContent = FB[op].t;
+  document.getElementById('fbTexto').textContent = FB[op].x;
+  document.getElementById('fb').style.display = 'block';
+  document.getElementById('bench').style.display = 'block';
+  document.getElementById('chat').style.display = 'block';
+  var barras = document.querySelectorAll('.bar');
+  for (var j=0; j<barras.length; j++) barras[j].classList.remove('tua');
+  document.getElementById('bar-'+op).classList.add('tua');
+  document.getElementById('fb').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+</script>
+</body>
+</html>
