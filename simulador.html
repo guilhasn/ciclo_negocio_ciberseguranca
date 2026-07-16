@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Primeiro Ano do CISO · Ciclo do Negócio de Cibersegurança</title>
+<style>
+  :root{--azul:#1F4E79; --azul2:#2E75B6; --cinza:#595959; --claro:#EAF1F8; --ok:#1e7145; --mau:#b3261e; --amarelo:#8a6d00; --roxo:#5b2d86}
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:'Segoe UI',system-ui,sans-serif; background:#eef1f5; color:#222; line-height:1.55}
+  .topo{background:linear-gradient(120deg,#12365c,#2E75B6); color:#fff; padding:16px 22px}
+  .topo h1{font-size:1.25rem} .topo small{opacity:.85}
+  .selo{display:inline-block; font-size:.7rem; font-weight:700; border-radius:99px; padding:2px 10px; background:#ffe1e1; color:#b3261e; vertical-align:middle; margin-left:8px}
+  .wrap{max-width:860px; margin:0 auto; padding:20px 16px 70px}
+  .painel{position:sticky; top:0; z-index:5; background:#fff; border-radius:0 0 12px 12px; box-shadow:0 3px 10px rgba(0,0,0,.12); padding:12px 16px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px}
+  .med b{font-size:.78rem; color:var(--cinza); text-transform:uppercase; letter-spacing:.03em}
+  .barra{height:12px; background:#e7eaee; border-radius:99px; overflow:hidden; margin-top:4px}
+  .barra i{display:block; height:100%; border-radius:99px; transition:width .6s ease, background .6s}
+  .med span{font-size:.85rem; font-weight:700}
+  .ronda{background:#fff; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.08); margin-top:22px; overflow:hidden}
+  .ronda-cab{background:var(--azul); color:#fff; padding:12px 18px; font-weight:700}
+  .ronda-cab small{display:block; font-weight:400; opacity:.8; font-size:.78rem}
+  .ronda.evento{border:2px solid var(--roxo)}
+  .ronda.evento .ronda-cab{background:var(--roxo)}
+  .ronda-corpo{padding:18px 20px}
+  .contexto{background:var(--claro); border-radius:10px; padding:14px 16px; margin-bottom:14px}
+  .evento .contexto{background:#f3ecfa}
+  .opcao{display:block; width:100%; text-align:left; background:#fff; border:2px solid #dbe2ea; border-radius:11px; padding:13px 15px; margin-top:10px; cursor:pointer; font-size:.95rem; font-family:inherit}
+  .opcao:hover{border-color:var(--azul2); background:#f6faff}
+  .opcao b{color:var(--azul)}
+  .feedback{display:none; margin-top:14px; border-radius:11px; padding:14px 16px}
+  .feedback.show{display:block; animation:pop .3s ease}
+  .feedback.ok{background:#e3f2e8; border-left:5px solid var(--ok)}
+  .feedback.mau{background:#fdecea; border-left:5px solid var(--mau)}
+  .feedback.medio{background:#fff8e1; border-left:5px solid var(--amarelo)}
+  @keyframes pop{from{transform:translateY(10px); opacity:0} to{transform:none; opacity:1}}
+  .btn{margin-top:14px; padding:11px 22px; border:0; border-radius:10px; background:var(--azul); color:#fff; font-weight:700; font-size:.98rem; cursor:pointer}
+  .btn:hover{background:var(--azul2)}
+  .btn.sec{background:none; border:2px solid var(--azul); color:var(--azul)}
+  .delta{font-size:.82rem; font-weight:700; margin-top:8px; color:var(--cinza)}
+  .cadeado{background:#fff; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.08); margin-top:22px; padding:22px; text-align:center}
+  .cadeado input{padding:11px 14px; border:2px solid #dbe2ea; border-radius:9px; font-size:1rem; width:230px; text-align:center}
+  .cadeado .erro{color:var(--mau); font-weight:700; margin-top:8px; display:none}
+  .placeholder{border:2px dashed #b9c4d0; background:#f7f9fb; color:var(--cinza); border-radius:14px; margin-top:22px; padding:16px 20px; font-size:.9rem}
+  .fim{display:none; margin-top:22px; background:#fff; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.1); padding:22px}
+  .fim.show{display:block}
+  .nota-final{font-size:2.2rem; font-weight:900; color:var(--azul)}
+  .hidden{display:none !important}
+  .barra-acao{margin-top:18px; display:flex; gap:10px; flex-wrap:wrap}
+  textarea.cod{width:100%; margin-top:8px; font-family:monospace; font-size:.78rem; padding:8px; border-radius:8px; border:1.5px solid #dbe2ea}
+</style>
+</head>
+<body>
+<div class="topo">
+  <h1>⚡ O Primeiro Ano do CISO — EnerVale, SA <span class="selo" style="background:#e3f2e8;color:#1e7145">desbloqueio ao ritmo da formação</span></h1>
+  <small>Distribuidora de eletricidade · parques renováveis · rede EV · 340 colaboradores · 400 mil clientes</small>
+</div>
+
+<main class="wrap">
+  <div class="painel">
+    <div class="med"><b>💶 Orçamento</b><div class="barra"><i id="bOrc"></i></div><span id="vOrc"></span></div>
+    <div class="med"><b>🛡️ Exposição ao risco</b><div class="barra"><i id="bRis"></i></div><span id="vRis"></span></div>
+    <div class="med"><b>🤝 Confiança do board</b><div class="barra"><i id="bCon"></i></div><span id="vCon"></span></div>
+  </div>
+
+  <div id="jogo"></div>
+
+  <div class="placeholder">🎮 <b>Como funciona:</b> és o primeiro CISO da EnerVale e vais tomar decisões com consequências reais nos três medidores. A Ronda 0 está aberta a todos; <b>as rondas seguintes estão cifradas</b> — a password de cada uma é dada pelo formador ao ritmo da formação. O teu progresso grava automaticamente neste browser; usa o código de progresso para continuar noutro computador. No fim de tudo: a tua nota de CISO. Escolhe como se fosse a sério — o jogo lembra-se. 😉</div>
+
+  <div class="barra-acao">
+    <button class="btn sec" onclick="copiarCodigo()">📋 Copiar código de progresso</button>
+    <button class="btn sec" onclick="mostrarRetoma()">↩️ Retomar com código</button>
+    <button class="btn sec" onclick="reiniciarTudo()">↺ Recomeçar do zero</button>
+  </div>
+  <div id="zonaRetoma" class="hidden">
+    <textarea class="cod" id="codIn" rows="3" placeholder="Cola aqui o teu código de progresso…"></textarea>
+    <button class="btn" onclick="retomar()">Retomar</button>
+  </div>
+
+  <div class="fim" id="fim"></div>
+</main>
+
+<script>
+// ============ ESTADO + PERSISTÊNCIA
+const CHAVE='enervale_sim_v2';
+let S = { orc:100, ris:72, con:50, pts:0, flags:{}, passo:0, hist:[] };
+function gravar(){ try{ localStorage.setItem(CHAVE, JSON.stringify(S)); }catch(e){} }
+function carregar(){ try{ const g=localStorage.getItem(CHAVE); if(g){ S=JSON.parse(g); } }catch(e){} }
+function codigo(){ const j=JSON.stringify(S); let h=0; for(const c of j) h=(h*31+c.charCodeAt(0))>>>0; return btoa(unescape(encodeURIComponent(j)))+'.'+h.toString(36); }
+function copiarCodigo(){ navigator.clipboard.writeText(codigo()).then(()=>alert('Código copiado! Guarda-o — permite retomar noutro computador.')); }
+function mostrarRetoma(){ document.getElementById('zonaRetoma').classList.toggle('hidden'); }
+function retomar(){
+  const v = document.getElementById('codIn').value.trim();
+  const i = v.lastIndexOf('.'); if(i<0) return alert('Código inválido.');
+  try{
+    const j = decodeURIComponent(escape(atob(v.slice(0,i))));
+    let h=0; for(const c of j) h=(h*31+c.charCodeAt(0))>>>0;
+    if(h.toString(36)!==v.slice(i+1)) return alert('Código adulterado ou incompleto. 😉');
+    S = JSON.parse(j); gravar(); pintar(); passo();
+    document.getElementById('zonaRetoma').classList.add('hidden');
+  }catch(e){ alert('Código inválido.'); }
+}
+function reiniciarTudo(){ if(confirm('Recomeçar apaga o teu progresso. Certo?')){ localStorage.removeItem(CHAVE); location.reload(); } }
+
+// ============ MEDIDORES
+function pintar(){
+  const f=(id,v,inv)=>{ const b=document.getElementById('b'+id); b.style.width=Math.max(2,Math.min(100,v))+'%';
+    const bom=inv?v<45:v>55, mau=inv?v>65:v<35; b.style.background=mau?'#b3261e':(bom?'#1e7145':'#c9a227'); };
+  f('Orc',S.orc,false); f('Ris',S.ris,true); f('Con',S.con,false);
+  vOrc.textContent=S.orc+'% disponível'; vRis.textContent=S.ris+' / 100'; vCon.textContent=S.con+' / 100';
+}
+function aplicar(fx){ S.orc=Math.max(0,S.orc+(fx.orc||0)); S.ris=Math.max(0,Math.min(100,S.ris+(fx.ris||0))); S.con=Math.max(0,Math.min(100,S.con+(fx.con||0))); S.pts+=(fx.pts||0); Object.assign(S.flags,fx.flags||{}); pintar(); gravar(); }
+
+// ============ CRIPTO (rondas cifradas — a password É a chave)
+async function decifrar(blobB64, pass){
+  const raw = Uint8Array.from(atob(blobB64), c=>c.charCodeAt(0));
+  const salt = raw.slice(0,16), iv = raw.slice(16,28), ct = raw.slice(28);
+  const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass.trim().toLowerCase()), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey({name:'PBKDF2', salt, iterations:120000, hash:'SHA-256'}, km, {name:'AES-GCM', length:256}, false, ['decrypt']);
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, ct);
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+
+// ============ GUIÃO: sequência de passos (ronda aberta, ronda cifrada, evento condicional)
+const R0 = {
+  titulo:'Ronda 0 · O primeiro dia', sub:'Módulo 1 — enquadramento',
+  contexto:`Primeiro dia como CISO da EnerVale. A diretora jurídica entra no teu gabinete: <b>"Preciso que me confirmes hoje: nós somos entidade essencial, importante, ou isto da NIS2 nem nos apanha?"</b>`,
+  opcoes:[
+   { t:'<b>"Somos entidade ESSENCIAL"</b> — energia está no Anexo I e temos a dimensão para isso.', fx:{con:+10, pts:+10}, tipo:'ok',
+     fb:'✔ Certo. Energia é o primeiro setor do Anexo I e a EnerVale tem dimensão: entidade essencial, regime completo, supervisão ex ante. Começas o mandato com a jurídica do teu lado.' },
+   { t:'<b>"Somos IMPORTANTES"</b> — essencial é só para as grandes, tipo REN e EDP.', fx:{con:-8, pts:-5}, tipo:'mau',
+     fb:'✘ Uma distribuidora com 400 mil clientes não é pequena — Anexo I + dimensão = ESSENCIAL. Subestimar as obrigações no primeiro dia sai caro: registos, prazos e supervisão vão apanhar-te desprevenido.' },
+   { t:'<b>"Verifico com método e amanhã respondo com fundamentação."</b>', fx:{con:+4, pts:+4}, tipo:'medio',
+     fb:'△ Prudente e defensável. Mas um CISO de energia deve ter esta de cor: essencial. A fundamentação amanhã, sim — a intuição, hoje.' },
+  ]};
+
+// Ronda 1 vai CIFRADA (password: energia) — o conteúdo não existe em claro nesta página.
+const BLOB_R1 = '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';
+const BLOB_R2 = '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';
+
+// Evento condicionado (dispara depois da R1, variante conforme a escolha)
+function eventoPos1(){
+  if (S.flags.portal) return {
+    evento:true, titulo:'⚡ IMPREVISTO · O corte', sub:'O CFO não avisa — acontece',
+    contexto:`Reunião de revisão orçamental. O CFO, seco: <b>"O novo portal ficou ótimo, parabéns. Como claramente há folga para marketing digital, o teu orçamento de segurança leva um corte de 15% no próximo semestre."</b> O board acena. O que fazes?`,
+    opcoes:[
+     { t:'<b>Aceitar o corte</b> sem discussão — não é altura de criar atrito.', fx:{orc:-15, con:+2, pts:-5, ris:+4}, tipo:'mau',
+       fb:'✘ Paz hoje, fragilidade amanhã. Aceitar sem tradução de risco ensina o board a cortar-te sempre. O que faltou: mostrar O QUE deixa de ser protegido com aquele corte.' },
+     { t:'<b>Contrapor com um mapa de risco:</b> "cortem, mas assinem AQUI o risco que estão a aceitar."', fx:{orc:-8, con:+6, pts:+10}, tipo:'ok',
+       fb:'✔ A jogada de CISO adulto: transformar o corte numa DECISÃO DE RISCO documentada. O CFO recua metade do corte quando vê o que assinaria. É a aceitação de risco residual do curso, ao vivo.' },
+     { t:'<b>Ameaçar demissão</b> — "cortem e procurem outro CISO."', fx:{con:-15, pts:-8}, tipo:'mau',
+       fb:'✘ A bazuca na primeira discussão orçamental. Podes ganhar hoje e ficas sem crédito para a crise a sério. Guarda as armas nucleares para quando importarem.' },
+    ]};
+  return {
+    evento:true, titulo:'⚡ IMPREVISTO · A proposta', sub:'Os recursos também são risco',
+    contexto:`O teu único especialista de OT — o que percebe do SCADA e das subestações — recebe uma proposta da concorrência: <b>+40% de salário</b>. RH diz que "não há enquadramento para contrapropostas". Ele decide esta semana.`,
+    opcoes:[
+     { t:'<b>Lutar por ele:</b> escalar ao CEO com um business case — o custo de o perder vs. o custo de o reter.', fx:{orc:-6, con:+4, pts:+10, flags:{otRetido:true}}, tipo:'ok',
+       fb:'✔ Pessoas críticas SÃO ativos críticos — single point of failure humano. O business case ("substituí-lo custa 18 meses e 3× o salário") vence onde o pedido emocional falha.' },
+     { t:'<b>Deixá-lo ir</b> e contratar — "ninguém é insubstituível".', fx:{ris:+12, pts:-6, flags:{otPerdido:true}}, tipo:'mau',
+       fb:'✘ No papel, verdade; no OT português, há meia dúzia de pessoas assim no mercado. Ficas 12+ meses exposto no sistema mais crítico da casa — e o incidente não espera. (O jogo vai lembrar-se disto…)' },
+     { t:'<b>Prometer-lhe</b> um plano de carreira e formação "para o ano".', fx:{ris:+8, con:+1, pts:-3, flags:{otPerdido:true}}, tipo:'medio',
+       fb:'△ Ele já ouviu essa. Promessas sem data são despedidas em câmara lenta — sai daqui a 3 meses, já desmotivado. Reter talento crítico decide-se com factos, não com futuros.' },
+    ]};
+}
+
+// ============ MOTOR DE PASSOS
+async function passo(){
+  const cont = document.getElementById('jogo');
+  document.getElementById('fim').classList.remove('show');
+  if (S.passo===0) return renderRonda(R0);
+  if (S.passo===1) return renderCadeado('Ronda 1 · O mapa e o dinheiro', 'Esta ronda está cifrada — a password é dada em aula.', BLOB_R1);
+  if (S.passo===2) return renderRonda(eventoPos1());
+  if (S.passo===3) return renderCadeado('Ronda 2 · O nível e o board', 'Esta ronda está cifrada — a password é dada em aula (Módulo 2).', BLOB_R2);
+  return fimDemo();
+}
+function renderRonda(R){
+  const cont = document.getElementById('jogo');
+  cont.innerHTML = `<div class="ronda ${R.evento?'evento':''}">
+    <div class="ronda-cab">${R.titulo}<small>${R.sub}</small></div>
+    <div class="ronda-corpo">
+      <div class="contexto">${R.contexto}</div>
+      <div id="ops">${R.opcoes.map((o,i)=>`<button class="opcao" data-i="${i}">${o.t}</button>`).join('')}</div>
+      <div class="feedback" id="fb"></div>
+      <button class="btn hidden" id="btnNext">Continuar →</button>
+    </div></div>`;
+  cont.querySelectorAll('.opcao').forEach(b=>b.onclick=()=>{
+    const o = R.opcoes[+b.dataset.i];
+    aplicar(o.fx); S.hist.push({p:S.passo, e:+b.dataset.i}); gravar();
+    cont.querySelectorAll('.opcao').forEach(x=>x.disabled=true);
+    const fb=document.getElementById('fb'); fb.className='feedback show '+o.tipo;
+    const d=[]; if(o.fx.orc)d.push(`💶 ${o.fx.orc>0?'+':''}${o.fx.orc}`); if(o.fx.ris)d.push(`🛡️ ${o.fx.ris>0?'+':''}${o.fx.ris}`); if(o.fx.con)d.push(`🤝 ${o.fx.con>0?'+':''}${o.fx.con}`);
+    fb.innerHTML = o.fb + `<div class="delta">${d.join(' · ')}</div>`;
+    document.getElementById('btnNext').classList.remove('hidden');
+  });
+  document.getElementById('btnNext').onclick=()=>{ S.passo++; gravar(); passo(); window.scrollTo({top:0,behavior:'smooth'}); };
+}
+function renderCadeado(titulo, msg, blob){
+  const cont = document.getElementById('jogo');
+  cont.innerHTML = `<div class="cadeado">
+    <h2 style="color:var(--azul)">🔐 ${titulo}</h2>
+    <p style="color:var(--cinza); margin:8px 0 14px">${msg}</p>
+    <input id="pw" type="password" placeholder="password da ronda" onkeydown="if(event.key==='Enter')abrir()">
+    <button class="btn" style="margin-left:8px" onclick="abrir()">Desbloquear</button>
+    <div class="erro" id="pwErro">Password errada — o conteúdo continua cifrado. 🙂</div>
+  </div>`;
+  window.abrir = async ()=>{
+    try{
+      const R = await decifrar(blob, document.getElementById('pw').value);
+      renderRonda(R);
+    }catch(e){ document.getElementById('pwErro').style.display='block'; }
+  };
+}
+function fimDemo(){
+  document.getElementById('jogo').innerHTML='';
+  const f=document.getElementById('fim'); f.classList.add('show');
+  f.innerHTML = `<h2 style="color:var(--azul)">⏸️ Ponto de situação</h2>
+    <p style="margin-top:10px">Chegaste ao fim das rondas <b>já desbloqueadas</b>. As seguintes abrem ao longo da formação — o teu CISO fica em suspenso… e as decisões que tomaste vão pesar no que aí vem.</p>
+    <p style="margin-top:8px">Estado atual: 💶 ${S.orc}% · 🛡️ ${S.ris}/100 · 🤝 ${S.con}/100</p>
+    <p style="margin-top:8px; color:var(--cinza); font-size:.9rem">Dica: copia o teu código de progresso (botão acima) e guarda-o — é a tua poupança.</p>`;
+  return; /* nota final só quando as 5 rondas existirem */
+  const notas=[[25,'A','🏆'],[15,'B','👍'],[5,'C','📈'],[-99,'D','🌱']];
+  const [__,nota,titulo]=notas.find(n=>S.pts>=n[0]);
+  let extra = S.flags.otPerdido ? '<p style="margin-top:8px">⚠️ Perdeste o especialista de OT — na Ronda 4 (o incidente nas subestações), esta ausência custar-te-ia caro.</p>' : (S.flags.otRetido?'<p style="margin-top:8px">✅ Retiveste o especialista de OT — na Ronda 4, ele será a diferença entre horas e dias.</p>':'');
+  f.innerHTML = `<h2 style="color:var(--azul)">📊 Debrief do protótipo</h2>
+    <div class="nota-final">${nota} <span style="font-size:1rem; font-weight:400">(${S.pts} pts)</span></div>
+    <p>${titulo}</p>
+    <p style="margin-top:8px">Medidores finais: 💶 ${S.orc}% · 🛡️ ${S.ris}/100 · 🤝 ${S.con}/100</p>${extra}
+    <p style="margin-top:10px; color:var(--cinza); font-size:.9rem">Versão final: debrief decisão a decisão + relatório para enviar ao formador (botão copiar) + rondas 2–5.</p>
+    <button class="btn" onclick="copiarRelatorio()">📋 Copiar relatório para o formador</button>
+    <button class="btn sec" onclick="reiniciarTudo()">↺ Jogar de novo</button>`;
+  window.copiarRelatorio=()=>{ navigator.clipboard.writeText(
+`SIMULADOR ENERVALE — relatório (protótipo)
+Nota: ${nota} (${S.pts} pts) · Orçamento ${S.orc}% · Risco ${S.ris}/100 · Board ${S.con}/100
+Decisões: ${S.hist.map(h=>'P'+h.p+'→'+'abc'[h.e]).join(' · ')}
+Código: ${codigo()}`).then(()=>alert('Relatório copiado — cola no email ao formador.')); };
+}
+
+carregar(); pintar(); passo();
+</script>
+</body>
+</html>
