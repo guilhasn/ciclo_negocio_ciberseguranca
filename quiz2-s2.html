@@ -123,7 +123,7 @@ const QUESTOES = [
   "exp": "Software Bill of Materials. Quando rebentou o Log4Shell, quem tinha SBoM respondeu 'estamos expostos aqui e aqui' em horas; quem não tinha passou semanas às cegas. A gestão de dependências é requisito explícito do desenvolvimento seguro."
  },
  {
-  "q": "Porque é que os prazos de notificação da NIS2 (24h/72h/1 mês) são, na prática, um requisito TÉCNICO?",
+  "q": "Porque é que os prazos de notificação de incidentes (a começar nas 24h para a notificação inicial) são, na prática, um requisito TÉCNICO?",
   "opts": [
    "Porque obrigam à aquisição de um SIEM específico homologado pelo CNCS",
    "Porque a notificação é submetida através de um sistema automático europeu",
@@ -131,7 +131,7 @@ const QUESTOES = [
    "Porque não se notifica em 24h o que se demora semanas a detetar"
   ],
   "c": 3,
-  "exp": "O relógio legal só se cumpre com deteção a funcionar. É o exemplo perfeito de como a conformidade se tornou uma 'restrição de engenharia': o requisito jurídico desce até à arquitetura de monitorização."
+  "exp": "O relógio legal só se cumpre com deteção a funcionar. E nota o detalhe do regime português (arts. 41.º-44.º do DL 125/2025): notifica-se o incidente SIGNIFICATIVO, e o prazo de 24h conta de quando a entidade CONCLUI que ele existe ou pode vir a existir — com atualização até 72h, notificação do fim do impacto e relatório final em 30 dias úteis depois desta. Sem monitorização, nunca 'concluis' a tempo."
  },
  {
   "q": "Na auditoria pós-NIS2, o auditor percorre o 'ciclo de vida do controlo'. Que quatro perguntas faz?",
