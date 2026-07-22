@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casos reais · Cadeia de Abastecimento — Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+  .caso{background:#fff; border:1px solid var(--borda); border-radius:12px; padding:22px 24px; box-shadow:0 1px 3px rgba(0,0,0,.05); margin:18px 0}
+  .caso h3{color:var(--azul); font-size:1.15rem; margin-bottom:4px}
+  .caso .meta{font-size:.82rem; color:var(--cinza); margin-bottom:12px}
+  .ato{border-left:4px solid var(--azul2); background:var(--claro); border-radius:8px; padding:12px 16px; margin:12px 0}
+  .ato h4{color:var(--azul); font-size:.98rem; margin-bottom:4px}
+  .pergunta{background:var(--amarelobg); border-left:5px solid var(--amarelo); border-radius:8px; padding:12px 16px; margin:14px 0; font-weight:600}
+  details.desfecho{margin:12px 0; border:1.5px solid var(--azul2); border-radius:10px; overflow:hidden}
+  details.desfecho summary{cursor:pointer; background:var(--azul2); color:#fff; font-weight:700; padding:10px 16px; list-style:none}
+  details.desfecho summary::-webkit-details-marker{display:none}
+  details.desfecho summary::before{content:"▸ "; }
+  details.desfecho[open] summary::before{content:"▾ "}
+  details.desfecho .corpo{padding:14px 16px; background:#fff}
+  .veredito{font-weight:800}
+  .veredito.ganhou{color:var(--ok)}
+  .veredito.perdeu{color:var(--erro)}
+  .licao{background:var(--okbg); border-left:5px solid var(--ok); border-radius:8px; padding:10px 14px; margin:10px 0; font-size:.95rem}
+  .licao strong{color:var(--ok)}
+  .idcaso{font-family:Consolas,monospace; font-size:.85rem; background:#eef2f7; border-radius:6px; padding:1px 6px; white-space:nowrap}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="casos-cadeia.html"><strong>Casos</strong></a>
+</nav>
+
+<header class="hero">
+  <h1>Casos reais: validar fornecedores<br>sem teoria — com desfechos verdadeiros</h1>
+  <p>Situações que aconteceram na Europa, como foram decididas, e o que ensinam a quem compra e a quem vende.</p>
+</header>
+
+<main class="wrap">
+  <p class="crumb"><a href="index.html">Início</a> › Casos reais · Cadeia de Abastecimento</p>
+
+  <div class="tese">
+    <strong>Como usar esta página:</strong> cada caso apresenta primeiro a <strong>situação</strong> tal como aconteceu.
+    Antes de abrires o desfecho, responde à pergunta amarela — "o que decidirias?". Só depois clica em
+    <strong>"Como acabou"</strong>. A aprendizagem está na diferença entre a tua decisão e a decisão real.
+  </div>
+
+  <div class="aviso">
+    ⚖️ <strong>Nota de rigor:</strong> os desfechos jurídicos abaixo são decisões reais da autoridade checa dos contratos
+    públicos (ÚOHS) e de tribunais checos e europeus, com o identificador oficial indicado. São jurisprudência
+    <em>checa</em>: o raciocínio transfere-se para Portugal; o precedente, não. Os incidentes internacionais são casos
+    documentados de aprendizagem operacional — não têm valor jurídico. Fontes oficiais no fim da página.
+  </div>
+
+  <h2 class="sec">Caso 1 — Dois hospitais, a mesma exclusão, dois desfechos</h2>
+  <div class="caso">
+    <div class="meta">Chéquia · contratação pública de TIC na saúde · decisões ÚOHS 2022-2024 · liga a: due diligence (GR.CA-6), classificação de fornecedores (GR.CA-7)</div>
+
+    <p><strong>O contexto em 30 segundos.</strong> A autoridade nacional de cibersegurança checa (NÚKIB — o homólogo do
+    nosso CNCS) pode emitir um <em>aviso</em> formal quando identifica uma ameaça séria. A 17-12-2018 emitiu um aviso
+    sobre o uso de tecnologia de dois fabricantes (Huawei e ZTE) em sistemas importantes. Atenção à natureza do ato:
+    um aviso <strong>não é uma proibição</strong> — é um dado oficial de ameaça que cada organização deve processar na
+    <em>sua</em> análise de risco. Quem fiscaliza os concursos é o ÚOHS, a autoridade da concorrência: qualquer
+    requisito que restrinja o mercado tem de estar justificado.</p>
+
+    <div class="ato">
+      <h4>Ato 1 — Hospital A</h4>
+      <p>Um grupo de hospitais lança um concurso conjunto de modernização TIC. Nem sequer eram entidades obrigadas pela
+      lei de cibersegurança da altura. Antes de escrever o caderno de encargos, fizeram o trabalho lento:
+      <strong>análise de risco formal</strong> — ativos primários e de suporte identificados, ameaças, riscos avaliados —
+      usando o aviso do NÚKIB <em>como um dos dados de entrada</em>. Conclusão documentada: para certos componentes, os
+      riscos daqueles fabricantes não eram mitigáveis, ou só a custo desproporcionado. O caderno excluiu globalmente
+      os produtos desses fabricantes. Um interessado impugnou: <em>"restrição injustificada da concorrência!"</em></p>
+    </div>
+
+    <div class="ato">
+      <h4>Ato 2 — Hospital B</h4>
+      <p>Outro adjudicante quis fazer exatamente o mesmo. A lógica da equipa — que vais ouvir na vida real vezes sem
+      conta: <em>"se a autoridade avisou formalmente, quem somos nós para fazer mais estudos? Cita-se o aviso e está
+      fundamentado."</em> Excluíram os mesmos fabricantes <strong>com base na referência ao aviso</strong>, sem análise
+      de risco própria completa. (Numa variante real do mesmo padrão, a análise até existia — mas estava malfeita: nem
+      a identificação dos ativos estava correta.) Um concorrente excluído impugnou com o mesmo argumento.</p>
+    </div>
+
+    <div class="pergunta">🗳️ O que decidirias? A exclusão do Hospital A mantém-se ou cai? E a do Hospital B?
+    Regista a tua resposta antes de abrir.</div>
+
+    <details class="desfecho">
+      <summary>Como acabou — Hospital A</summary>
+      <div class="corpo">
+        <p><span class="veredito ganhou">GANHOU.</span> Decisão do ÚOHS de 19-02-2024
+        (<span class="idcaso">S0628/2023/VZ</span>): a exclusão assentava numa análise de risco devidamente executada —
+        o próprio NÚKIB confirmou em parecer que cumpria os requisitos metodológicos — que identificou riscos não
+        mitigáveis ou de mitigação desproporcionadamente cara. Necessidade objetiva e legítima; e a adoção
+        <strong>voluntária</strong> dos padrões de cibersegurança por entidades não obrigadas foi considerada
+        "racional e legítima". Restrição necessária e proporcional.</p>
+      </div>
+    </details>
+
+    <details class="desfecho">
+      <summary>Como acabou — Hospital B</summary>
+      <div class="corpo">
+        <p><span class="veredito perdeu">PERDEU.</span> Decisão do ÚOHS de 25-08-2022
+        (<span class="idcaso">S0196/2022/VZ</span>): excluir produtos de fabricantes concretos <strong>apenas por
+        referência ao aviso</strong> da autoridade, sem análise de risco própria, é discriminação e obstáculo
+        injustificado à concorrência. Na variante da análise malfeita — decisão de 13-01-2020
+        (<span class="idcaso">S0358/2019/VZ</span>) — o resultado foi o mesmo: análise deficiente não sustenta a
+        restrição.</p>
+        <p style="margin-top:10px"><strong>A mesma exclusão. O mesmo aviso oficial. A diferença foi o trabalho de
+        casa.</strong></p>
+      </div>
+    </details>
+
+    <details class="desfecho">
+      <summary>Epílogo — e se o problema aparecer a meio do concurso?</summary>
+      <div class="corpo">
+        <p>Aconteceu: um hospital percebeu, já com propostas recebidas, que adjudicar violaria um aviso mais recente do
+        NÚKIB (03-09-2025, sobre transferência de dados e administração remota a partir da República Popular da China).
+        Cancelou o procedimento — e o cancelamento foi validado (ÚOHS, 10-03-2026,
+        <span class="idcaso">S0031/2026/VZ</span>): ninguém é obrigado a adjudicar contra a própria segurança, mesmo
+        quando o erro inicial na preparação foi do próprio comprador. O risco é um filme, não uma fotografia — reavaliar
+        a meio e travar é legítimo, <em>se documentado</em>.</p>
+      </div>
+    </details>
+
+    <div class="licao"><strong>Lição 1.</strong> Um aviso de autoridade (ou um alerta ENISA, ou um relatório de
+    <em>threat intelligence</em>) é um <strong>dado de entrada</strong> da análise de risco — nunca a conclusão.</div>
+    <div class="licao"><strong>Lição 2.</strong> A análise de risco documentada é a arma jurídica mais forte do
+    comprador: nos dois processos, foi a sua existência e qualidade que separou vitória de derrota.</div>
+    <div class="licao"><strong>Lição 3.</strong> Entidades fora do âmbito legal podem adotar os padrões
+    voluntariamente — validado expressamente. Em Portugal, o QNRCS aplica-se como referência a todas as organizações.</div>
+    <div class="licao"><strong>Lição 4.</strong> O mínimo documental defensável: ativos identificados, cenários de
+    ameaça, avaliação com critérios, a ligação explícita risco → requisito, e a ponderação de alternativas menos
+    restritivas. Uma dúzia de páginas honestas vale mais do que cem de template.</div>
+    <div class="licao"><strong>Lição 5 (para fornecedores).</strong> Num regime destes, o requisito cosmético é
+    contestável — e ganha-se. A pergunta profissional do fornecedor é sempre: <em>"que risco concreto pretende este
+    requisito mitigar?"</em></div>
+
+    <p style="margin-top:12px; font-size:.92rem; color:var(--cinza)"><strong>Ponte para Portugal:</strong> cá não existe
+    instituto equivalente ao aviso do NÚKIB; o paralelo funcional é o dever de avaliar as vulnerabilidades específicas
+    e as práticas dos fornecedores diretos (art. 28.º do Decreto-Lei n.º 125/2025, espelho do art. 21.º, n.º 3, da NIS2)
+    e, no quadro nacional, os controlos GR.CA-6 e GR.CA-7 do QNRCS v2.</p>
+  </div>
+
+  <h2 class="sec">Caso 2 — O "estado de conforto" (lock-in a caminho do tribunal)</h2>
+  <div class="caso">
+    <div class="meta">Chéquia · Supremo Tribunal Administrativo, 2023 e 2025 · liga a: reversibilidade e fim de contrato (GR.CA-10)</div>
+    <p><strong>A situação.</strong> Uma entidade pública comprou, há muitos anos, um sistema de informação. Sem cláusula
+    de exportação de dados, sem documentação exigida, sem direitos sobre as interfaces. O sistema cresceu — cada nova
+    necessidade, um aditamento com o mesmo fornecedor; cada aditamento, mais um andar de dependência. Duas décadas
+    depois, quer modernizar: <em>"só o fornecedor original consegue mexer naquilo"</em>. Então adjudica-lhe diretamente,
+    invocando a exceção legal da <strong>exclusividade técnica</strong>.</p>
+    <div class="pergunta">🗳️ A exclusividade é tecnicamente real — só aquele fornecedor consegue. O ajuste direto é
+    legítimo?</div>
+    <details class="desfecho">
+      <summary>Como acabou</summary>
+      <div class="corpo">
+        <p><span class="veredito perdeu">NÃO.</span> O Supremo Tribunal Administrativo checo negou-o duas vezes, com uma
+        expressão que vale a aula inteira: a entidade instalou-se no <strong>"estado de conforto"</strong> — manteve e
+        aprofundou a exclusividade com aditamentos sucessivos, sem nunca dar um passo para a limitar, apesar de saber
+        que ia precisar de evoluir o sistema (acórdão de 08-02-2023, <span class="idcaso">1 As 176/2022-99</span>).
+        E não basta alegar que, à data do contrato inicial, não se previa a dependência futura (acórdão de 06-02-2025,
+        <span class="idcaso">8 As 314/2021-123</span>). A exclusividade autoalimentada não abre a porta do ajuste
+        direto — especialmente em TIC.</p>
+        <div class="licao"><strong>Lição.</strong> O lock-in não se resolve na véspera da saída — contratualiza-se no
+        dia da entrada: exportação de dados testada, documentação, direitos de interface, plano de reversibilidade.
+        (Compara com o modelo alemão EVB-IT Cloud: serviço até 6 meses após o fim do contrato + interface de exportação
+        ativa 3 meses + eliminação comprovada.)</div>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="sec">Caso 3 — Kaseya: um fornecedor, ~1.500 vítimas</h2>
+  <div class="caso">
+    <div class="meta">Incidente internacional documentado · julho de 2021 · liga a: criticidade por acesso, monodependência (Toolbox UE, cenário RS1)</div>
+    <p><strong>A situação.</strong> Sexta-feira antes de um feriado nos Estados Unidos. Um grupo de ransomware explora
+    vulnerabilidades numa plataforma que os prestadores de serviços geridos (MSP) usam para administrar remotamente os
+    sistemas dos clientes. A beleza sinistra do vetor: a ferramenta existe <em>precisamente para</em> instalar software
+    à distância em milhares de máquinas. O atacante não invadiu 1.500 organizações — invadiu <strong>uma</strong> e usou
+    o canal de confiança para entregar o ransomware a todas as outras. Muitas vítimas finais nem sabiam que o seu
+    pequeno prestador de informática usava aquela plataforma; uma cadeia de supermercados sueca fechou centenas de
+    lojas porque as caixas registadoras deixaram de funcionar.</p>
+    <div class="pergunta">🗳️ No mapa de fornecedores da tua organização, onde está o "Kaseya" — o prestador ou a
+    ferramenta cujo compromisso atinge tudo ao mesmo tempo? E que controlos do teu lado limitariam o raio da explosão?</div>
+    <details class="desfecho">
+      <summary>O que se aprendeu</summary>
+      <div class="corpo">
+        <p>O incidente de cadeia entrega-se pelo <strong>canal da confiança</strong>: quanto mais privilegiado o acesso
+        do fornecedor, mais curto o caminho do atacante. Três controlos que mudam o desfecho: segmentar e limitar o
+        acesso do MSP (autenticação multifator, cofre de credenciais, acesso apenas quando necessário); cláusula
+        contratual que obriga o prestador a revelar as ferramentas de acesso remoto que usa e a notificar compromissos
+        (a "quarta parte"); e cópias de segurança fora do alcance das credenciais do próprio MSP.</p>
+        <div class="licao"><strong>Lição.</strong> A criticidade de um fornecedor mede-se pelo acesso, impacto e
+        substituibilidade — não pela faturação. O MSP de 8 pessoas com acesso privilegiado a tudo é mais crítico do que
+        o maior contrato da casa.</div>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="sec">Caso 4 — "O centro de assistência tinha de ser cá"</h2>
+  <div class="caso">
+    <div class="meta">Chéquia · Supremo Tribunal Administrativo, 2018 · liga a: requisitos funcionais vs. cosméticos, teste de razoabilidade</div>
+    <p><strong>A situação.</strong> Concursos para equipamento de laboratório. O comprador, com uma preocupação legítima
+    — "se isto avaria, preciso de reparação rápida" — escreve no caderno de encargos: <em>o fornecedor deve dispor de
+    centro de assistência para reparações em território nacional</em>. Parece razoável, não parece? Um concorrente com
+    sede noutro Estado-Membro impugna.</p>
+    <div class="pergunta">🗳️ O requisito sobrevive? E se não: reescreve-o em duas linhas para que sobreviva — mantendo o
+    objetivo (reparação rápida).</div>
+    <details class="desfecho">
+      <summary>Como acabou</summary>
+      <div class="corpo">
+        <p><span class="veredito perdeu">CAIU</span> — por discriminação (acórdãos de 28-08-2018,
+        <span class="idcaso">9 As 195/2017-47</span>, e 05-09-2018, <span class="idcaso">10 As 192/2017-54</span>).
+        O tribunal não negou o objetivo — negou o <strong>meio</strong>: a disponibilidade do serviço alcançava-se por
+        vias menos restritivas — prazos de resposta e de reparação contratualizados, com penalizações — sem amarrar
+        geograficamente o fornecedor. O requisito media a morada, não a capacidade.</p>
+        <div class="licao"><strong>Lição.</strong> Escreve o objetivo de controlo ("tempo de resposta ≤ X horas,
+        reparação ≤ Y dias úteis, penalização Z"), não a tua imagem mental da solução. Nota: localização de
+        <em>dados</em> por exigência legal é outra conversa — diferente da localização da oficina.</div>
+      </div>
+    </details>
+  </div>
+
+  <h2 class="sec">A regra que atravessa todos os casos</h2>
+  <div class="tese">
+    <strong>Primeiro o risco, depois a exigência — e tudo documentado.</strong> Quem fundamenta requisitos numa análise
+    de risco bem feita vê-os sobreviver a impugnações (até exclusões totais de fabricantes); quem atalha — citando
+    avisos, marcas, geografias ou certificados sem ligação ao risco — vê-os cair. E a verificação faz-se em escada:
+    evidência independente primeiro (relatórios de auditoria de período), perguntas dirigidas quando algo não fecha,
+    inspeção só como último degrau. É o que a lei portuguesa pede (art. 28.º do RJC + GR.CA do QNRCS): verificação
+    <em>proporcional</em> — nem fé cega no papel, nem auditoria universal.
+  </div>
+
+  <h2 class="sec">Fontes oficiais (consultadas em 22-07-2026)</h2>
+  <table class="ref">
+    <tr><th>Documento</th><th>Quem</th><th>Ligação</th></tr>
+    <tr>
+      <td>Metodologia "Zadávání veřejných zakázek v oblasti ICT a KB" (compras públicas de TIC e cibersegurança), 09-06-2026, TLP:CLEAR — origem dos casos 1, 2 e 4</td>
+      <td>NÚKIB + ÚOHS + Associação de Contratação Pública (Chéquia)</td>
+      <td><a href="https://portal.nukib.gov.cz/informacni-servis/podpurne-materialy/6a28111231afe3b15e0cada8" target="_blank" rel="noopener">Portál NÚKIB</a> · <a href="https://nukib.gov.cz/cs/infoservis/aktuality/2431-nukib-vydal-metodiku-k-zadavani-verejnych-zakazek-v-oblasti-ict/" target="_blank" rel="noopener">notícia oficial</a></td>
+    </tr>
+    <tr>
+      <td>EU ICT Supply Chain Security Toolbox (13-02-2026) — cenários de risco da cadeia (RS1-RS11)</td>
+      <td>Grupo de Cooperação NIS (Estados-Membros + Comissão Europeia + ENISA)</td>
+      <td><a href="https://digital-strategy.ec.europa.eu/en/library/toolbox-improve-ict-supply-chain-security" target="_blank" rel="noopener">documento</a> · <a href="https://digital-strategy.ec.europa.eu/en/news/eu-launches-new-toolbox-strengthen-ict-supply-chain-security" target="_blank" rel="noopener">notícia</a></td>
+    </tr>
+    <tr>
+      <td>EVB-IT Cloud — condições contratuais-tipo para serviços cloud da administração pública alemã (decisão 2022/01; referidas na lição do caso 2)</td>
+      <td>IT-Planungsrat (Alemanha)</td>
+      <td><a href="https://www.it-planungsrat.de/beschluss/beschluss-2022-01" target="_blank" rel="noopener">página da decisão</a> · <a href="https://www.it-planungsrat.de/fileadmin/beschluesse/2022/Beschluss2022-01_AGB.pdf" target="_blank" rel="noopener">AGB (PDF)</a></td>
+    </tr>
+    <tr>
+      <td>Diretiva (UE) 2022/2555 (NIS2/SRI 2), arts. 21.º e 22.º</td>
+      <td>União Europeia</td>
+      <td><a href="https://eur-lex.europa.eu/eli/dir/2022/2555/oj/por" target="_blank" rel="noopener">EUR-Lex (PT)</a></td>
+    </tr>
+    <tr>
+      <td>Decreto-Lei n.º 125/2025 (Regime Jurídico da Cibersegurança) e Regulamento n.º 756/2026 (QNRCS v2, GR.CA)</td>
+      <td>Portugal · CNCS</td>
+      <td><a href="https://diariodarepublica.pt/dr/detalhe/decreto-lei/125-2025-962603401" target="_blank" rel="noopener">DL 125/2025</a> · <a href="https://diariodarepublica.pt/dr/detalhe/regulamento/756-2026-1134399056" target="_blank" rel="noopener">Reg. 756/2026</a></td>
+    </tr>
+  </table>
+
+  <div class="aviso" style="margin-top:18px">
+    ℹ️ As decisões checas estão descritas conforme a metodologia oficial conjunta NÚKIB+ÚOHS (o próprio regulador que as
+    proferiu). Nomes de "Hospital A/B" e diálogos são simplificação didática; identificadores de processo, datas e
+    desfechos são reais. O incidente Kaseya está amplamente documentado em fontes públicas.
+  </div>
+</main>
+
+<footer class="rodape">
+  Ciclo do Negócio de Cibersegurança · Formação executiva · Nuno Salvador · Casos reais de segurança da cadeia de abastecimento
+</footer>
+</body>
+</html>
