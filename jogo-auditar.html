@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quem quer auditar a Microsoft? · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+.painel-cred{position:sticky; top:0; z-index:5; background:#fff; border-radius:0 0 12px 12px; box-shadow:0 3px 10px rgba(0,0,0,.12); padding:12px 18px; display:flex; gap:24px; align-items:center; flex-wrap:wrap}
+.painel-cred b{font-size:.78rem; color:var(--cinza); text-transform:uppercase; letter-spacing:.03em; display:block}
+.painel-cred .valor{font-size:1.5rem; font-weight:900; color:var(--azul)}
+.fichas{display:flex; gap:4px}
+.ficha{width:18px; height:26px; border-radius:4px; background:var(--azul2)}
+.ficha.gasta{background:#e0e4e9}
+.caso{background:#fff; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.08); margin-top:20px; overflow:hidden}
+.caso-cab{background:var(--azul); color:#fff; padding:12px 18px; font-weight:700}
+.caso-cab small{display:block; font-weight:400; opacity:.8; font-size:.78rem}
+.caso-corpo{padding:18px 20px}
+.enunciado{background:var(--claro); border-radius:10px; padding:14px 16px; margin-bottom:14px}
+.cartas{display:grid; grid-template-columns:1fr; gap:9px}
+.carta{display:flex; gap:12px; align-items:flex-start; text-align:left; background:#fff; border:2px solid #dbe2ea; border-radius:11px; padding:12px 14px; cursor:pointer; font-family:inherit; font-size:.94rem}
+.carta:hover{border-color:var(--azul2); background:#f6faff}
+.carta:disabled{opacity:.55; cursor:default}
+.carta .letra{font-weight:900; font-size:1.15rem; min-width:30px}
+.carta .custo{margin-left:auto; font-size:.8rem; font-weight:700; color:var(--cinza); white-space:nowrap}
+.fb{display:none; margin-top:14px; border-radius:11px; padding:14px 16px}
+.fb.show{display:block}
+.fb.ok{background:#e8f5e9; border-left:5px solid var(--ok)}
+.fb.medio{background:#fff8e1; border-left:5px solid var(--amarelo)}
+.fb.mau{background:#fdecea; border-left:5px solid var(--erro)}
+.just{display:none; margin-top:10px; background:#f7f9fb; border:1.5px dashed #b9c4d0; border-radius:10px; padding:12px 14px; font-size:.92rem}
+.just.show{display:block}
+.btn{margin-top:14px; padding:11px 22px; border:0; border-radius:10px; background:var(--azul); color:#fff; font-weight:700; font-size:.98rem; cursor:pointer; font-family:inherit}
+.btn:hover{background:var(--azul2)}
+.hidden{display:none !important}
+.final{background:#fff; border-radius:14px; box-shadow:0 2px 8px rgba(0,0,0,.1); margin-top:20px; padding:22px}
+.nota-f{font-size:2rem; font-weight:900; color:var(--azul)}
+.ideias{background:var(--claro); border-radius:10px; padding:14px 16px; margin-top:12px}
+.surpresa .caso-cab{background:var(--roxo, #5b2d86)}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="index.html">Início</a> / Jogo · Quem quer auditar a Microsoft?</p>
+  <h1 style="color:var(--azul); margin-bottom:6px">🎯 Quem quer auditar a Microsoft?</h1>
+  <p style="max-width:760px; margin-top:8px">És o <strong>Comité de Risco de Fornecedores</strong>. Tens de proteger a organização — mas dispões apenas de <strong>9 créditos de avaliação</strong>. Se auditares tudo, esgotas os recursos; se confiares em tudo, deixas a organização exposta. Para cada caso, escolhe a carta certa e <strong>justifica em voz alta em 30 segundos</strong>.</p>
+
+  <div class="painel-cred">
+    <div><b>💳 Créditos</b><span class="valor" id="vCred">9</span></div>
+    <div class="fichas" id="fichas"></div>
+    <div><b>🏅 Pontos</b><span class="valor" id="vPts">0</span></div>
+    <div style="margin-left:auto; font-size:.82rem; color:var(--cinza)">🟢 A contratuais básicos (0) · 🔵 B questionário+evidências (1) · 🟣 C relatórios independentes (2) · 🔴 D auditoria direcionada (4) · ⚫ E suspender/escalar (0)</div>
+  </div>
+
+  <div id="jogo"></div>
+  <div class="final hidden" id="final"></div>
+</main>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+
+<script>
+const CUSTOS = {A:0, B:1, C:2, D:4, E:0};
+const CARTAS = {
+ A:'🟢 Controlos contratuais básicos', B:'🔵 Questionário acompanhado de evidências',
+ C:'🟣 Relatórios de auditoria independente e certificações', D:'🔴 Auditoria direcionada (remota ou presencial)',
+ E:'⚫ Suspender, não contratar ou escalar o risco'
+};
+// pts: 3 correta · 1 defensável mas desproporcionada · 0 risco sem tratamento. pen = penalização especial.
+const CASOS = [
+ { t:'Caso 1 · Microsoft 365',
+   e:'A organização utiliza o Microsoft 365 para correio, documentos e colaboração. O serviço é crítico e trata informação sensível. A Microsoft disponibiliza certificações e relatórios de auditorias independentes.',
+   textos:{A:'Confiar na reputação da Microsoft.', B:'Enviar-lhes um questionário de segurança.', C:'Analisar os relatórios independentes (âmbito, ressalvas, período) e auditar o NOSSO tenant: MFA, contas administrativas, partilhas externas, retenção, logging.', D:'Auditar presencialmente os datacenters da Microsoft.', E:'Deixar de utilizar o Microsoft 365.'},
+   certa:'C',
+   pts:{A:0,B:1,C:3,D:0,E:0}, pen:{D:-2},
+   fb:{C:'✔ Exatamente: não auditamos os datacenters — analisamos os relatórios independentes, o contrato e o âmbito das certificações, e auditamos as configurações que são da NOSSA responsabilidade (responsabilidade partilhada: o certificado deles não cobre as tuas partilhas externas mal configuradas).',
+       A:'✘ Reputação não é avaliação. A Microsoft até te dá os relatórios — não os ler é deixar risco material sem tratamento (e a tua metade do serviço, o tenant, fica por auditar).',
+       B:'△ Defensável na intenção, inútil na prática: a Microsoft não responde a questionários individuais — publica relatórios independentes precisamente para isso. Um crédito gasto para receber um link do Trust Portal.',
+       D:'✘ −2 PONTOS: os seguranças de Redmond agradecem a visita e oferecem-te um café antes de te acompanharem à saída. É PRECISAMENTE o erro que este jogo existe para curar: para hyperscalers, recebem-se relatórios — audita-se a NOSSA utilização.',
+       E:'✘ Desproporção total: abandonar um serviço crítico que até disponibiliza evidências de sobra? O risco gere-se — não se foge dele para os braços de um fornecedor pior.'} },
+ { t:'Caso 2 · Fornecedor de tinteiros',
+   e:'Fornece tinteiros e consumíveis. Não tem contas nos nossos sistemas, acesso remoto, integrações, nem contacto com dados da organização.',
+   textos:{A:'Controlos contratuais e de aquisição normais — e seguir em frente.', B:'Enviar questionário de cibersegurança com pedido de evidências.', C:'Exigir relatórios de auditoria independente.', D:'Auditoria direcionada às instalações.', E:'Escalar o risco à gestão.'},
+   certa:'A',
+   pts:{A:3,B:1,C:0,D:0,E:0},
+   fb:{A:'✔ Zero créditos, decisão certa: sem acessos, sem dados, sem integração — os controlos contratuais e de aquisição normais chegam. Auditar cibersegurança a tinteiros é desperdício de recursos que farão falta no fornecedor do ERP.',
+       B:'△ Zelo simpático, crédito desperdiçado: que evidências de cibersegurança pode dar quem não toca em nada digital teu? Proporcionalidade corta nos dois sentidos.',
+       C:'✘ Dois créditos em tinteiros — e depois faltam-te para o fornecedor com acesso privilegiado às bases de dados. O orçamento de avaliação é finito: gasto no sítio errado é risco no sítio certo.',
+       D:'✘ Quatro créditos para auditar... o armazém dos tinteiros? O comité de risco acaba de perder a credibilidade perante as compras — e metade do orçamento.',
+       E:'✘ Escalar o quê, exatamente? "Risco crítico de ficarmos sem toner"? Escalar tudo é o caminho mais rápido para o board deixar de ouvir quando escalares a sério.'} },
+ { t:'Caso 3 · Fornecedor do ERP',
+   e:'Uma pequena empresa mantém o ERP e as bases de dados. Os técnicos acedem remotamente com privilégios elevados. Não tem ISO 27001 nem relatórios independentes — mas aceita apresentar evidências e participar numa avaliação técnica.',
+   textos:{A:'Controlos contratuais básicos — trabalham connosco há anos.', B:'Questionário com evidências.', C:'Pedir relatórios de auditoria independente e certificações.', D:'Auditoria direcionada (pode ser remota) aos controlos relevantes: acessos privilegiados e MFA, registo das intervenções, vulnerabilidades, credenciais, continuidade, resposta a incidentes, subcontratados.', E:'Suspender o contrato até haver certificação.'},
+   certa:'D',
+   pts:{A:0,B:1,C:0,D:3,E:0},
+   fb:{D:'✔ O caso clássico da auditoria direcionada: fornecedor pequeno + acesso privilegiado + sem relatórios independentes + DISPONÍVEL para a avaliação. E repara no âmbito: não se audita a empresa inteira — apenas os controlos relacionados com o serviço prestado. Quatro créditos bem gastos: é aqui que vive o teu risco.',
+       A:'✘ "Trabalham connosco há anos" é exatamente o argumento que o Capítulo 3 do simulador ensina a desconfiar: confiança pessoal não é evidência — e este fornecedor tem as chaves do cofre.',
+       B:'△ Um passo na direção certa, mas curto: com acesso privilegiado às bases de dados, papel não chega — precisas de VER os controlos a funcionar (avaliação técnica), e o fornecedor até aceitou.',
+       C:'✘ Pedir relatórios independentes a quem acabou de te dizer que não os tem? Crédito gasto para receber um encolher de ombros. Lê o caso antes de escolher a carta.',
+       E:'✘ Desproporcionado e contraproducente: o fornecedor está colaborante e o serviço é crítico. Suspender agora criava um incidente de disponibilidade para prevenir um incidente de segurança.'} },
+ { t:'Caso 4 · Plataforma de marcações',
+   e:'Uma plataforma SaaS trata nomes, contactos e marcações dos cidadãos. Não tem acesso à rede interna e a indisponibilidade temporária tem impacto reduzido. O fornecedor disponibiliza políticas e aceita responder a um questionário.',
+   textos:{A:'Controlos contratuais básicos.', B:'Questionário com evidências + requisitos contratuais, notificação de incidentes e proteção de dados.', C:'Exigir relatórios de auditoria independente.', D:'Auditoria direcionada.', E:'Não contratar sem certificação ISO 27001.'},
+   certa:'B',
+   pts:{A:1,B:3,C:1,D:0,E:0},
+   fb:{B:'✔ Proporcional: dados pessoais de cidadãos merecem mais do que confiança (questionário + evidências + cláusulas de notificação e proteção de dados), mas sem acesso à rede e com impacto reduzido, uma auditoria seria excessiva. Um crédito, risco tratado.',
+       A:'△ Defensável pelo impacto reduzido — mas são dados pessoais de CIDADÃOS: o RGPD não desaparece porque a plataforma é pequena. Faltou o questionário e as cláusulas.',
+       C:'△ Defensável mas desproporcionado: dois créditos para um fornecedor sem acesso à rede? A certificação é desejável, não exigível aqui — guarda os créditos para quem tem as chaves.',
+       D:'✘ Quatro créditos numa plataforma de marcações sem acesso interno — o teu orçamento de avaliação morreu no sítio errado.',
+       E:'✘ Exigir ISO 27001 a todos os SaaS pequenos é fechar o mercado aos melhores preços e à inovação — proporcionalidade, sempre. A certificação é UM meio de confiança, não o único.'} },
+ { t:'Caso 5 · Processamento salarial',
+   e:'Um fornecedor processa salários e dados pessoais sensíveis. O serviço é crítico. Apresenta certificação válida e um relatório independente cujo âmbito inclui expressamente o serviço contratado.',
+   textos:{A:'Certificado? Confiar e arquivar.', B:'Enviar ainda assim o questionário completo.', C:'Analisar a validade e o ÂMBITO da certificação, o período e as ressalvas do relatório, o plano de correção, os subcontratantes, a continuidade e a notificação de incidentes.', D:'Auditoria direcionada presencial.', E:'Escalar por tratar dados sensíveis.'},
+   certa:'C',
+   pts:{A:0,B:1,C:3,D:1,E:0},
+   fb:{C:'✔ Ter certificação não encerra a avaliação — é preciso confirmar o que ela realmente cobre: âmbito, período, exceções e não-conformidades, plano de correção, subcontratantes. A certificação é o início da conversa, não o fim.',
+       A:'✘ "Confiar e arquivar" é como falham as organizações com processos bonitos: o certificado pode ter o âmbito errado, ressalvas graves ou estar a caducar — e ninguém leu. Papel não lido = risco não tratado.',
+       B:'△ Redundante: vais pedir por questionário o que o relatório independente já responde melhor. Um crédito para duplicar trabalho — analisa primeiro o que já tens.',
+       D:'△ Defensável em teoria, desproporcionado aqui: há relatório independente com o âmbito CERTO. Quatro créditos para verificar o que um terceiro credível já verificou — guarda a auditoria para quem não tem evidências.',
+       E:'✘ Escalar porquê? O fornecedor apresentou tudo o que devia. Escalar sem fundamento gasta o teu crédito político — que também é um orçamento finito.'} },
+ { t:'Caso 6 · Prestador de serviços geridos',
+   e:'O fornecedor possui contas de administrador de domínio. Sofreu recentemente um ataque de ransomware, não apresentou análise da causa e RECUSA entregar evidências ou aceitar uma avaliação direcionada.',
+   textos:{A:'Manter — sempre trabalhou connosco e nunca nos falhou.', B:'Insistir com um questionário formal.', C:'Pedir os relatórios independentes outra vez, por escrito.', D:'Impor auditoria direcionada imediata.', E:'Suspender/restringir os acessos privilegiados JÁ, escalar o risco à gestão e ponderar a substituição.'},
+   certa:'E',
+   pts:{A:0,B:0,C:0,D:1,E:3},
+   fb:{E:'✔ A decisão dura e certa: admin de domínio + ransomware recente + recusa de evidências = risco crítico ATIVO. Não se aceita um risco destes porque o fornecedor "sempre trabalhou connosco". E a lição-mestra do jogo: um fornecedor crítico que recusa evidências é, ele próprio, o sinal de risco.',
+       A:'✘ "Nunca nos falhou" — até à semana passada, quando foi cifrado por ransomware e decidiu não te contar porquê. A lealdade não é um controlo de segurança.',
+       B:'✘ Questionário a quem RECUSA evidências? Vais receber silêncio em formato de formulário — enquanto as contas de administrador continuam ativas.',
+       C:'✘ Pedir outra vez, por escrito, o que já foi recusado é procrastinação com carimbo de entrada. O relógio do risco não pára por cortesia.',
+       D:'△ O instinto certo (verificar!), mas ele RECUSA — não tens base contratual para impor já, e enquanto negoceias, os acessos privilegiados continuam abertos. Primeiro contém-se (suspender acessos), depois discute-se.'} },
+];
+
+let idx=0, cred=9, pts=0, gastoTotal=0, respostas=[];
+
+function fichasHtml(){
+  let h=''; for(let i=0;i<9;i++) h+=`<div class="ficha ${i<9-cred?'gasta':''}"></div>`;
+  document.getElementById('fichas').innerHTML=h;
+  document.getElementById('vCred').textContent=cred;
+  document.getElementById('vPts').textContent=pts;
+}
+function render(){
+  fichasHtml();
+  if(idx>=CASOS.length) return surpresa();
+  const c=CASOS[idx];
+  const jogo=document.getElementById('jogo');
+  jogo.innerHTML=`<div class="caso">
+    <div class="caso-cab">${c.t}<small>caso ${idx+1} de ${CASOS.length} — escolham a carta e justifiquem em 30 segundos</small></div>
+    <div class="caso-corpo">
+      <div class="enunciado">${c.e}</div>
+      <div class="cartas">${Object.keys(CARTAS).map(k=>`<button class="carta" data-k="${k}"><span class="letra">${k}</span><span>${c.textos[k]}</span><span class="custo">${CUSTOS[k]} créd.</span></button>`).join('')}</div>
+      <div class="fb" id="fb"></div>
+      <div class="just" id="just"><label style="font-weight:600"><input type="checkbox" id="chkJust"> A justificação dita em voz alta falou de <u>acessos</u>, <u>dados</u>, <u>dependência</u> ou <u>impacto</u>? (+1 ponto — honestidade de comité 😉)</label></div>
+      <button class="btn hidden" id="btnNext">Caso seguinte →</button>
+    </div></div>`;
+  jogo.querySelectorAll('.carta').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k;
+    const ganho=c.pts[k] + ((c.pen&&c.pen[k])||0);
+    cred-=CUSTOS[k]; gastoTotal+=CUSTOS[k]; pts+=ganho;
+    respostas.push({caso:c.t, carta:k, certa:c.certa, ganho});
+    jogo.querySelectorAll('.carta').forEach(x=>x.disabled=true);
+    b.style.borderColor = k===c.certa ? 'var(--ok)' : (c.pts[k]>0?'var(--amarelo)':'var(--erro)');
+    const fb=document.getElementById('fb');
+    fb.className='fb show '+(k===c.certa?'ok':(c.pts[k]>0?'medio':'mau'));
+    fb.innerHTML=c.fb[k]+`<div style="margin-top:8px; font-size:.85rem; font-weight:700; color:var(--cinza)">Carta certa: ${c.certa} · ${ganho>=0?'+':''}${ganho} pts · custo ${CUSTOS[k]} créd.</div>`;
+    document.getElementById('just').classList.add('show');
+    document.getElementById('btnNext').classList.remove('hidden');
+    fichasHtml();
+  });
+  document.getElementById('btnNext').onclick=()=>{
+    if(document.getElementById('chkJust').checked){ pts+=1; }
+    idx++; render(); window.scrollTo({top:0,behavior:'smooth'});
+  };
+}
+function surpresa(){
+  const jogo=document.getElementById('jogo');
+  jogo.innerHTML=`<div class="caso surpresa">
+    <div class="caso-cab">🃏 Carta-surpresa<small>a pergunta final</small></div>
+    <div class="caso-corpo">
+      <div class="enunciado"><b>A Microsoft comunica um incidente com possível impacto no Microsoft 365.</b> Vamos agora ao datacenter fazer uma auditoria?</div>
+      <div class="cartas">
+        <button class="carta" data-k="a"><span class="letra">✈️</span><span>Sim — agora temos justificação para a visita a Redmond.</span></button>
+        <button class="carta" data-k="b"><span class="letra">🧯</span><span>Não. Ativamos o processo de incidentes: avaliamos o impacto nos nossos serviços, analisamos os logs do tenant, pedimos informação e o relatório de causa à Microsoft, contemos, e cumprimos as obrigações de notificação aplicáveis.</span></button>
+        <button class="carta" data-k="c"><span class="letra">🙏</span><span>Não fazemos nada — a Microsoft resolve, é para isso que lhes pagamos.</span></button>
+      </div>
+      <div class="fb" id="fb"></div>
+      <button class="btn hidden" id="btnNext">Ver o resultado final →</button>
+    </div></div>`;
+  jogo.querySelectorAll('.carta').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.k;
+    jogo.querySelectorAll('.carta').forEach(x=>x.disabled=true);
+    const fb=document.getElementById('fb');
+    if(k==='b'){ fb.className='fb show ok'; fb.innerHTML='✔ Incidente no fornecedor gere-se com o PROCESSO, não com o passaporte: impacto nos nossos serviços, logs do NOSSO tenant, informação e relatório de causa ao fornecedor, contenção, notificação. A auditoria direcionada pode vir DEPOIS — se as respostas não convencerem.'; }
+    else if(k==='a'){ fb.className='fb show mau'; fb.innerHTML='✘ Outra vez o avião para Redmond?! O incidente não muda o modelo: continua a não ser o teu datacenter. O que muda é a intensidade do ESCRUTÍNIO — relatório de causa, prazos, impacto no teu tenant.'; }
+    else { fb.className='fb show mau'; fb.innerHTML='✘ "A Microsoft resolve" a parte dela — e a TUA parte? O impacto nos teus serviços, os teus logs, as tuas obrigações de notificação como entidade? A responsabilidade partilhada não tira folga durante incidentes.'; }
+    document.getElementById('btnNext').classList.remove('hidden');
+  });
+  document.getElementById('btnNext').onclick=final;
+}
+function final(){
+  if(cred>=0){ pts+=2; }
+  document.getElementById('jogo').innerHTML='';
+  const f=document.getElementById('final'); f.classList.remove('hidden');
+  const dentro = cred>=0;
+  f.innerHTML=`<h2 style="color:var(--azul)">📊 Resultado do Comité</h2>
+    <div class="nota-f">${pts} / 26 pontos</div>
+    <p style="margin-top:6px">${dentro?`✅ Fecharam dentro do orçamento (sobraram ${cred} créditos): +2 pontos.`:`⚠️ Estouraram o orçamento em ${-cred} créditos — na vida real, é a equipa de auditoria a pedir reforço orçamental em novembro.`}</p>
+    <table class="ref" style="margin-top:12px"><tr><th>Caso</th><th>A vossa carta</th><th>Certa</th><th>Pontos</th></tr>
+    ${respostas.map(r=>`<tr><td>${r.caso}</td><td>${r.carta}</td><td>${r.certa}</td><td>${r.ganho>=0?'+':''}${r.ganho}</td></tr>`).join('')}</table>
+    <div class="ideias"><b>🔑 As quatro ideias que este jogo ensina:</b><br>
+    1 · Nem todos os fornecedores são tratados da mesma forma — a avaliação escolhe-se pelo <b>risco</b>, não pelo tamanho ou fama.<br>
+    2 · <b>Certificação não é confiança cega</b> — verifica-se o âmbito, o período e as ressalvas.<br>
+    3 · <b>Auditoria não significa visita presencial</b> — para os grandes, relatórios independentes + auditar a NOSSA utilização; a auditoria direcionada guarda-se para o crítico pequeno com acesso privilegiado.<br>
+    4 · Um fornecedor crítico que <b>recusa evidências</b> é, ele próprio, um sinal de risco.</div>
+    <button class="btn" onclick="location.reload()">↺ Jogar de novo</button>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+render();
+</script>
+</body>
+</html>

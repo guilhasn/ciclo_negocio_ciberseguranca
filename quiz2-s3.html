@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz 2 · Módulo 3 — Ciclo do Negócio de Cibersegurança</title>
+<style>
+  :root{
+    --azul:#1F4E79; --azul2:#2E74B5; --claro:#DEEBF7; --ok:#2e7d32; --okbg:#e8f5e9;
+    --erro:#c62828; --errobg:#fdecea; --cinza:#595959; --borda:#d9d9d9;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:'Segoe UI',Calibri,system-ui,sans-serif; background:#f4f6f9; color:#222; line-height:1.55; padding:24px 12px}
+  .wrap{max-width:760px; margin:0 auto}
+  header{background:var(--azul); color:#fff; border-radius:14px 14px 0 0; padding:26px 28px}
+  header h1{font-size:1.35rem; font-weight:700}
+  header p{opacity:.85; font-size:.95rem; margin-top:6px}
+  .card{background:#fff; border:1px solid var(--borda); border-top:none; border-radius:0 0 14px 14px; padding:28px}
+  .progress{height:8px; background:#e4e9f0; border-radius:99px; margin-bottom:22px; overflow:hidden}
+  .progress > div{height:100%; background:var(--azul2); width:0; transition:width .3s}
+  .qnum{font-size:.85rem; color:var(--cinza); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px}
+  .qtext{font-size:1.12rem; font-weight:600; margin-bottom:18px}
+  .opt{display:block; width:100%; text-align:left; background:#fff; border:1.5px solid var(--borda); border-radius:10px;
+       padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; transition:all .15s; font-family:inherit}
+  .opt:hover:not(:disabled){border-color:var(--azul2); background:var(--claro)}
+  .opt:disabled{cursor:default}
+  .opt.correta{border-color:var(--ok); background:var(--okbg); font-weight:600}
+  .opt.errada{border-color:var(--erro); background:var(--errobg)}
+  .letra{display:inline-block; width:1.6em; font-weight:700; color:var(--azul2)}
+  .feedback{border-radius:10px; padding:14px 16px; margin-top:14px; font-size:.97rem; display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--okbg); border-left:5px solid var(--ok)}
+  .feedback.ko{background:var(--errobg); border-left:5px solid var(--erro)}
+  .feedback b{display:block; margin-bottom:4px}
+  .nav{display:flex; justify-content:flex-end; margin-top:20px}
+  button.next{background:var(--azul); color:#fff; border:none; border-radius:10px; padding:12px 26px; font-size:1rem;
+       cursor:pointer; font-family:inherit; display:none}
+  button.next.show{display:inline-block}
+  button.next:hover{background:var(--azul2)}
+  .resultado{text-align:center; display:none}
+  .resultado.show{display:block}
+  .score{font-size:3rem; font-weight:800; color:var(--azul); margin:14px 0 4px}
+  .nivel{font-size:1.15rem; font-weight:600; margin-bottom:14px}
+  .msg{color:var(--cinza); margin-bottom:22px}
+  .rev{text-align:left; border-top:1px solid var(--borda); padding-top:18px; margin-top:8px}
+  .rev h3{font-size:1rem; color:var(--azul); margin-bottom:10px}
+  .rev-item{font-size:.92rem; margin-bottom:8px; padding-left:22px; position:relative}
+  .rev-item::before{content:attr(data-i); position:absolute; left:0; font-weight:700; color:var(--azul2)}
+  .rev-item.certa::after{content:" ✓"; color:var(--ok); font-weight:700}
+  .rev-item.errada2::after{content:" ✗"; color:var(--erro); font-weight:700}
+  button.retry{background:#fff; color:var(--azul); border:1.5px solid var(--azul); border-radius:10px;
+       padding:12px 26px; font-size:1rem; cursor:pointer; font-family:inherit; margin-top:18px}
+  button.retry:hover{background:var(--claro)}
+  footer{text-align:center; color:var(--cinza); font-size:.82rem; margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quiz 2 · Módulo 3</h1>
+    <p>O processo ISACA, fourth parties, due diligence, cláusulas e verificação proporcional (S6) · 8 perguntas · anónimo</p>
+  </header>
+  <div class="card">
+    <div class="progress"><div id="bar"></div></div>
+    <div id="quiz"></div>
+    <div class="nav"><button class="next" id="btnNext" onclick="proxima()">Próxima pergunta →</button></div>
+    <div class="resultado" id="res">
+      <div class="qnum">Resultado final</div>
+      <div class="score" id="scoreTxt"></div>
+      <div class="nivel" id="nivelTxt"></div>
+      <div class="msg" id="msgTxt"></div>
+      <div class="rev" id="revisao"></div>
+      <button class="retry" onclick="reiniciar()">↻ Repetir o quiz</button>
+    </div>
+  </div>
+  <footer>Ciclo do Negócio de Cibersegurança · Formador: Nuno Salvador</footer>
+</div>
+
+<script>
+const QUESTOES = [
+ {
+  "q": "O que é um 'fourth party'?",
+  "opts": [
+   "Um quarto fornecedor convidado ao procedimento de contratação para aumentar a concorrência de preços",
+   "Um fornecedor do teu fornecedor — o risco propaga-se sem contrato direto",
+   "O quarto e mais elevado nível da escala internacional de criticidade de fornecedores",
+   "Um fornecedor que presta serviços a quatro ou mais clientes do mesmo setor em simultâneo"
+  ],
+  "c": 1,
+  "exp": "O caso MOVEit (2023) mostrou-o em grande: milhares de organizações afetadas por um software que nem sabiam que existia na sua cadeia — era usado pelos fornecedores dos seus fornecedores. Por isso os contratos devem estender as obrigações em cascata aos subcontratados."
+ },
+ {
+  "q": "Segundo o programa de vendor management (ISACA), qual é o primeiro controlo crítico?",
+  "opts": [
+   "Contratar um seguro de cibersegurança abrangente que cubra os incidentes originados nos fornecedores",
+   "Exigir a certificação ISO 27001 a todos os fornecedores ativos como condição de continuidade",
+   "Instalar ferramentas de monitorização técnica diretamente nos sistemas dos fornecedores críticos",
+   "Ter um inventário completo de fornecedores, com um dono por relação"
+  ],
+  "c": 3,
+  "exp": "Não geres o que não conheces — é a 'lacuna-mãe' outra vez, agora nos fornecedores. Inventário central, dono formal por relação e classificação por criticidade são a fundação de todo o programa; sem eles, o resto é teatro."
+ },
+ {
+  "q": "Um fornecedor apresenta um certificado ISO 27001 válido. O que é preciso verificar antes de confiar nele?",
+  "opts": [
+   "Se o âmbito do certificado cobre o serviço que te vai ser prestado",
+   "Se o certificado foi emitido há menos de seis meses por uma entidade certificadora internacional",
+   "Se a entidade certificadora é portuguesa e está devidamente acreditada junto do IPAC",
+   "Nada — a certificação ISO 27001 é a garantia máxima de segurança disponível no mercado"
+  ],
+  "c": 0,
+  "exp": "A armadilha do âmbito: um certificado do escritório-sede não cobre o datacenter de outro país. Verifica-se o âmbito, a validade, o período abrangido, as ressalvas e o plano de correção. A certificação é o início da conversa, não o fim."
+ },
+ {
+  "q": "A tua organização usa Microsoft 365, um serviço crítico. Como se verifica a segurança deste fornecedor?",
+  "opts": [
+   "Realizando uma auditoria presencial anual aos datacenters da Microsoft, ao abrigo do direito de auditoria",
+   "Enviando o questionário de segurança da organização e aguardando a resposta oficial dos serviços da Microsoft",
+   "Analisar os relatórios independentes e auditar a NOSSA utilização (tenant, MFA, partilhas)",
+   "Confiando na reputação, na dimensão e no historial de investimento em segurança do fornecedor"
+  ],
+  "c": 2,
+  "exp": "Ninguém audita os datacenters da Microsoft. A formulação europeia é 'direito de auditar OU de receber relatórios de auditoria' — para hyperscalers, recebem-se os relatórios (com âmbito e ressalvas) e audita-se a nossa metade da responsabilidade partilhada: o certificado deles não cobre as tuas partilhas externas mal configuradas."
+ },
+ {
+  "q": "Um pequeno fornecedor gere o teu ERP com acessos privilegiados, sem certificação nem relatórios independentes — mas aceita ser avaliado. Qual é a verificação proporcional?",
+  "opts": [
+   "Aceitar uma declaração de conformidade assinada pela gerência, arquivando-a no processo do fornecedor",
+   "Auditoria direcionada (pode ser remota), limitada aos controlos relevantes para o serviço",
+   "Exigir a obtenção da certificação ISO 27001 como condição imediata de continuidade do contrato",
+   "Suspender o contrato preventivamente até que existam relatórios de auditoria independente disponíveis"
+  ],
+  "c": 1,
+  "exp": "É o caso clássico da auditoria direcionada: crítico + acesso privilegiado + sem relatórios + disponível para avaliação. E nota o âmbito: não se audita a empresa inteira — apenas os controlos relacionados com o serviço (acessos, MFA, registo de intervenções, vulnerabilidades, continuidade, subcontratados)."
+ },
+ {
+  "q": "Qual destas cláusulas contratuais é a mais crítica num fornecedor Tier 1 — aquela sem a qual 'estás cego'?",
+  "opts": [
+   "Notificação de incidentes num prazo definido em horas",
+   "Desconto progressivo em função do volume anual de serviços contratados e da antiguidade da relação",
+   "Exclusividade setorial — o fornecedor compromete-se a não servir concorrentes diretos da organização",
+   "Renovação automática do contrato por períodos anuais, com atualização de preços indexada à inflação"
+  ],
+  "c": 0,
+  "exp": "Sem cláusula de notificação com prazo, descobres o compromisso do teu fornecedor pela comunicação social — e o TEU prazo de alerta precoce (24h) esgota-se sem saberes. As horas do fornecedor saem do teu prazo: 12-24h para críticos, com canal e conteúdo mínimo definidos."
+ },
+ {
+  "q": "Um fornecedor com contas de administrador sofreu ransomware, não apresenta análise da causa e recusa entregar evidências. O que faz o comité de risco?",
+  "opts": [
+   "Manter a relação nos termos atuais — o histórico de anos de serviço sem falhas fala por si",
+   "Enviar um questionário formal de reavaliação com prazo de resposta alargado de trinta dias",
+   "Aguardar pela data de renovação do contrato para renegociar as condições de segurança em melhor posição",
+   "Suspender ou restringir os acessos privilegiados, escalar à gestão e ponderar a substituição"
+  ],
+  "c": 3,
+  "exp": "Risco crítico ATIVO: acesso privilegiado + incidente recente + recusa de transparência. A lição-mestra: um fornecedor crítico que recusa evidências é, ele próprio, o sinal de risco. Não se aceita porque 'sempre trabalhou connosco' — a lealdade não é um controlo de segurança."
+ },
+ {
+  "q": "Porque é que a avaliação de fornecedores deve ser contínua, e não pontual?",
+  "opts": [
+   "Porque a legislação obriga a repetir o mesmo questionário de avaliação a todos os semestres",
+   "Porque os fornecedores tendem a falsificar sistematicamente as respostas às primeiras avaliações",
+   "Porque o risco muda: subcontratados novos, clouds novas, certificados que caducam",
+   "Porque os auditores externos apenas aceitam evidências de avaliação com menos de noventa dias"
+  ],
+  "c": 2,
+  "exp": "O fornecedor que avaliaste em 2023 pode já não existir na prática: mudou de subcontratado, migrou de cloud, perdeu o responsável de segurança. Monitorização contínua risk-based: revisão anual para Tier 1, reporting periódico, e comunicação obrigatória de alterações relevantes."
+ }
+];
+
+let i = 0, certas = 0, respostas = [];
+const $ = id => document.getElementById(id);
+
+function render(){
+  $('bar').style.width = (i / QUESTOES.length * 100) + '%';
+  const Q = QUESTOES[i];
+  let h = `<div class="qnum">Pergunta ${i+1} de ${QUESTOES.length}</div>`;
+  h += `<div class="qtext">${Q.q}</div>`;
+  Q.opts.forEach((o, k) => {
+    h += `<button class="opt" onclick="responder(${k})"><span class="letra">${'abcd'[k]})</span>${o}</button>`;
+  });
+  h += `<div class="feedback" id="fb"></div>`;
+  $('quiz').innerHTML = h;
+  $('btnNext').classList.remove('show');
+  $('btnNext').textContent = (i === QUESTOES.length - 1) ? 'Ver resultado →' : 'Próxima pergunta →';
+}
+
+function responder(k){
+  const Q = QUESTOES[i];
+  const botoes = document.querySelectorAll('.opt');
+  botoes.forEach(b => b.disabled = true);
+  botoes[Q.c].classList.add('correta');
+  const ok = (k === Q.c);
+  if(ok){ certas++; } else { botoes[k].classList.add('errada'); }
+  respostas.push(ok);
+  const fb = $('fb');
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+  fb.innerHTML = `<b>${ok ? '✓ Correto!' : '✗ Não é essa.'}</b>${Q.exp}`;
+  $('btnNext').classList.add('show');
+}
+
+function proxima(){
+  i++;
+  if(i < QUESTOES.length){ render(); }
+  else { resultado(); }
+}
+
+function resultado(){
+  $('bar').style.width = '100%';
+  $('quiz').innerHTML = '';
+  $('btnNext').classList.remove('show');
+  const pct = Math.round(certas / QUESTOES.length * 100);
+  $('scoreTxt').textContent = `${certas}/${QUESTOES.length}`;
+  let nivel, msg;
+  if(pct >= 90){ nivel = '🏆 Nível: pronto para o board'; msg = 'Excelente. Dominas a gestão de fornecedores — na próxima sessão, desafia o formador.'; }
+  else if(pct >= 70){ nivel = '👍 Nível: CISO em construção'; msg = 'Muito bom. Revê as explicações das perguntas falhadas — normalmente são as armadilhas entre "técnico" e "negócio".'; }
+  else if(pct >= 50){ nivel = '📈 Nível: no bom caminho'; msg = 'Estás a meio da viagem. Sugestão: relê as ideias-chave do módulo na página do Módulo 3.'; }
+  else { nivel = '🌱 Nível: ponto de partida'; msg = 'Sem stress — é exatamente para isto que serve a formação. Volta a este quiz no fim do módulo e compara.'; }
+  $('nivelTxt').textContent = nivel;
+  $('msgTxt').textContent = msg;
+  let rev = '<h3>Revisão rápida</h3>';
+  QUESTOES.forEach((Q, k) => {
+    rev += `<div class="rev-item ${respostas[k] ? 'certa' : 'errada2'}" data-i="${k+1}.">${Q.q.substring(0, 90)}${Q.q.length > 90 ? '…' : ''}</div>`;
+  });
+  $('revisao').innerHTML = rev;
+  $('res').classList.add('show');
+}
+
+function reiniciar(){
+  i = 0; certas = 0; respostas = [];
+  $('res').classList.remove('show');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

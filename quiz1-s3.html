@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz 1 · Módulo 3 — Ciclo do Negócio de Cibersegurança</title>
+<style>
+  :root{
+    --azul:#1F4E79; --azul2:#2E74B5; --claro:#DEEBF7; --ok:#2e7d32; --okbg:#e8f5e9;
+    --erro:#c62828; --errobg:#fdecea; --cinza:#595959; --borda:#d9d9d9;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:'Segoe UI',Calibri,system-ui,sans-serif; background:#f4f6f9; color:#222; line-height:1.55; padding:24px 12px}
+  .wrap{max-width:760px; margin:0 auto}
+  header{background:var(--azul); color:#fff; border-radius:14px 14px 0 0; padding:26px 28px}
+  header h1{font-size:1.35rem; font-weight:700}
+  header p{opacity:.85; font-size:.95rem; margin-top:6px}
+  .card{background:#fff; border:1px solid var(--borda); border-top:none; border-radius:0 0 14px 14px; padding:28px}
+  .progress{height:8px; background:#e4e9f0; border-radius:99px; margin-bottom:22px; overflow:hidden}
+  .progress > div{height:100%; background:var(--azul2); width:0; transition:width .3s}
+  .qnum{font-size:.85rem; color:var(--cinza); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px}
+  .qtext{font-size:1.12rem; font-weight:600; margin-bottom:18px}
+  .opt{display:block; width:100%; text-align:left; background:#fff; border:1.5px solid var(--borda); border-radius:10px;
+       padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; transition:all .15s; font-family:inherit}
+  .opt:hover:not(:disabled){border-color:var(--azul2); background:var(--claro)}
+  .opt:disabled{cursor:default}
+  .opt.correta{border-color:var(--ok); background:var(--okbg); font-weight:600}
+  .opt.errada{border-color:var(--erro); background:var(--errobg)}
+  .letra{display:inline-block; width:1.6em; font-weight:700; color:var(--azul2)}
+  .feedback{border-radius:10px; padding:14px 16px; margin-top:14px; font-size:.97rem; display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:var(--okbg); border-left:5px solid var(--ok)}
+  .feedback.ko{background:var(--errobg); border-left:5px solid var(--erro)}
+  .feedback b{display:block; margin-bottom:4px}
+  .nav{display:flex; justify-content:flex-end; margin-top:20px}
+  button.next{background:var(--azul); color:#fff; border:none; border-radius:10px; padding:12px 26px; font-size:1rem;
+       cursor:pointer; font-family:inherit; display:none}
+  button.next.show{display:inline-block}
+  button.next:hover{background:var(--azul2)}
+  .resultado{text-align:center; display:none}
+  .resultado.show{display:block}
+  .score{font-size:3rem; font-weight:800; color:var(--azul); margin:14px 0 4px}
+  .nivel{font-size:1.15rem; font-weight:600; margin-bottom:14px}
+  .msg{color:var(--cinza); margin-bottom:22px}
+  .rev{text-align:left; border-top:1px solid var(--borda); padding-top:18px; margin-top:8px}
+  .rev h3{font-size:1rem; color:var(--azul); margin-bottom:10px}
+  .rev-item{font-size:.92rem; margin-bottom:8px; padding-left:22px; position:relative}
+  .rev-item::before{content:attr(data-i); position:absolute; left:0; font-weight:700; color:var(--azul2)}
+  .rev-item.certa::after{content:" ✓"; color:var(--ok); font-weight:700}
+  .rev-item.errada2::after{content:" ✗"; color:var(--erro); font-weight:700}
+  button.retry{background:#fff; color:var(--azul); border:1.5px solid var(--azul); border-radius:10px;
+       padding:12px 26px; font-size:1rem; cursor:pointer; font-family:inherit; margin-top:18px}
+  button.retry:hover{background:var(--claro)}
+  footer{text-align:center; color:var(--cinza); font-size:.82rem; margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quiz 1 · Módulo 3</h1>
+    <p>O perímetro real, os casos portugueses, criticidade e aquisição (S5) · 9 perguntas · anónimo</p>
+  </header>
+  <div class="card">
+    <div class="progress"><div id="bar"></div></div>
+    <div id="quiz"></div>
+    <div class="nav"><button class="next" id="btnNext" onclick="proxima()">Próxima pergunta →</button></div>
+    <div class="resultado" id="res">
+      <div class="qnum">Resultado final</div>
+      <div class="score" id="scoreTxt"></div>
+      <div class="nivel" id="nivelTxt"></div>
+      <div class="msg" id="msgTxt"></div>
+      <div class="rev" id="revisao"></div>
+      <button class="retry" onclick="reiniciar()">↻ Repetir o quiz</button>
+    </div>
+  </div>
+  <footer>Ciclo do Negócio de Cibersegurança · Formador: Nuno Salvador</footer>
+</div>
+
+<script>
+const QUESTOES = [
+ {
+  "q": "O que faz parte da cadeia de abastecimento em TIC?",
+  "opts": [
+   "Apenas o hardware e as infraestruturas físicas de comunicações que suportam os serviços digitais",
+   "Só os fornecedores com contrato escrito em vigor e acesso direto aos sistemas de produção",
+   "Hardware, software, armazenamento e distribuição — local ou em cloud",
+   "Somente os serviços cloud subscritos pela organização e os respetivos subcontratados diretos"
+  ],
+  "c": 2,
+  "exp": "A cadeia TIC inclui tudo o que é preciso para fornecer produtos e serviços digitais: hardware, software, redes e serviços associados, incluindo armazenamento e distribuição. Cada elo é um potencial ponto de vulnerabilidade — e o teu perímetro é o perímetro dos teus fornecedores."
+ },
+ {
+  "q": "O que caracteriza um ataque à cadeia de abastecimento?",
+  "opts": [
+   "Usar um fornecedor com acesso aos teus dados e sistemas para se infiltrar",
+   "Atacar diretamente a infraestrutura interna da organização-alvo, explorando vulnerabilidades não corrigidas nos seus sistemas",
+   "Um ataque que afeta exclusivamente empresas de desenvolvimento de software e os seus repositórios de código",
+   "Qualquer incidente de segurança que ocorra nas instalações físicas de um fornecedor ou parceiro comercial"
+  ],
+  "c": 0,
+  "exp": "A definição essencial: o atacante não te ataca a ti — ataca alguém em quem confias e que tem acesso. Por isso é tão difícil de detetar: o veículo é legítimo (uma atualização, um acesso remoto contratado, um componente)."
+ },
+ {
+  "q": "No caso SolarWinds, qual foi o veículo do ataque?",
+  "opts": [
+   "Um email de phishing dirigido aos administradores de sistemas das organizações-alvo, com credenciais falsas",
+   "Uma vulnerabilidade não corrigida nas firewalls de perímetro das dezoito mil organizações afetadas",
+   "Um pen drive infetado distribuído aos participantes numa grande conferência internacional do setor",
+   "Uma atualização legítima do software Orion, com a backdoor escondida"
+  ],
+  "c": 3,
+  "exp": "O ataque upstream clássico: os atacantes comprometeram o fornecedor (a entrada foi uma conta Microsoft 365 da SolarWinds, em 2019) e esconderam a backdoor numa atualização oficial. 18 mil organizações instalaram-na de livre vontade — o update em que confias pode ser o veículo."
+ },
+ {
+  "q": "No caso Target (2013), por onde entraram os atacantes?",
+  "opts": [
+   "Pelo sistema de pagamentos, explorando uma falha conhecida nos terminais de pagamento das lojas físicas",
+   "Pelo fornecedor de ar condicionado, que tinha acessos à rede",
+   "Por um colaborador interno descontente que vendeu as suas credenciais de acesso num fórum da dark web",
+   "Pelo site público de comércio eletrónico da empresa, através de uma injeção de código malicioso"
+  ],
+  "c": 1,
+  "exp": "O caso que abriu os olhos do mundo ao 3rd party risk: 40 milhões de cartões comprometidos por causa dos acessos de um fornecedor de AVAC. A pergunta que ficou para a história: porque é que o fornecedor do ar condicionado tinha acesso à rede — e quem estava a gerir esse acesso?"
+ },
+ {
+  "q": "Qual é a principal lição do caso Vodafone (2022) para a gestão de fornecedores?",
+  "opts": [
+   "As empresas de telecomunicações portuguesas investem menos em cibersegurança do que as congéneres europeias",
+   "Só as grandes empresas com notoriedade pública são alvo de ataques deliberados e coordenados",
+   "A criticidade de um fornecedor mede-se pelo impacto sistémico da sua falha",
+   "Contratar dois operadores de telecomunicações distintos elimina por completo o risco de concentração"
+  ],
+  "c": 2,
+  "exp": "Milhares de organizações foram afetadas sem serem clientes Vodafone (terminais de pagamento, alarmes, comunicações). Para os teus clientes, o teu operador é um fornecedor TEU — e a criticidade avalia-se pelo impacto da falha no negócio, nunca pelo valor da fatura."
+ },
+ {
+  "q": "No caso El Corte Inglés (2025), os dados foram expostos por um fornecedor. Perante o RGPD e os clientes, quem responde?",
+  "opts": [
+   "O fornecedor, porque a falha técnica ocorreu exclusivamente nos sistemas dele e fora do controlo da marca",
+   "Ninguém — tratando-se de um ataque criminoso de terceiros, a responsabilidade das empresas fica excluída",
+   "As seguradoras, através da apólice de responsabilidade civil e do seguro de riscos cibernéticos contratado",
+   "O responsável pelo tratamento — a marca responde perante o titular"
+  ],
+  "c": 3,
+  "exp": "O risco do fornecedor veste o casaco da marca: perante o titular dos dados e a CNPD, responde o responsável pelo tratamento. Escolher mal um subcontratante também é incumprimento — podes subcontratar o trabalho, não a accountability."
+ },
+ {
+  "q": "Como se decide que um fornecedor é Tier 1 (crítico)?",
+  "opts": [
+   "Pelo impacto da sua falha na continuidade do negócio",
+   "Pelo valor anual do contrato — quem representa maior despesa representa necessariamente maior risco",
+   "Pela dimensão da empresa fornecedora, medida pelo número de colaboradores e volume de negócios",
+   "Pela antiguidade e profundidade da relação comercial estabelecida com a organização"
+  ],
+  "c": 0,
+  "exp": "Criticidade = impacto no negócio (a matriz de McFarlan a descer à cadeia): o fornecedor herda a criticidade da função que toca. O contrato do fornecedor de limpeza pode ser maior do que o de quem gere as firewalls — e não é por isso que é Tier 1."
+ },
+ {
+  "q": "Um ataque 'drive-by' caracteriza-se por…",
+  "opts": [
+   "Roubo físico de equipamentos informáticos a partir de viaturas em movimento junto às instalações",
+   "Infeção automática ao visitar um site confiável ou uma imitação, sem ação do utilizador",
+   "Envio massivo de mensagens SMS fraudulentas com links maliciosos para toda a lista de contactos",
+   "Interceção de comunicações em redes wi-fi públicas de centros comerciais e aeroportos"
+  ],
+  "c": 1,
+  "exp": "O utilizador não clica em nada suspeito — basta visitar. É um dos 'mecanismos de entrega de confiança': o atacante compromete um site legítimo (ou cria uma imitação) e o malware entrega-se sozinho. Variante dirigida: o watering hole, que envenena os sites que o teu setor frequenta."
+ },
+ {
+  "q": "Em que momento é máximo o poder negocial do CISO sobre um fornecedor?",
+  "opts": [
+   "Durante a renovação anual do contrato, quando já existe histórico de desempenho para usar na negociação",
+   "Imediatamente após o primeiro incidente de segurança, quando o fornecedor está fragilizado e cede mais",
+   "Antes de assinar o contrato",
+   "Na reunião trimestral de acompanhamento do serviço, com os indicadores de desempenho na mesa"
+  ],
+  "c": 2,
+  "exp": "A regra de ouro da aquisição: o poder é máximo antes de assinar e mínimo no dia seguinte. Por isso os requisitos de segurança entram no caderno de encargos — de preferência como critérios de admissão. Segurança negociada depois da assinatura paga-se a peso de ouro."
+ }
+];
+
+let i = 0, certas = 0, respostas = [];
+const $ = id => document.getElementById(id);
+
+function render(){
+  $('bar').style.width = (i / QUESTOES.length * 100) + '%';
+  const Q = QUESTOES[i];
+  let h = `<div class="qnum">Pergunta ${i+1} de ${QUESTOES.length}</div>`;
+  h += `<div class="qtext">${Q.q}</div>`;
+  Q.opts.forEach((o, k) => {
+    h += `<button class="opt" onclick="responder(${k})"><span class="letra">${'abcd'[k]})</span>${o}</button>`;
+  });
+  h += `<div class="feedback" id="fb"></div>`;
+  $('quiz').innerHTML = h;
+  $('btnNext').classList.remove('show');
+  $('btnNext').textContent = (i === QUESTOES.length - 1) ? 'Ver resultado →' : 'Próxima pergunta →';
+}
+
+function responder(k){
+  const Q = QUESTOES[i];
+  const botoes = document.querySelectorAll('.opt');
+  botoes.forEach(b => b.disabled = true);
+  botoes[Q.c].classList.add('correta');
+  const ok = (k === Q.c);
+  if(ok){ certas++; } else { botoes[k].classList.add('errada'); }
+  respostas.push(ok);
+  const fb = $('fb');
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+  fb.innerHTML = `<b>${ok ? '✓ Correto!' : '✗ Não é essa.'}</b>${Q.exp}`;
+  $('btnNext').classList.add('show');
+}
+
+function proxima(){
+  i++;
+  if(i < QUESTOES.length){ render(); }
+  else { resultado(); }
+}
+
+function resultado(){
+  $('bar').style.width = '100%';
+  $('quiz').innerHTML = '';
+  $('btnNext').classList.remove('show');
+  const pct = Math.round(certas / QUESTOES.length * 100);
+  $('scoreTxt').textContent = `${certas}/${QUESTOES.length}`;
+  let nivel, msg;
+  if(pct >= 90){ nivel = '🏆 Nível: pronto para o board'; msg = 'Excelente. Dominas a gestão de fornecedores — na próxima sessão, desafia o formador.'; }
+  else if(pct >= 70){ nivel = '👍 Nível: CISO em construção'; msg = 'Muito bom. Revê as explicações das perguntas falhadas — normalmente são as armadilhas entre "técnico" e "negócio".'; }
+  else if(pct >= 50){ nivel = '📈 Nível: no bom caminho'; msg = 'Estás a meio da viagem. Sugestão: relê as ideias-chave do módulo na página do Módulo 3.'; }
+  else { nivel = '🌱 Nível: ponto de partida'; msg = 'Sem stress — é exatamente para isto que serve a formação. Volta a este quiz no fim do módulo e compara.'; }
+  $('nivelTxt').textContent = nivel;
+  $('msgTxt').textContent = msg;
+  let rev = '<h3>Revisão rápida</h3>';
+  QUESTOES.forEach((Q, k) => {
+    rev += `<div class="rev-item ${respostas[k] ? 'certa' : 'errada2'}" data-i="${k+1}.">${Q.q.substring(0, 90)}${Q.q.length > 90 ? '…' : ''}</div>`;
+  });
+  $('revisao').innerHTML = rev;
+  $('res').classList.add('show');
+}
+
+function reiniciar(){
+  i = 0; certas = 0; respostas = [];
+  $('res').classList.remove('show');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

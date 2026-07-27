@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo M3 · A Cadeia da EnerVale — Ciclo do Negócio de Cibersegurança</title>
+<style>
+  :root{ --azul:#1F4E79; --azul2:#2E74B5; --claro:#DEEBF7; --fundo:#f4f6f9; --ok:#2e7d32; --okbg:#e8f5e9; --erro:#c62828; --errobg:#fdecea; --cinza:#595959; --borda:#d9d9d9; --amarelo:#8a6d00; --amarelobg:#fff8e1; }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{font-family:'Segoe UI',Calibri,system-ui,sans-serif; background:var(--fundo); color:#222; line-height:1.55}
+  .topo{background:var(--azul); color:#fff; padding:14px 20px; display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+  .topo a{color:#fff; text-decoration:none; opacity:.85; font-size:.92rem}
+  .topo a:hover{opacity:1; text-decoration:underline}
+  .topo .marca{font-weight:700; font-size:1.02rem; margin-right:auto}
+  .wrap{max-width:860px; margin:0 auto; padding:24px 16px 60px}
+  h1{color:var(--azul); font-size:1.45rem; margin:10px 0 4px}
+  .sub{color:var(--cinza); font-size:.95rem; margin-bottom:14px}
+  .medidores{display:flex; gap:10px; flex-wrap:wrap; background:#fff; border:1px solid var(--borda); border-radius:12px; padding:10px 14px; margin:14px 0; position:sticky; top:0; z-index:5; box-shadow:0 2px 6px rgba(0,0,0,.08)}
+  .med{flex:1; min-width:150px}
+  .med .rot{font-size:.78rem; color:var(--cinza); font-weight:700}
+  .barra{height:10px; background:#eee; border-radius:6px; overflow:hidden; margin:3px 0}
+  .barra i{display:block; height:100%; background:var(--azul2); transition:width .4s}
+  .med .val{font-size:.82rem; color:var(--cinza)}
+  .painel{background:#fff; border:1px solid var(--borda); border-radius:12px; padding:20px 22px; box-shadow:0 1px 3px rgba(0,0,0,.05); margin:14px 0}
+  .painel h2{color:var(--azul); font-size:1.12rem; margin-bottom:8px}
+  .etiq{display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; border-radius:99px; padding:3px 10px; background:var(--claro); color:var(--azul); margin-bottom:8px}
+  .ficha{border-left:4px solid var(--azul2); background:var(--claro); border-radius:8px; padding:12px 14px; margin:10px 0; font-size:.95rem}
+  .ficha b{color:var(--azul)}
+  .ops{display:grid; gap:8px; margin-top:12px}
+  .op{background:#fff; border:1.5px solid var(--borda); border-radius:10px; padding:11px 14px; text-align:left; cursor:pointer; font-size:.94rem; font-family:inherit; transition:border .15s}
+  .op:hover{border-color:var(--azul2)}
+  .op:disabled{cursor:default; opacity:.9}
+  .op.certa{border-color:var(--ok); background:var(--okbg)}
+  .op.errada{border-color:var(--erro); background:var(--errobg)}
+  .op.media{border-color:var(--amarelo); background:var(--amarelobg)}
+  .fb{border-radius:8px; padding:11px 14px; margin-top:10px; font-size:.92rem; display:none}
+  .fb.ok{background:var(--okbg); border-left:5px solid var(--ok)}
+  .fb.mau{background:var(--errobg); border-left:5px solid var(--erro)}
+  .fb.medio{background:var(--amarelobg); border-left:5px solid var(--amarelo)}
+  .btn{display:inline-block; background:var(--azul); color:#fff; border:none; border-radius:10px; padding:11px 20px; font-weight:600; font-size:1rem; cursor:pointer; font-family:inherit; margin-top:12px}
+  .btn:hover{background:var(--azul2)}
+  .prog{font-size:.85rem; color:var(--cinza); margin-bottom:6px}
+  .hidden{display:none}
+  .final .num{font-size:2rem; font-weight:800; color:var(--azul)}
+  .regra{background:var(--amarelobg); border-left:5px solid var(--amarelo); border-radius:8px; padding:10px 14px; margin:12px 0; font-size:.92rem}
+  .rodape{text-align:center; color:var(--cinza); font-size:.84rem; padding:26px 16px; border-top:1px solid var(--borda); margin-top:26px}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="simulador.html">🎮 Simulador</a>
+</nav>
+
+<main class="wrap">
+  <h1>🔗 A Cadeia da EnerVale</h1>
+  <div class="sub">Jogo do Módulo 3 · mapear → classificar → controlar → monitorizar · ~15 minutos · as decisões são tuas, as consequências também</div>
+
+  <div class="medidores">
+    <div class="med"><div class="rot">💶 Orçamento</div><div class="barra"><i id="bOrc"></i></div><div class="val" id="vOrc"></div></div>
+    <div class="med"><div class="rot">🛡️ Risco</div><div class="barra"><i id="bRis"></i></div><div class="val" id="vRis"></div></div>
+    <div class="med"><div class="rot">🤝 Confiança do board</div><div class="barra"><i id="bCon"></i></div><div class="val" id="vCon"></div></div>
+    <div class="med"><div class="rot">🏅 Pontos</div><div class="barra"><i id="bPts" style="background:#c9a227"></i></div><div class="val" id="vPts"></div></div>
+  </div>
+
+  <div id="ecra"></div>
+</main>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Jogo pedagógico — a EnerVale, SA e os fornecedores são fictícios; o método é real (QNRCS GR.CA · ISO/IEC 27036 · NIS2)</footer>
+
+<script>
+let S = { orc:100, ris:72, con:50, pts:0, fase:0, idx:0, acertos:0, total:0 };
+function pintar(){
+  const f=(id,v,inv)=>{ const b=document.getElementById(id); b.style.width=Math.max(2,Math.min(100,v))+'%';
+    const bom=inv?v<45:v>55, mau=inv?v>65:v<35; b.style.background=mau?'#b3261e':(bom?'#1e7145':'#c9a227'); };
+  f('bOrc',S.orc,false); f('bRis',S.ris,true); f('bCon',S.con,false);
+  document.getElementById('bPts').style.width=Math.min(100,S.pts)+'%';
+  vOrc.textContent=S.orc+'% disponível'; vRis.textContent=S.ris+' / 100'; vCon.textContent=S.con+' / 100'; vPts.textContent=S.pts+' pts';
+}
+function aplicar(fx){ S.orc=Math.max(0,S.orc+(fx.orc||0)); S.ris=Math.max(0,Math.min(100,S.ris+(fx.ris||0))); S.con=Math.max(0,Math.min(100,S.con+(fx.con||0))); S.pts=Math.max(0,S.pts+(fx.pts||0)); pintar(); }
+
+// ============ FASE 1 — CLASSIFICAR (Tier 1 / Tier 2 / Rotina)
+const FORN = [
+ { n:'VoltGrid GmbH', desc:'Fabricante e mantenedor do sistema de telegestão da rede (o SCADA que comanda subestações e religações). Manutenção remota 24/7 por VPN dedicada. Único fornecedor qualificado para este sistema; substituí-lo levaria anos.',
+   certa:'t1',
+   fb:{ t1:{tipo:'ok', fx:{pts:+10, ris:-2}, txt:'✔ Tier 1, e pelas razões certas: acesso remoto privilegiado a OT, impacto direto no serviço de distribuição, e monodependência — não há alternativa praticável. Falha aqui = falha do negócio (e do dever legal de serviço).'},
+          t2:{tipo:'mau', fx:{pts:-5, ris:+4}, txt:'✘ Subestimado. Acesso remoto permanente ao coração OT da rede + zero substituibilidade = o fornecedor mais crítico da casa. Se o comprometem a ele, comandam a tua rede — é o cenário RS2/RS8 do Toolbox europeu em versão elétrica.'},
+          rt:{tipo:'mau', fx:{pts:-8, ris:+6}, txt:'✘ Rotina?! É o fornecedor com as chaves da sala das máquinas. Revê os três fatores: exposição, impacto, substituibilidade — marca máxima nos três.'} } },
+ { n:'ElectroMontagens Beira, Lda', desc:'Subempreiteiro de construção e manutenção de subestações. É o MAIOR contrato da EnerVale: 2,3 M€/ano. Acesso físico regular às instalações; nenhum acesso lógico aos sistemas.',
+   certa:'t2',
+   fb:{ t1:{tipo:'medio', fx:{pts:+2, orc:-4}, txt:'△ Defensável pelo acesso físico a infraestrutura crítica — mas repara no que te levou ao Tier 1: foi a fatura? A criticidade ciber mede-se por acesso, impacto e substituibilidade, não por euros. Tier 2 com requisitos de acesso físico chega — e poupa o orçamento de diligência para quem tem as chaves lógicas.'},
+          t2:{tipo:'ok', fx:{pts:+10}, txt:'✔ Exato — e esta era a armadilha do jogo: o MAIOR contrato não é o maior risco ciber. Acesso físico relevante (subestações!) justifica requisitos próprios (controlo de acessos, verificação de pessoal), mas sem acesso lógico não é Tier 1. A ordem da faturação não é a ordem da criticidade.'},
+          rt:{tipo:'mau', fx:{pts:-5, ris:+3}, txt:'✘ Rotina é demasiado leve: acesso físico regular a subestações conta — sabotagem e erro também entram pela porta física (o Toolbox trata segurança física da cadeia).'} } },
+ { n:'SentinelaSOC, Lda', desc:'MSSP português de 12 pessoas que monitoriza a rede IT da EnerVale: gere o SIEM, o EDR e tem acessos privilegiados permanentes para responder a incidentes. Contrato: 45 k€/ano — um dos mais pequenos.',
+   certa:'t1',
+   fb:{ t1:{tipo:'ok', fx:{pts:+10, ris:-2}, txt:'✔ Tier 1 — o contrato pequeno com acesso total. Quem compromete o teu MSSP herda os acessos privilegiados dele a TUDO (padrão Kaseya, 2021: um ataque a uma ferramenta de MSP parou ~1.500 organizações a jusante). E nota: como MSSP, ele próprio é entidade regulada — usa isso na diligência.'},
+          t2:{tipo:'mau', fx:{pts:-5, ris:+5}, txt:'✘ Olhaste para os 45 k€? A criticidade mede-se pelo acesso: privilegiado, permanente, a toda a rede. O MSP/MSSP é o canal de confiança preferido dos atacantes — invade-se um, entra-se em todos os clientes.'},
+          rt:{tipo:'mau', fx:{pts:-8, ris:+7}, txt:'✘ É o fornecedor com mais acesso lógico da lista inteira. Volta aos três fatores.'} } },
+ { n:'Faturix Software, SA', desc:'Software house nacional de nicho: o ERP de faturação de energia, com os dados de todos os clientes e as integrações com o mercado regulado. Usado por metade das distribuidoras regionais do país. Migrar levaria 18+ meses.',
+   certa:'t1',
+   fb:{ t1:{tipo:'ok', fx:{pts:+10}, txt:'✔ Tier 1: exposição máxima de dados, impacto direto na receita (sem faturação não há caixa), e lock-in real — 18 meses sem alternativa. E há mais: metade do setor usa o mesmo software — é a monodependência setorial do Toolbox (um incidente na Faturix é um incidente em meia dúzia de distribuidoras ao mesmo tempo).'},
+          t2:{tipo:'mau', fx:{pts:-4, ris:+4}, txt:'✘ Curto. Junta as peças: todos os dados de clientes + processo de receita + substituição a 18 meses + metade do setor no mesmo fornecedor. É Tier 1 por três caminhos diferentes.'},
+          rt:{tipo:'mau', fx:{pts:-8, ris:+6}, txt:'✘ O sistema que fatura 180 M€/ano e guarda os dados de todos os clientes não é rotina em nenhum universo.'} } },
+ { n:'Hiperescalador cloud (correio + portal do cliente)', desc:'Fornecedor global: correio, colaboração e o alojamento do portal do cliente (dados pessoais de ~200 mil clientes). Publica certificações e relatórios de auditoria independentes num portal de confiança.',
+   certa:'t1',
+   fb:{ t1:{tipo:'ok', fx:{pts:+8}, txt:'✔ Tier 1 pelos dados e pelo impacto — mas atenção à consequência prática: Tier 1 NÃO significa "exigir auditoria presencial". Ao hiperescalador, a garantia obtém-se por relatórios independentes (Tipo 2), verificação de âmbito, e — a metade que é tua — a configuração correta do teu lado (MFA, acessos, retenção). Tier alto, verificação proporcional.'},
+          t2:{tipo:'medio', fx:{pts:+3}, txt:'△ Aceitável se fundamentares pela resiliência própria do fornecedor — mas com 200 mil clientes no portal, a exposição de dados puxa-o para Tier 1. O ponto essencial: seja qual for o tier, a verificação é por relatórios + configuração própria, nunca por visita ao datacenter.'},
+          rt:{tipo:'mau', fx:{pts:-6, ris:+5}, txt:'✘ "É a Microsoft, é seguro" é a versão inversa do erro do MSSP: a marca não elimina a avaliação. Os dados de 200 mil clientes estão lá — e metade da segurança (a configuração) é tua.'} } },
+ { n:'LeituraCerta, SA', desc:'Recolha e gestão de dados dos contadores inteligentes: dados de consumo de ~200 mil clientes, com integração diária nos sistemas da EnerVale. Há três empresas equivalentes no mercado; a troca leva ~4 meses.',
+   certa:'t2',
+   fb:{ t1:{tipo:'medio', fx:{pts:+4, orc:-3}, txt:'△ Defensável — a exposição de dados pessoais em massa é um bom fundamento, e num setor com histórico de incidentes seria Tier 1 sem discussão. Mas nota os outros dois fatores: impacto operacional moderado (as leituras atrasam, a rede não pára) e substituibilidade real (3 alternativas, 4 meses). Tier 2 reforçado nos dados chega — não há classificação "certa", há justificações defensáveis; a tua tem de aguentar o contraditório.'},
+          t2:{tipo:'ok', fx:{pts:+10}, txt:'✔ Tier 2 bem fundamentado: dados sensíveis em volume (é o fator que pesa), mas impacto operacional moderado e substituibilidade real (3 alternativas, ~4 meses). Requisitos: proteção de dados a sério e cláusulas de notificação — sem o pacote completo de Tier 1. Nota: Tier 1 também seria defensável pela exposição de dados; o que se avalia é a justificação.'},
+          rt:{tipo:'mau', fx:{pts:-6, ris:+5}, txt:'✘ Dados de consumo de 200 mil clientes, integrados diariamente nos teus sistemas — isto nunca é rotina. Os dados também são um ativo crítico, mesmo quando a operação não pára.'} } },
+ { n:'PapelPlus, Lda', desc:'Economato: papel, consumíveis e material de escritório. Entrega no armazém. Sem qualquer acesso a sistemas, dados ou instalações técnicas.',
+   certa:'rt',
+   fb:{ t1:{tipo:'mau', fx:{pts:-6, orc:-8, con:-4}, txt:'✘ Acabaste de mandar um questionário de 300 perguntas à papelaria. Custo real, garantia zero — é exatamente a burocracia sem redução de risco que o método proíbe. Diligência é um recurso escasso: gasta-o onde há acesso, dados e impacto.'},
+          t2:{tipo:'mau', fx:{pts:-3, orc:-4}, txt:'✘ Ainda é demasiado: sem acesso lógico, sem dados, sem instalações técnicas — cláusulas standard de contrato e mais nada. Guarda o esforço para os que têm as chaves.'},
+          rt:{tipo:'ok', fx:{pts:+8, orc:+2}, txt:'✔ Rotina — e saber dizer "este não precisa de nada especial" vale tanto como identificar os críticos: proporcionalidade funciona para os dois lados. Cláusulas standard, e o teu orçamento de diligência agradece.'} } },
+];
+
+// ============ FASE 2 — CONTROLOS DIFERENCIADOS
+const CTRL = [
+ { n:'SentinelaSOC (Tier 1 — o MSSP com as chaves)', preg:'Que pacote de controlo escreves no contrato?',
+   ops:[
+    { t:'Auditoria presencial anual às instalações do SOC, obrigatória e ilimitada.', tipo:'mau', fx:{pts:-4, con:-3, orc:-6},
+      fb:'✘ Inexequível e contraproducente: nas instalações dele estão os dados dos OUTROS clientes — um SOC sério não pode aceitar, e tu não tens equipa para auditar SOCs. Cláusula maximalista que nunca se exerce = segurança de papel.' },
+    { t:'Relatório independente anual (ou equivalente) + cláusula de notificação de incidente em 4h + MFA e cofre de credenciais nos acessos dele + backups fora do alcance das credenciais do SOC.', tipo:'ok', fx:{pts:+12, ris:-6},
+      fb:'✔ O pacote proporcional: evidência independente por defeito (a escada de evidência), prazos de incidente com dentes, e — o mais importante — controlos TEUS que limitam o raio da explosão se ele for comprometido. É o RS1 do Toolbox tratado por desenho.' },
+    { t:'Questionário anual de 300 perguntas, igual ao dos outros fornecedores.', tipo:'mau', fx:{pts:-5, ris:+4},
+      fb:'✘ O questionário-tapete: autodeclarado, igual para todos, arquivado sem leitura. Para um Tier 1 com acesso privilegiado, precisas de evidência independente e de controlos técnicos do teu lado — não de mais papel.' },
+   ]},
+ { n:'Hiperescalador cloud (Tier 1 — o gigante)', preg:'E ao fornecedor global, o que exiges?',
+   ops:[
+    { t:'Visita da equipa da EnerVale ao datacenter, como condição contratual.', tipo:'mau', fx:{pts:-4, con:-4},
+      fb:'✘ Não vais conseguir — e mesmo que conseguisses, o que é que dois técnicos veriam num datacenter que um auditor profissional não testou melhor? Pedir o impossível distrai do que devias estar a fazer (a tua configuração).' },
+    { t:'Relatórios de auditoria independentes anuais (lê a secção de exceções e o âmbito!) + verificação da NOSSA configuração (MFA, acessos, retenção) + cláusulas de localização de dados e de saída (exportação testada).', tipo:'ok', fx:{pts:+12, ris:-5},
+      fb:'✔ A verificação proporcional em três peças: a evidência independente que ele já produz para todos (verifica o âmbito e lê as exceções primeiro), a responsabilidade partilhada — a configuração é TUA —, e a reversibilidade escrita antes de dependeres. É o padrão que a própria administração pública alemã contratualizou (EVB-IT Cloud).' },
+    { t:'Nada — tem todas as certificações do mundo, é mais seguro do que nós alguma vez seremos.', tipo:'mau', fx:{pts:-6, ris:+6},
+      fb:'✘ Meio caminho certo, conclusão errada: a segurança DELE é provavelmente melhor que a tua — mas metade dos incidentes cloud nascem da configuração do CLIENTE, e essa é tua. A marca não avalia o teu lado do modelo de responsabilidade partilhada.' },
+   ]},
+ { n:'ElectroMontagens Beira (Tier 2 — o acesso físico)', preg:'Requisitos para o subempreiteiro das subestações?',
+   ops:[
+    { t:'Certificação ISO/IEC 27001 obrigatória para manter o contrato.', tipo:'mau', fx:{pts:-4, con:-3},
+      fb:'✘ Desproporcionado e desfocado: a empresa monta quadros elétricos, não trata informação — a certificação custar-lhe-ia mais do que a margem do contrato e não trata o risco real (o físico). Requisito sem ligação ao risco = requisito que um dia cai (pergunta ao acórdão da ANACOM).' },
+    { t:'Controlo de acessos físicos nominal (quem entra, onde, quando) + verificação de idoneidade do pessoal com acesso a subestações + questionário curto + cláusula de comunicação de incidentes de segurança física.', tipo:'ok', fx:{pts:+12, ris:-4},
+      fb:'✔ Proporcional e dirigido ao risco que ele realmente representa: o físico. Requisitos que a empresa consegue cumprir, que tratam o cenário certo, e que não desperdiçam o teu orçamento de diligência.' },
+    { t:'Nada — não toca em sistemas, não é problema de cibersegurança.', tipo:'mau', fx:{pts:-3, ris:+4},
+      fb:'✘ A segurança física das subestações É segurança da rede — sabotagem, erro e acesso indevido entram pela porta. Tier 2 não é "nada": é requisitos certos, dose certa.' },
+   ]},
+];
+
+// ============ FASE 3 — MONITORIZAR
+const MON = [
+ { n:'Seis meses depois — a notícia', desc:'Lês na imprensa do setor: a <b>VoltGrid</b> (o teu fornecedor SCADA, Tier 1) <b>foi comprada por um grupo de fora da União Europeia</b>. O contrato renova-se automaticamente daqui a 4 meses.',
+   ops:[
+    { t:'Ativar o gatilho de "alteração material": reavaliação do fornecedor (propriedade, jurisdição, acesso remoto), pedido de esclarecimentos formal, e plano de contingência antes da renovação.', tipo:'ok', fx:{pts:+12, ris:-4, con:+4},
+      fb:'✔ É para isto que a monitorização existe: a classificação não é uma fotografia da adjudicação. Mudança de dono = mudança de perfil de risco (jurisdição, obrigações legais do novo grupo, pressões possíveis) — reavalias COM método, antes do momento de renovar, enquanto tens alavanca. (E se o contrato tiver o gatilho escrito, nem discussão há.)' },
+    { t:'Ignorar — o serviço continua igual, o contrato está em vigor.', tipo:'mau', fx:{pts:-6, ris:+7},
+      fb:'✘ "Soube pelo jornal e não fiz nada." O serviço está igual; o RISCO não está: quem controla o teu SCADA mudou de mãos e de jurisdição. Daqui a 4 meses renovas às cegas e perdes a única janela de alavanca.' },
+    { t:'Rescindir imediatamente o contrato por precaução.', tipo:'mau', fx:{pts:-5, ris:+8, con:-5, orc:-10},
+      fb:'✘ Rescindir o único fornecedor qualificado do teu SCADA sem alternativa nem plano é trocar um risco possível por uma paragem certa. Primeiro avalia-se (com método — aviso não é proibição, lembras-te dos hospitais?); depois decide-se com alternativas na mesa.' },
+   ]},
+ { n:'O relatório do SOC chegou', desc:'O relatório de auditoria independente anual da <b>SentinelaSOC</b> chegou. Na secção de exceções: <i>"em 3 de 25 amostras, a revogação de acessos de analistas cessados excedeu o prazo definido"</i>.',
+   ops:[
+    { t:'Arquivar — o relatório existe, a cláusula está cumprida.', tipo:'mau', fx:{pts:-5, ris:+5},
+      fb:'✘ Recolher evidência e não a ler é pior do que não a pedir — dá falsa garantia. A secção de exceções é a única parte que se lê PRIMEIRO: é lá que está o valor do relatório.' },
+    { t:'Pedido dirigido por escrito: causa raiz, medidas corretivas com data, e confirmação do auditor (ou evidência de re-teste) — prazo de 15 dias úteis.', tipo:'ok', fx:{pts:+12, ris:-4},
+      fb:'✔ O segundo degrau da escada de evidência: sobre ESTA dúvida, ESTA prova. Analistas cessados com acessos vivos, num fornecedor com credenciais privilegiadas na tua rede, é precisamente a exceção que não se deixa passar. Dois e-mails resolvem — sem viagens, sem drama.' },
+    { t:'Exigir auditoria presencial imediata às instalações do SOC.', tipo:'mau', fx:{pts:-4, con:-3, orc:-8},
+      fb:'✘ Saltaste do degrau 1 para o degrau 3 sem passar pelo 2. A inspeção é o último recurso, para dúvidas que o fornecedor não consiga esclarecer — começa pelo pedido dirigido; se a resposta for evasiva, então sim, escala.' },
+   ]},
+];
+
+// ============ MOTOR
+function ecra(html){ document.getElementById('ecra').innerHTML = html; window.scrollTo({top:0, behavior:'smooth'}); }
+function intro(){
+  ecra(`<div class="painel">
+    <span class="etiq">Missão · Módulo 3</span>
+    <h2>O board mandatou o programa de gestão de terceiros. Agora és tu.</h2>
+    <p style="margin:8px 0">Depois do workshop executivo, a administração da <b>EnerVale, SA</b> (distribuidora regional de energia, 340 colaboradores, ~180 M€, entidade essencial) aprovou o programa de gestão de fornecedores — e entregou-to. O processo tem 4 passos: <b>mapear → classificar → controlos diferenciados → monitorizar</b>.</p>
+    <p style="margin:8px 0">O mapeamento está feito: tens <b>7 fornecedores</b> em cima da mesa. Falta o resto — e cada decisão mexe nos teus medidores.</p>
+    <div class="regra">📏 <b>A régua de classificação (GR.CA-7 do QNRCS):</b> exposição da informação × impacto no negócio × substituibilidade. <b>Nota:</b> o valor do contrato NÃO é um dos fatores. 😉</div>
+    <button class="btn" onclick="S.fase=1;S.idx=0;fase1()">Começar a classificar →</button>
+  </div>`);
+}
+function fase1(){
+  if(S.idx>=FORN.length){ return fase2intro(); }
+  const f=FORN[S.idx];
+  ecra(`<div class="painel">
+    <div class="prog">Fase 1 · Classificar por criticidade — fornecedor ${S.idx+1} de ${FORN.length}</div>
+    <h2>${f.n}</h2>
+    <div class="ficha">${f.desc}</div>
+    <p style="font-size:.92rem; color:var(--cinza)">Aplica a régua: exposição × impacto × substituibilidade.</p>
+    <div class="ops">
+      <button class="op" id="opt1" onclick="respF1('t1')"><b>Tier 1 — Crítico.</b> Diligência aprofundada, evidência independente, cláusulas reforçadas, monitorização contínua.</button>
+      <button class="op" id="opt2" onclick="respF1('t2')"><b>Tier 2 — Relevante.</b> Questionário dirigido, cláusulas de segurança, revisão periódica.</button>
+      <button class="op" id="oprt" onclick="respF1('rt')"><b>Rotina.</b> Cláusulas standard de contrato; sem diligência especial.</button>
+    </div>
+    <div class="fb" id="fb"></div>
+    <button class="btn hidden" id="seg" onclick="S.idx++;fase1()">Seguinte →</button>
+  </div>`);
+}
+function respF1(escolha){
+  const f=FORN[S.idx], r=f.fb[escolha]; S.total++;
+  ['opt1','opt2','oprt'].forEach(id=>document.getElementById(id).disabled=true);
+  const mapa={t1:'opt1',t2:'opt2',rt:'oprt'};
+  document.getElementById(mapa[escolha]).classList.add(r.tipo==='ok'?'certa':(r.tipo==='medio'?'media':'errada'));
+  if(escolha!==f.certa) document.getElementById(mapa[f.certa]).classList.add('certa');
+  if(r.tipo==='ok') S.acertos++;
+  const fb=document.getElementById('fb'); fb.className='fb '+(r.tipo==='ok'?'ok':(r.tipo==='medio'?'medio':'mau')); fb.innerHTML=r.txt; fb.style.display='block';
+  aplicar(r.fx); document.getElementById('seg').classList.remove('hidden');
+}
+function fase2intro(){
+  ecra(`<div class="painel">
+    <span class="etiq">Fase 2 · Controlos diferenciados</span>
+    <h2>Classificar foi metade. Agora: o que exiges a cada um?</h2>
+    <p style="margin:8px 0">A regra do módulo: <b>requisitos proporcionais à criticidade</b> — e ao risco concreto de cada fornecedor, não um pacote igual para todos. Três decisões contratuais à tua frente.</p>
+    <button class="btn" onclick="S.idx=0;fase2()">Decidir os controlos →</button>
+  </div>`);
+}
+function fase2(){
+  if(S.idx>=CTRL.length){ return fase3intro(); }
+  const c=CTRL[S.idx];
+  ecra(`<div class="painel">
+    <div class="prog">Fase 2 · Controlos — decisão ${S.idx+1} de ${CTRL.length}</div>
+    <h2>${c.n}</h2>
+    <p style="margin:6px 0 2px">${c.preg}</p>
+    <div class="ops">${c.ops.map((o,i)=>`<button class="op" id="o${i}" onclick="respF2(${i})">${o.t}</button>`).join('')}</div>
+    <div class="fb" id="fb"></div>
+    <button class="btn hidden" id="seg" onclick="S.idx++;fase2()">Seguinte →</button>
+  </div>`);
+}
+function respF2(i){
+  const c=CTRL[S.idx], o=c.ops[i]; S.total++;
+  c.ops.forEach((_,j)=>document.getElementById('o'+j).disabled=true);
+  document.getElementById('o'+i).classList.add(o.tipo==='ok'?'certa':'errada');
+  const cIdx=c.ops.findIndex(x=>x.tipo==='ok'); if(o.tipo!=='ok') document.getElementById('o'+cIdx).classList.add('certa');
+  if(o.tipo==='ok') S.acertos++;
+  const fb=document.getElementById('fb'); fb.className='fb '+(o.tipo==='ok'?'ok':'mau'); fb.innerHTML=o.fb; fb.style.display='block';
+  aplicar(o.fx); document.getElementById('seg').classList.remove('hidden');
+}
+function fase3intro(){
+  ecra(`<div class="painel">
+    <span class="etiq">Fase 3 · Monitorizar e rever</span>
+    <h2>O risco é um filme, não uma fotografia.</h2>
+    <p style="margin:8px 0">Classificaste, contratualizaste — e o mundo continuou a mexer-se. Dois acontecimentos chegam à tua secretária.</p>
+    <button class="btn" onclick="S.idx=0;fase3()">Reagir →</button>
+  </div>`);
+}
+function fase3(){
+  if(S.idx>=MON.length){ return final(); }
+  const m=MON[S.idx];
+  ecra(`<div class="painel">
+    <div class="prog">Fase 3 · Monitorização — acontecimento ${S.idx+1} de ${MON.length}</div>
+    <h2>${m.n}</h2>
+    <div class="ficha">${m.desc}</div>
+    <div class="ops">${m.ops.map((o,i)=>`<button class="op" id="o${i}" onclick="respF3(${i})">${o.t}</button>`).join('')}</div>
+    <div class="fb" id="fb"></div>
+    <button class="btn hidden" id="seg" onclick="S.idx++;fase3()">Seguinte →</button>
+  </div>`);
+}
+function respF3(i){
+  const m=MON[S.idx], o=m.ops[i]; S.total++;
+  m.ops.forEach((_,j)=>document.getElementById('o'+j).disabled=true);
+  document.getElementById('o'+i).classList.add(o.tipo==='ok'?'certa':'errada');
+  const cIdx=m.ops.findIndex(x=>x.tipo==='ok'); if(o.tipo!=='ok') document.getElementById('o'+cIdx).classList.add('certa');
+  if(o.tipo==='ok') S.acertos++;
+  const fb=document.getElementById('fb'); fb.className='fb '+(o.tipo==='ok'?'ok':'mau'); fb.innerHTML=o.fb; fb.style.display='block';
+  aplicar(o.fx); document.getElementById('seg').classList.remove('hidden');
+}
+function final(){
+  let msg;
+  if(S.acertos>=10) msg='🏆 <b>CISO de cadeia de abastecimento.</b> Classificaste pelo acesso e não pela fatura, exigiste com proporcionalidade e reagiste à mudança com método. É exatamente o processo dos 4 passos — e aguentava uma auditoria.';
+  else if(S.acertos>=7) msg='👍 <b>Bom instinto, método a consolidar.</b> Acertaste no essencial; revê os feedbacks das que falhaste — quase sempre o erro é medir criticidade pela fatura ou saltar degraus na evidência.';
+  else msg='📚 <b>Volta à régua.</b> Exposição × impacto × substituibilidade — nunca o valor do contrato. E a verificação faz-se em escada: relatório → pergunta dirigida → inspeção só em último caso. Joga outra vez: a EnerVale confia em ti.';
+  ecra(`<div class="painel final">
+    <span class="etiq">Fim · Debrief</span>
+    <h2>Resultado</h2>
+    <p class="num">${S.acertos} / ${S.total} decisões certas · ${S.pts} pts</p>
+    <p style="margin:10px 0">${msg}</p>
+    <div class="regra">🧭 <b>O que acabaste de praticar</b> (leva-o para a tua organização): <b>1</b> Mapear fornecedores e fluxos → <b>2</b> Classificar por criticidade (exposição × impacto × substituibilidade — GR.CA-7) → <b>3</b> Controlos diferenciados (a escada de evidência; a configuração que é tua) → <b>4</b> Monitorizar e rever (gatilhos de alteração material; ler as exceções primeiro — GR.CA-9).</div>
+    <p style="font-size:.9rem; color:var(--cinza)">Materiais relacionados: os <a href="casos-cadeia.html">casos reais</a> (os desfechos verdadeiros destes dilemas) e o template de gestão de fornecedores na área Templates.</p>
+    <button class="btn" onclick="S={orc:100,ris:72,con:50,pts:0,fase:0,idx:0,acertos:0,total:0};pintar();intro()">Jogar de novo</button>
+  </div>`);
+}
+pintar(); intro();
+</script>
+</body>
+</html>
