@@ -32,6 +32,7 @@
   <a href="index.html">Início</a>
   <a href="m1.html">Módulo 1</a>
   <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
   <a href="templates.html">Templates</a>
   <a href="simulador.html">🎮 Simulador</a>
   <a href="casos-cadeia.html"><strong>Casos</strong></a>
@@ -307,9 +308,53 @@
     </details>
   </div>
 
+  <h2 class="sec">Caso 6 — Nichirei: o frio parou nove dias (ransomware na cadeia alimentar)</h2>
+  <div class="caso">
+    <div class="meta">Incidente internacional documentado · julho de 2026 · liga a: monodependência e concentração, criticidade por impacto, OT e continuidade (modo degradado), plano de resposta com fornecedores</div>
+    <p><strong>A situação.</strong> 13 de julho de 2026. A Nichirei — a maior operadora de logística refrigerada do
+    Japão, com cerca de 140 centros de distribuição e uns 7.000 veículos refrigerados — é atacada pelo grupo
+    RansomHouse. Ao detetar a intrusão, a empresa faz o que os manuais mandam: desliga preventivamente toda a
+    infraestrutura de TI para conter o avanço. O ataque fica contido — mas o país descobre, em horas, de quantas
+    coisas aquela empresa "invisível" era o elo único. No dia seguinte, a KFC Japão suspende as encomendas online e
+    avisa que pode faltar frango nas suas mais de 1.300 lojas; seguem-se cadeias de sushi e de refeições prontas, os
+    congelados dos supermercados Aeon, refeições escolares interrompidas e até os gelados de um grande fabricante.
+    Ao todo: mais de <strong>cinco mil clientes a jusante</strong> afetados e cerca de <strong>nove dias</strong> de
+    perturbação — sem um único ficheiro cifrado, porque o RansomHouse não cifra: rouba dados e extorque com a ameaça
+    de publicação, que concretizou dias depois na dark web.</p>
+    <p>E há o detalhe que torna este caso diferente de um ransomware "normal": as câmaras frigoríficas são sistemas
+    <strong>OT</strong> (autómatos, sensores e SCADA a garantir os −18 °C). Desligar a TI protegeu os dados — mas
+    interrompeu a <strong>monitorização da cadeia de frio</strong>: produto sem rastreio de tempo e temperatura perde a
+    rastreabilidade sanitária e pode ter de ser descartado. A contenção informática criou um risco de segurança
+    alimentar.</p>
+    <div class="pergunta">🗳️ Qual é a "Nichirei" da tua organização — o fornecedor de logística, comunicações ou
+    operação que nunca aparece nos comités mas de quem tudo depende? Se ele parasse nove dias, aguentavas? E o teu
+    plano de resposta distingue "desligar tudo" de "isolar por zonas"?</div>
+    <details class="desfecho">
+      <summary>Como acabou — e o que se aprendeu</summary>
+      <div class="corpo">
+        <p>A 17 de julho a Nichirei iniciou a recuperação gradual com apoio de uma equipa externa; a 22 o RansomHouse
+        reivindicou o ataque e publicou dados exfiltrados (a empresa confirmou que havia dados pessoais e notificou os
+        afetados); a 24 a operação estava normalizada. As lições da análise: a cadeia de frio é uma
+        <strong>superfície OT</strong> e merece a mesma segmentação que uma subestação elétrica — separar a TI do
+        escritório da automação dos armazéns é o que impede que um ataque no e-mail pare o frio; o modelo
+        <strong>just-in-time amplifica</strong> — com stocks mínimos, quarenta e oito horas de paragem num operador
+        logístico já esvaziam prateleiras; a resposta a incidentes em ambientes OT precisa de <strong>isolamento
+        seletivo por zonas</strong> (desligar tudo deve ser o último recurso, não o primeiro reflexo) e de
+        <strong>modos degradados</strong> (monitorização de temperatura autónoma, procedimentos manuais documentados);
+        e o programa de gestão de terceiros deve <strong>avaliar também a segurança OT dos fornecedores críticos</strong>,
+        não apenas a segurança da informação.</p>
+        <div class="licao"><strong>Lição.</strong> A criticidade mede-se pelo impacto sistémico da falha: a Nichirei
+        não era "um fornecedor de transportes", era o ponto único de falha da cadeia alimentar refrigerada de um país.
+        Classifica os teus terceiros pelo que param quando param — e escreve no contrato a notificação de incidentes,
+        o modo degradado e o plano de continuidade conjunto <em>antes</em> de precisares deles.</div>
+      </div>
+    </details>
+    <p style="font-size:.85rem; color:var(--cinza); margin-top:8px">Fonte: <a href="https://www.linkedin.com/pulse/ataque-%C3%A0-nichirei-julho2026-ransomware-na-cadeia-neves-cybersecurity-ngrdf/" target="_blank" rel="noopener">Guilherme Neves, «Ataque à Nichirei (julho/2026): ransomware na cadeia» — newsletter <em>Cibersegurança para todos</em> (LinkedIn, 27-07-2026)</a>, análise que agrega a imprensa especializada (Dark Reading, The Record, The Japan Times).</p>
+  </div>
+
   <h2 class="sec">A regra que atravessa todos os casos</h2>
   <details class="desfecho">
-    <summary>Abrir a síntese — depois de trabalhares os quatro casos</summary>
+    <summary>Abrir a síntese — depois de trabalhares os casos</summary>
     <div class="corpo">
   <div class="tese" style="box-shadow:none; border-radius:8px">
     <strong>Primeiro o risco, depois a exigência — e tudo documentado.</strong> Quem fundamenta requisitos numa análise
@@ -339,6 +384,11 @@
       <td>EVB-IT Cloud — condições contratuais-tipo para serviços cloud da administração pública alemã (decisão 2022/01; referidas na lição do caso 2)</td>
       <td>IT-Planungsrat (Alemanha)</td>
       <td><a href="https://www.it-planungsrat.de/beschluss/beschluss-2022-01" target="_blank" rel="noopener">página da decisão</a> · <a href="https://www.it-planungsrat.de/fileadmin/beschluesse/2022/Beschluss2022-01_AGB.pdf" target="_blank" rel="noopener">AGB (PDF)</a></td>
+    </tr>
+    <tr>
+      <td>Análise «Ataque à Nichirei (julho/2026): ransomware na cadeia» (27-07-2026) — origem do caso 6; agrega a cobertura da imprensa especializada (Dark Reading, The Record, The Japan Times, Industrial Cyber)</td>
+      <td>Guilherme Neves — newsletter <em>Cibersegurança para todos</em> (LinkedIn)</td>
+      <td><a href="https://www.linkedin.com/pulse/ataque-%C3%A0-nichirei-julho2026-ransomware-na-cadeia-neves-cybersecurity-ngrdf/" target="_blank" rel="noopener">artigo (LinkedIn)</a></td>
     </tr>
     <tr>
       <td><strong>Leitura complementar (Módulo 3):</strong> "Building a Robust Third-Party Risk Management Program in a Connected Ecosystem" (ISACA Journal, vol. 5, 2024) — como montar um programa de gestão do risco de terceiros: cobertura do ecossistema, avaliação híbrida (monitorização contínua + avaliação de controlos), métricas e visualização da cadeia incl. concentração e "nth parties"</td>
