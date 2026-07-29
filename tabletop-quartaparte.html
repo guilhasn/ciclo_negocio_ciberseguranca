@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · O fornecedor do teu fornecedor · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / O fornecedor do teu fornecedor</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">⛓️ O fornecedor do teu fornecedor</h1>
+  <p style="color:var(--cinza)">Ninguém atacou a EnerVale — e mesmo assim está meio parada: uma atualização defeituosa num software que meia cadeia usa deita abaixo vários fornecedores ao mesmo tempo. Quartas partes, concentração escondida e recuperação por prioridades.</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "quartaparte",
+  titulo: "O fornecedor do teu fornecedor",
+  origem: "original",
+  origemTxt: "🧭 Exercício original do curso, no formato dos tabletops do NCSC «Exercise in a Box» — cenário fictício EnerVale, inspirado em falhas sistémicas reais (o episódio global de julho de 2024 com um agente de segurança é o exemplo acabado).",
+  tempo: "30–45 minutos",
+  cenario: "Quinta-feira, 05h40. Uma atualização defeituosa do agente de segurança <b>VigilSoft</b> — usado por milhares de empresas — começa a derrubar sistemas por todo o lado. A EnerVale usa o agente numa parte da frota e trava-o depressa. Mas o dominó vem de fora: o <b>call center em outsourcing está todo em baixo</b> (usavam o VigilSoft em tudo), o <b>fornecedor da faturação</b> foi apanhado nos servidores de integração, e a <b>plataforma de carregamento EV</b> não processa pagamentos porque o prestador de pagamentos DELA também caiu. Ninguém atacou a EnerVale. A EnerVale está meio parada na mesma.",
+  objetivos: [
+    "Perceber o risco das quartas partes: os fornecedores dos teus fornecedores contam — e não assinaste contrato com nenhum deles.",
+    "Descobrir a concentração escondida na carteira (o mesmo software, a mesma cloud, o mesmo subcontratante em todo o lado) antes de ela se revelar sozinha.",
+    "Treinar a resposta a uma falha sistémica sem atacante — triagem, prioridades pela criticidade de negócio, comunicação com vários fornecedores em simultâneo.",
+    "Levar ao board a lição estrutural: o risco não era nenhum fornecedor individual — era a arquitetura da carteira."
+  ],
+  papeis: [
+    { p: "Decisor sénior", d: "arbitra prioridades de recuperação entre áreas que gritam todas ao mesmo tempo." },
+    { p: "Perfil técnico / segurança", d: "distingue o que é nosso do que é dos fornecedores — e valida antes de religar." },
+    { p: "Comunicação", d: "clientes sem call center e postos EV parados: a comunicação faz-se com os canais que restam." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções; no fim exporta o registo." }
+  ],
+  fundo: [
+    { t: "Quartas partes — o que são?", d: "Os subcontratantes e fornecedores dos teus fornecedores: a cloud onde o teu SaaS corre, o agente de segurança que o teu call center instala, o prestador de pagamentos da tua plataforma. Não têm contrato contigo, mas a falha deles chega-te na mesma — pelo teu fornecedor. Por isso a due diligence pergunta pela «cadeia própria» do fornecedor, e os contratos exigem transparência de subcontratação." },
+    { t: "Risco de concentração", d: "Diversificar fornecedores não chega se todos dependerem do mesmo componente por baixo. A concentração esconde-se em camadas: mesma região de cloud, mesmo software de segurança, mesmo subcontratante de suporte. O setor financeiro europeu é obrigado a avaliá-la antes de contratar (DORA — Reg. UE 2022/2554, art. 29.º): é uma régua emprestada que vale para qualquer setor." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · O dominó",
+      nar: "06h30. A frota própria está estabilizada — mas o quadro lá fora piora a cada chamada: call center mudo, faturação com a integração em baixo, postos EV sem pagamentos. Três fornecedores diferentes, <b>a mesma causa-raiz</b>, e o dia de trabalho da EnerVale a começar dentro de 90 minutos.",
+      guia: "A pergunta escondida deste inject: quanto tempo demoram a perceber que as três falhas são a MESMA falha? Quem tiver o mapa de dependências responde em minutos; quem não tiver, descobre pelo Twitter.",
+      pontos: [
+        { q: "Conseguimos responder depressa à pergunta «que fornecedores nossos dependem do VigilSoft»?", sub: ["Existe um mapa de dependências da carteira — ou só o conhecimento disperso nas cabeças?", "A informação da due diligence (a cadeia própria de cada fornecedor) está guardada de forma pesquisável?", "Quanto tempo demorou, neste exercício, a ligar os três incidentes à mesma causa?"] },
+        { q: "O que é nosso e o que é deles — e o que fazemos enquanto não sabemos?", sub: ["A frota própria está mesmo limpa — quem o confirmou e como?", "Suspendemos integrações com os fornecedores afetados por precaução?", "Que serviços nossos degradam já (faturação, apoio ao cliente, EV) e qual é o plano imediato para cada um?"] },
+        { q: "Como comunicamos com três fornecedores em crise ao mesmo tempo?", sub: ["Temos contactos de emergência e prioridade contratual de resposta — ou vamos para a fila como toda a gente?", "Quem, na nossa equipa, é dono de cada relação durante o incidente?", "Que informação lhes pedimos já (âmbito, ETA, plano de recuperação) — por escrito?"] },
+        { q: "O nosso plano de resposta cobre incidentes SEM atacante?", sub: ["O plano de gestão de incidentes trata falhas sistémicas de terceiros — ou só ciberataques?", "Quem ativa a célula de crise quando «não fomos nós o alvo»?", "O modo degradado de cada serviço (call center, faturação) está escrito e treinado?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> os riscos da cadeia gerem-se de forma integrada na gestão de riscos (<b>GR.CA-3</b>) e avaliam-se em contínuo (<b>GR.CA-7</b>) — incluindo os subcontratantes. E atenção à notificação: se o efeito nos NOSSOS serviços for significativo, os prazos do CNCS são nossos (arts. 41.º–44.º do DL n.º 125/2025), tenha havido atacante ou não.",
+      obs: [
+        { t: "Conseguimos responder em minutos — não em dias — à pergunta «quem, na nossa cadeia, depende do componente X?».", rec: "O mapa de dependências constrói-se com o que a due diligence já pergunta (domínio da cadeia própria) — falta guardá-lo pesquisável e mantê-lo vivo.", link: "templates.html#due-diligence", linkTxt: "Questionário de Due Diligence" },
+        { t: "Temos contactos de emergência e prioridade de resposta acordada com os fornecedores críticos.", rec: "A prioridade em crise negoceia-se em contrato (cláusula de apoio em incidentes) e guarda-se no painel por fornecedor.", link: "templates.html#monitorizacao", linkTxt: "Mapa de Monitorização" },
+        { t: "O nosso plano de resposta cobre falhas sistémicas de terceiros — não só ataques dirigidos a nós.", rec: "Acrescenta o cenário «fornecedor(es) em baixo por causa comum» ao plano e ao calendário de exercícios — este tabletop conta como primeiro.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" }
+      ]
+    },
+    {
+      t: "Inject 2 · A concentração escondida",
+      nar: "10h00. O levantamento rápido devolve um retrato desconfortável: <b>4 dos 7 fornecedores críticos correm na mesma região do mesmo hyperscaler</b>; <b>3 usam o VigilSoft</b>; <b>2 partilham o mesmo subcontratante de suporte 24/7</b>. Ninguém escolheu esta arquitetura — ela acumulou-se, contrato a contrato, cada um razoável por si.",
+      guia: "O ponto pedagógico: cada contrato foi individualmente sensato; o risco está na SOMA. É a diferença entre avaliar fornecedores e avaliar a carteira.",
+      pontos: [
+        { q: "Conhecíamos estas concentrações antes de hoje?", sub: ["A classificação de fornecedores olha para dependências partilhadas — ou só para cada fornecedor isolado?", "A informação existia (nas respostas de due diligence) mas ninguém a cruzou?", "De quem seria a responsabilidade de ver este padrão?"] },
+        { q: "Que concentrações aceitamos — e quais limitamos?", sub: ["Diversificar custa dinheiro: onde é que o risco justifica pagar por redundância real?", "Para que serviços exigimos fornecedores com dependências distintas (cloud, região, subcontratantes)?", "Que concentração aceitamos conscientemente — e onde fica escrita essa aceitação?"] },
+        { q: "Os contratos dão-nos visibilidade da cadeia própria dos fornecedores?", sub: ["Exigimos lista de subcontratantes relevantes e aviso de alteração?", "A mudança de um subcontratante crítico é gatilho de reavaliação?", "Pedimos evidência de como o fornecedor gere OS fornecedores dele?"] },
+        { q: "E nós — de que componentes únicos dependemos sem alternativa?", sub: ["Que «pontos únicos de falha» temos na nossa própria operação (um ISP, um datacenter, uma pessoa)?", "O exercício de hoje repetir-se-ia igual com outro componente comum — qual seria o próximo candidato?"] }
+      ],
+      regua: "⚖️ <b>A régua PT (e emprestada):</b> a due diligence cobre a cadeia própria do fornecedor (<b>GR.CA-6</b>; domínio 9 do questionário do curso) e os papéis das partes definem-se ao longo da cadeia (<b>GR.CA-2</b>). O setor financeiro é obrigado a avaliar o <b>risco de concentração TIC</b> antes de contratar (DORA, art. 29.º) — régua emprestada que aqui teria pago o dia.",
+      obs: [
+        { t: "Conhecemos as concentrações da nossa carteira: cloud, componentes comuns, subcontratantes partilhados.", rec: "Cruza as respostas de due diligence num quadro único da carteira — uma tarde de trabalho que compra anos de visibilidade.", link: "templates.html#due-diligence", linkTxt: "Due Diligence (domínio da cadeia própria)" },
+        { t: "A subcontratação relevante dos nossos fornecedores exige transparência e aviso de alteração — por contrato.", rec: "A cláusula de subcontratação (lista, aprovação prévia, aviso de mudança) tem texto-modelo pronto.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais" },
+        { t: "O risco de concentração entra na classificação e nas decisões de compra — não só o risco de cada fornecedor isolado.", rec: "Acrescenta o fator «dependências partilhadas» à avaliação de exposição da Matriz e à decisão da SCA (F9).", link: "templates.html#matriz", linkTxt: "Matriz de Classificação" }
+      ]
+    },
+    {
+      t: "Inject 3 · Recuperar por camadas",
+      nar: "14h00. O fabricante publicou a correção — mas aplicá-la exige <b>intervenção manual, máquina a máquina</b>, também nos fornecedores. Todos vos prometem «prioridade máxima». O call center estima 48h; a faturação quer religar a integração «já»; a plataforma EV pede que aceitem pagamentos <b>em modo degradado, sem a validação antifraude completa</b>. Não dá para tudo ao mesmo tempo — e o batch das 2h não espera.",
+      guia: "Triagem sob pressão: a ordem de recuperação decide-se pela criticidade de NEGÓCIO (o mapa que a EnerVale fez no Módulo 1), não pela ordem dos telefonemas nem por quem grita mais alto.",
+      pontos: [
+        { q: "Quem recupera primeiro — e quem decide?", sub: ["A prioridade vem do mapa de criticidade (faturação > call center > EV?) ou negoceia-se à hora?", "As prioridades de recuperação estavam pré-definidas nalgum plano?", "Quem tem autoridade para dizer «o EV espera até amanhã»?"] },
+        { q: "Religar integrações: com que validação?", sub: ["Que verificações fazemos antes de reabrir a integração da faturação (integridade, versões, credenciais)?", "Aceitamos o modo degradado do EV sem antifraude — com que limites e por quanto tempo?", "Quem assina estas exceções de risco?"] },
+        { q: "Os SLAs falharam todos ao mesmo tempo — e agora?", sub: ["Os contratos tratam falhas sistémicas como força maior — sabemos ao certo?", "Penalidades: acioná-las agora ajuda a recuperação ou só azeda relações?", "Que evidência guardamos desde já (tempos, comunicações, impactos) para a conversa contratual de depois?"] },
+        { q: "O que dizemos a clientes e ao regulador durante a recuperação?", sub: ["Sem call center: que canais restam e que mensagem sai (site, SMS, redes)?", "Se a indisponibilidade da faturação se prolongar, em que ponto o incidente se torna «significativo» para efeitos de notificação?", "A ERSE e o CNCS ouvem de nós a mesma história — quem garante a coerência?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a recuperação prioriza-se pela criticidade de negócio (o McFarlan do Módulo 1 a pagar-se); exceções de risco (religar sem validação completa) decidem-se e <b>assinam-se</b> por quem tem autoridade E suporta o impacto. Se o impacto nos nossos serviços se tornar significativo: prazos dos arts. 41.º–44.º.",
+      obs: [
+        { t: "As prioridades de recuperação estão pré-definidas pela criticidade de negócio — não se negoceiam durante a crise.", rec: "O mapa de criticidade (McFarlan + BIA) responde «quem primeiro» antes de a pergunta doer; falta só escrevê-lo no plano.", link: "templates.html#matriz", linkTxt: "Matriz + BIA" },
+        { t: "Religamos integrações com validação e com as exceções de risco formalmente aceites.", rec: "Checklist de religação (integridade, versões, credenciais) e assinatura de exceções — duas páginas que evitam o segundo incidente.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" },
+        { t: "Sabemos o que os contratos dizem sobre falhas sistémicas e força maior — antes de precisar de o discutir.", rec: "Lê a cláusula de níveis de serviço e força maior dos teus Tier 1 esta semana — e regista o que faltar para a próxima renovação.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais" }
+      ]
+    },
+    {
+      t: "Inject 4 · A lição estrutural",
+      nar: "Segunda-feira. Tudo religado, ninguém foi «atacado», e o board quer o relatório: <b>«como é que meia empresa parou por causa de um software que nem usávamos em todo o lado?»</b> A resposta honesta não aponta a nenhum fornecedor — aponta à <b>estrutura da carteira</b>. E a pergunta seguinte é a que interessa: o que muda?",
+      guia: "Fechar com decisões estruturais, não com culpados: o valor do exercício mede-se pelo que entra no programa TPRM na terça-feira de manhã.",
+      pontos: [
+        { q: "O que entra já no programa de gestão de terceiros?", sub: ["Mapa de dependências vivo (incluindo quartas partes) com dono e revisão periódica?", "Fator de concentração na classificação e nas novas compras?", "Requisitos de diversidade (cloud/região/subcontratante) para serviços que se suportam mutuamente?"] },
+        { q: "Como se conta isto ao board — em linguagem de negócio?", sub: ["«Risco de concentração» traduzido em euros e horas de paragem deste episódio?", "Que apetite de risco propomos: o que aceitamos, o que pagamos para diversificar?", "Que decisões pedimos ao board — e quais tomamos nós?"] },
+        { q: "Que exercícios passam a fazer parte do calendário?", sub: ["Cenários sistémicos (falha comum, região cloud, subcontratante partilhado) e não só ataques dirigidos?", "Com que fornecedores críticos treinamos em conjunto (a régua pede-o)?", "Quem garante que as ações deste relatório não morrem na gaveta?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> integrar o risco da cadeia na gestão de riscos e na estratégia (<b>GR.CA-3</b>), testar os planos com o acompanhamento dos fornecedores (<b>GR.CA-8</b>) e monitorizar ao longo da relação (<b>GR.CA-9</b>). A lição estrutural escreve-se nos instrumentos — senão evapora com a adrenalina.",
+      obs: [
+        { t: "O risco de concentração está na gestão de risco e nas decisões de compra — com apetite definido e aceite.", rec: "Leva o quadro de concentrações ao comité de risco e fixa limites por escrito — a decisão consciente vale mais do que a diversificação cega.", link: "templates.html#politica-tprm", linkTxt: "Política TPRM" },
+        { t: "O board conhece as dependências estruturais da operação — antes de elas aparecerem nas notícias.", rec: "Um slide por trimestre: as 5 maiores concentrações, o que mudou, o que se decidiu. Linguagem de negócio, números do episódio.", link: "m1.html", linkTxt: "Módulo 1 (a linguagem do board)" },
+        { t: "Treinamos cenários sistémicos com regularidade — incluindo com os fornecedores críticos à mesa.", rec: "Repete este tabletop com outro componente comum no papel do VigilSoft — e uma vez por ano, joga-o COM um fornecedor crítico convidado.", link: "tabletop.html", linkTxt: "Exercícios Tabletop" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 O dominó real de julho de 2024 parou aeroportos, hospitais e televisões — sem um único atacante. No curso: o caso <a href='casos-cadeia.html'><b>Kaseya</b></a> mostra a versão maliciosa do mesmo mecanismo, e a fase <b>Operar</b> d'<a href='processo.html#f5'><b>O Processo</b></a> é onde o mapa de dependências vive."
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>

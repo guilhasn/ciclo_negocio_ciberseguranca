@@ -33,7 +33,7 @@
   function renderCapa() {
     return `
     <div class="tt-cartao">
-      <p class="tt-origem">🇬🇧 Adaptado do exercício <em>${esc(EX.origem)}</em> do NCSC «Exercise in a Box» (UK Crown Copyright) — tradução livre e cenário fictício EnerVale. ${EX.tempo} · discussão em grupo, sem respostas certas.</p>
+      <p class="tt-origem">${EX.origemTxt ? EX.origemTxt : `🇬🇧 Adaptado do exercício <em>${esc(EX.origem)}</em> do NCSC «Exercise in a Box» (UK Crown Copyright) — tradução livre e cenário fictício EnerVale.`} ${EX.tempo} · discussão em grupo, sem respostas certas.</p>
       <h2>O cenário</h2>
       <p>${EX.cenario}</p>
       <h2>Objetivos</h2>

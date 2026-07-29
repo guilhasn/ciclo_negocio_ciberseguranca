@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · Fim de linha — o fornecedor vai-se embora · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / Fim de linha</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">🚪 Fim de linha — o fornecedor vai-se embora</h1>
+  <p style="color:var(--cinza)">O fabricante do teu sistema mais crítico é comprado e anuncia o fim do suporte. Ninguém te atacou — e mesmo assim é dos piores dias do teu mandato. Sinais, negociação sem alavancas, e a saída ordenada.</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "saida",
+  titulo: "Fim de linha — o fornecedor vai-se embora",
+  origem: "original",
+  origemTxt: "🧭 Exercício original do curso, no formato dos tabletops do NCSC «Exercise in a Box» — cenário fictício EnerVale.",
+  tempo: "30–45 minutos",
+  cenario: "O <b>SCADA/ADMS</b> da EnerVale — a torre de controlo da rede elétrica — é fornecido pela <b>GridWare Systems</b>. O dossier do simulador já avisava: o contrato de suporte <b>termina dentro de 18 meses</b>. Numa terça-feira de manhã, a GridWare anuncia ao mercado que foi <b>adquirida pela Vertex Industrial</b> — e que a linha de produto ADMS entra em <em>end-of-sale</em> imediato, com <em>end-of-support</em> em 24 meses. Nenhum atacante, nenhum incidente — e ainda assim o risco sobre o sistema mais crítico da casa acabou de mudar de escalão.",
+  objetivos: [
+    "Testar se a saída de um fornecedor crítico está pensada ANTES de ser precisa — reversibilidade, dados, conhecimento, alternativas.",
+    "Treinar a leitura dos sinais de degradação de um fornecedor (pessoas, SLA, roadmap) como gatilhos de reavaliação.",
+    "Discutir a negociação quando o poder negocial está do outro lado — e o que os contratos deviam ter fixado quando estava do nosso.",
+    "Ensaiar a terminação ordenada: sem perder dados, sem deixar acessos vivos, sem partir a operação."
+  ],
+  papeis: [
+    { p: "Decisor sénior", d: "responde pelo orçamento plurianual e pela decisão migrar-ou-renovar — e vai ter de a explicar ao board." },
+    { p: "Compras / jurídico", d: "conhece o contrato, as cláusulas de cessação e as alavancas (as que existem e as que faltaram)." },
+    { p: "Perfil técnico / OT", d: "vive com o SCADA: integrações, dependência de conhecimento, o que custa mesmo migrar." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções; no fim exporta o registo." }
+  ],
+  fundo: [
+    { t: "Porque é que isto é um incidente (sem atacante)?", d: "A cessação de um fornecedor crítico — por aquisição, insolvência, descontinuação ou litígio — degrada a segurança e a continuidade tal como um ataque: patches que deixam de vir, conhecimento que debanda, contratos que expiram. É por isso que a régua trata a saída como parte do ciclo de vida (GR.CA-10) e a banca europeia é obrigada a ter <em>exit strategies</em> escritas antes de precisar delas (EBA GL/2019/02, secção 15)." },
+    { t: "Lock-in — o «estado de conforto»", d: "Quanto mais crítico o sistema e mais longa a relação, maior o custo de mudar: formatos proprietários, integrações acumuladas, conhecimento que só existe na cabeça de duas pessoas (nossas e deles). O caso 2 da página Casos mostra onde isto acaba: a caminho do tribunal. A defesa constrói-se no contrato — reversibilidade, dados em formatos abertos, apoio à transição — quando o poder negocial ainda é nosso." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · O anúncio",
+      nar: "O comunicado da Vertex fala em «sinergias» e «roadmap unificado». O email do novo gestor de conta, mais direto: <b>end-of-sale imediato; end-of-support do vosso ADMS em 24 meses; convidamos-vos a conhecer a plataforma do grupo</b>. O COO pergunta à mesa: «isto é grave?» — e a resposta honesta depende de documentos que ainda ninguém abriu hoje.",
+      guia: "Deixa o grupo perceber sozinho a pergunta central: a resposta a este anúncio devia estar escrita há anos (estratégia de saída). Se o grupo for de outra organização: troca o SCADA pelo sistema crítico com o contrato mais antigo da casa.",
+      pontos: [
+        { q: "Temos uma estratégia de saída documentada para ESTE fornecedor?", sub: ["Existe em papel — ou só na cabeça de alguém?", "Quando foi escrita e revista? Cobre este cenário (descontinuação por aquisição) ou só a insolvência?", "Quanto tempo precisaríamos, de forma realista, para sair: 12, 24, 36 meses?"] },
+        { q: "O que diz o contrato sobre cessação e transição?", sub: ["Há obrigação de apoio à migração? Por quanto tempo e a que preço?", "Os dados e configurações são exportáveis em formatos abertos — está escrito?", "Existe escrow de código-fonte ou garantias para descontinuação?", "A mudança de controlo (change-of-control) dava-nos algum direito — aviso, renegociação, rescisão?"] },
+        { q: "Qual é a nossa dependência real — para lá do software?", sub: ["Que integrações vivem em cima do ADMS (AMI, portal, previsão)?", "Quantas pessoas — nossas e deles — conhecem a nossa instalação a fundo?", "Que hardware e protocolos ficam órfãos com o fim do suporte?"] },
+        { q: "De quem é esta decisão — e quando tem de estar tomada?", sub: ["É uma decisão de TI, de compras ou do board? (dica: um sistema essencial parado responde-se ao regulador)", "Que datas-limite reais existem entre hoje e o end-of-support?", "O que acontece se não decidirmos nada este ano?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a gestão da cadeia inclui as obrigações <b>para o início e para o término</b> da utilização dos serviços (<b>GR.CA-1</b> e <b>GR.CA-10</b> do QNRCS v2) — e a regra do curso: <em>a aquisição inclui a operação e a saída</em>. A mudança de controlo do fornecedor é um gatilho de reavaliação (Fase 5 do Processo).",
+      obs: [
+        { t: "Temos estratégias de saída documentadas para os fornecedores críticos — escritas antes de serem precisas.", rec: "Copia a pergunta da banca (EBA, secção 15): «conseguíamos sair deste fornecedor em N meses sem parar o serviço?» — e escreve a resposta no dossier de cada Tier 1.", link: "processo.html#f6", linkTxt: "O Processo · Fase 6 — Sair" },
+        { t: "Sabemos o que os contratos críticos garantem na cessação: transição, dados, formatos, prazos.", rec: "Reversibilidade, apoio à transição e dados exportáveis negoceiam-se ANTES de assinar — há texto-modelo pronto nas cláusulas.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais" },
+        { t: "Conhecemos a dependência real de cada fornecedor crítico: integrações, conhecimento, hardware.", rec: "O mapa de criticidade faz-se com a Matriz e com o inventário de integrações — antes do anúncio, não depois.", link: "templates.html#matriz", linkTxt: "Matriz de Classificação" }
+      ]
+    },
+    {
+      t: "Inject 2 · A degradação",
+      nar: "Seis meses depois. Os tempos de resposta do suporte <b>triplicaram</b>; dois tickets críticos estão abertos há semanas; os <b>dois engenheiros da GridWare que conheciam a vossa instalação</b> saíram para a concorrência (o LinkedIn conta tudo); e uma vulnerabilidade média no módulo de comunicações <b>não tem patch previsto</b>. Formalmente, o contrato ainda está em vigor.",
+      guia: "O tema aqui é a monitorização a apanhar a degradação ANTES de doer — e a gestão de risco enquanto se opera um sistema crítico com suporte a definhar.",
+      pontos: [
+        { q: "Os nossos gatilhos de reavaliação estão a disparar — ou só damos por isto quando parte alguma coisa?", sub: ["O Mapa de Monitorização acompanha SLA, rotação de pessoas-chave e roadmap dos críticos?", "A saída de engenheiros que conhecem a nossa instalação consta de algum indicador?", "Quem recebe estes sinais — e com que autoridade para agir?"] },
+        { q: "Que alavancas contratuais temos — e vale a pena usá-las?", sub: ["Penalidades por SLA falhado: acioná-las ajuda ou acelera o divórcio?", "Direito a relatórios ou auditoria: pedir evidência do plano de suporte remanescente?", "Registar formalmente cada incumprimento — quem o está a fazer?"] },
+        { q: "Operar um SCADA com suporte degradado: que mitigações compensam já?", sub: ["Reforçar o isolamento e a monitorização da rede OT enquanto não há patches?", "Congelar alterações não essenciais ao sistema?", "Capturar conhecimento agora: documentação, formação interna, contratar quem saiu?"] },
+        { q: "E se houver uma avaria grave amanhã de manhã?", sub: ["O plano de contingência do SCADA (modo manual) aguenta com o suporte neste estado?", "Quando foi o último simulacro do modo manual — e com que resultado?", "O fornecedor ainda tem capacidade real de resposta 24/7 para nós?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> fornecedores avaliados periodicamente (<b>GR.CA-4</b>) e desempenho monitorizado ao longo da relação (<b>GR.CA-9</b>); a evidência pede-se por relatórios ou auditoria, com proporcionalidade (art. 28.º do DL n.º 125/2025). Mitigar enquanto se decide também é gestão de risco — documentada.",
+      obs: [
+        { t: "A nossa monitorização deteta a degradação de um fornecedor crítico antes de ela nos parar.", rec: "KPIs/KRIs com limiares e gatilhos fora do ciclo (pessoas-chave, SLA, roadmap) — o painel por fornecedor já os traz.", link: "templates.html#monitorizacao", linkTxt: "Mapa de Monitorização" },
+        { t: "Sabemos operar temporariamente um sistema crítico com suporte degradado — com mitigações escritas.", rec: "Isolamento reforçado, congelamento de mudanças, captura de conhecimento: um mini-plano de risco aprovado, não improviso.", link: "templates.html", linkTxt: "BIA + BCP (Templates)" },
+        { t: "Usamos as alavancas contratuais quando o fornecedor falha — com registo formal de cada incumprimento.", rec: "O registo de incumprimentos é a tua munição na negociação seguinte (e no litígio, se lá chegar) — o Mapa tem onde o guardar.", link: "templates.html#monitorizacao", linkTxt: "Mapa de Monitorização" }
+      ]
+    },
+    {
+      t: "Inject 3 · A proposta que não se recusa",
+      nar: "A Vertex apresenta a «oferta de transição»: <b>renovação do suporte por 3 anos com +40% de preço</b>, ou migração para a plataforma do grupo <b>com desconto — se assinarem em 60 dias</b>. Nas entrelinhas: sem acordo, o end-of-support pode «ser revisto». O CFO olha para os números; o COO olha para a rede; todos olham para vocês.",
+      guia: "É a lição central do curso vivida ao contrário: o poder negocial era máximo antes de assinar — há 6 anos. Agora negoceia-se com o que ficou escrito (ou não ficou). Vale a pena o grupo sentir esse desconforto.",
+      pontos: [
+        { q: "Com que alavancas entramos nesta negociação?", sub: ["O que ficou no contrato há 6 anos que ainda nos protege?", "O registo de incumprimentos dos últimos meses vale alguma coisa à mesa?", "Ser cliente-referência no setor elétrico tem valor para o novo dono?"] },
+        { q: "Quais são as alternativas reais — e o custo verdadeiro de mudar?", sub: ["Que concorrentes existem para o nosso perfil (dimensão, protocolos, região)?", "O custo de mudança inclui: migração de dados e históricos, integrações, requalificação, paragens — alguém já o quantificou?", "Há opção intermédia: suporte de terceiros especializado para ganhar tempo?"] },
+        { q: "Como se apresenta esta decisão ao board?", sub: ["Migração = investimento plurianual (CAPEX) vs renovação = resgate recorrente (+40% OPEX) — qual é a narrativa honesta?", "Que riscos vão agarrados a cada opção — e quem os assume formalmente?", "O que recomendamos e com que critérios de reversão?"] },
+        { q: "Se decidirmos migrar: o que tem de ficar garantido ANTES de anunciar a decisão à Vertex?", sub: ["Suporte assegurado durante toda a migração (por escrito)?", "Exportação de dados e configurações validada com um teste real?", "O conhecimento crítico capturado — antes de a relação azedar?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> requisitos e condições de saída integram-se nos contratos <b>na Fase 4 do Processo</b> (<b>GR.CA-5</b>) — esta negociação é o preço de não o ter feito. O caso 2 da página Casos («estado de conforto») mostra o mesmo filme com final em tribunal.",
+      obs: [
+        { t: "Conhecemos o custo real de mudar de cada fornecedor crítico — calculado antes de precisarmos dele.", rec: "O custo de saída é um campo da avaliação de risco do fornecedor, não uma surpresa da negociação: acrescenta-o à classificação.", link: "templates.html#matriz", linkTxt: "Matriz de Classificação" },
+        { t: "Temos alternativas mapeadas para os fornecedores críticos — o mercado não acaba no incumbente.", rec: "A consulta ao mercado (SCA F3) não é só para compras novas: repete-a periodicamente para os críticos, mesmo sem intenção de mudar.", link: "sca.html", linkTxt: "SCA Framework (F3)" },
+        { t: "Decisões renovar-vs-migrar chegam ao board como decisões de negócio com risco quantificado — não como ultimato técnico.", rec: "Factos, impacto, opções com custo e risco, recomendação — o formato executivo que o curso treina desde o Módulo 1.", link: "m1.html", linkTxt: "Módulo 1 (a linguagem do board)" }
+      ]
+    },
+    {
+      t: "Inject 4 · A saída ordenada",
+      nar: "Decidiram migrar. Dezoito meses de projeto depois, chega <b>o dia da desconexão final</b> da GridWare: exportar e validar os dados e históricos, arquivar configurações e documentação, <b>revogar os acessos remotos</b> (aquele acesso permanente de manutenção…), devolver licenças e equipamento, obter o <b>certificado de destruição</b> dos dados que ficaram lá — e garantir que o novo fornecedor entra no ciclo com tudo o que faltou ao antigo.",
+      guia: "O fecho é executável ou não é fecho: a pergunta de cada linha é «quem fez, quem verificou, onde está a evidência?». E a última pergunta do exercício olha para a frente: o que muda nos contratos futuros.",
+      pontos: [
+        { q: "A checklist de terminação: quem executa e quem VERIFICA?", sub: ["Inventário final fechado — incluindo backups e cópias em quartas partes?", "Revogação de acessos confirmada nos logs (não «pedida» — verificada)?", "Quem assina o fecho de cada bloco?"] },
+        { q: "Os dados: o que levamos, em que formato, quem valida?", sub: ["Históricos de telemetria e eventos: completos e legíveis fora da plataforma antiga?", "Teste de integridade feito por quem vai USAR os dados, não só por quem os exporta?", "O que fica na GridWare — e com que certificado de destruição?"] },
+        { q: "Os acessos do fornecedor antigo: temos o inventário TODO?", sub: ["VPNs, contas de serviço, certificados, tokens de integração — a lista está completa?", "E os acessos «esquecidos»: o técnico que ainda tinha a password no portátil?", "Monitorização atenta a tentativas de acesso pós-cessação?"] },
+        { q: "O que muda nos contratos futuros — a começar pelo do novo fornecedor?", sub: ["Que cláusulas teriam mudado este filme há 6 anos: reversibilidade, formatos abertos, escrow, apoio à transição, change-of-control?", "O novo contrato já nasce com estratégia de saída escrita?", "Quem garante que esta lição não se perde quando esta equipa mudar?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> <b>GR.CA-10</b> — disposições para as atividades durante e após a cessação: o contrato acaba numa data, a relação só acaba com o último acesso revogado e o último dado devolvido ou destruído com evidência. É a Fase 6 do Processo — e a fase «sair» do Capítulo 4 do simulador.",
+      obs: [
+        { t: "Conseguimos sair de um fornecedor crítico sem perder dados nem deixar acessos vivos — com evidência de cada passo.", rec: "O offboarding executável em 6 blocos, com campos de evidência, responsável e assinaturas, já existe pronto a usar.", link: "templates.html#terminacao", linkTxt: "Checklist de Terminação" },
+        { t: "Os contratos novos já nascem com plano de saída, reversibilidade e formatos abertos.", rec: "Fecha o ciclo: as cláusulas de saída entram no caderno de encargos do PRÓXIMO fornecedor — enquanto o poder negocial é teu.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais" },
+        { t: "As lições desta saída ficaram no processo — não na memória de quem cá estava.", rec: "Reavalia a maturidade do programa depois do projeto: é a forma de provar ao board que a organização aprendeu.", link: "templates.html#maturidade", linkTxt: "Avaliação de Maturidade TPRM" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 Volta a correr o exercício com outro fornecedor crítico no papel da GridWare — a resposta devia ser cada vez mais curta. No curso: a fase <b>Sair</b> está n'<a href='processo.html#f6'><b>O Processo</b></a>, o offboarding executável é a <a href='templates.html#terminacao'><b>Checklist de Terminação</b></a>, e o <a href='casos-cadeia.html'><b>caso «estado de conforto»</b></a> mostra o custo de adiar esta conversa."
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>
