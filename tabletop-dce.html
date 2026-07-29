@@ -34,6 +34,14 @@
   .estado.show{display:block}
   .estado.ok{background:var(--okbg); border-left:5px solid var(--ok)}
   .estado.erro{background:var(--errobg); border-left:5px solid var(--erro)}
+  .selo-av{display:inline-block; font-weight:800; font-size:.78rem; border-radius:99px; padding:3px 12px; margin:8px 0 2px}
+  .selo-av.b{background:var(--okbg); color:var(--ok)}
+  .selo-av.m{background:var(--amarelobg); color:var(--amarelo)}
+  .selo-av.x{background:var(--errobg); color:var(--erro)}
+  .caixa-ciso{background:#f6f1ff; border-left:5px solid #5b2d86; border-radius:8px; padding:10px 14px; margin:6px 0 2px; font-size:.92rem}
+  .caixa-ciso .tit{color:#5b2d86; font-weight:800}
+  .sintese{background:var(--claro); border-radius:10px; padding:14px 18px; margin:10px 0 16px}
+  .sintese .numeros{font-size:1.05rem; font-weight:700; color:var(--azul)}
 </style>
 </head>
 <body>
@@ -67,7 +75,7 @@
     <p style="margin-top:10px">Distribuam papéis dentro do grupo (não precisam de ser formais): <strong>CISO</strong> (lidera),
     <strong>COO</strong> (operação clínica), <strong>Jurídico/DPO</strong> (obrigações legais), <strong>Comunicação</strong> (stakeholders).</p>
     <div class="aviso">⏱️ Em cada fase têm um tempo-alvo. Decidam com a informação que têm — na vida real também não vão ter mais.
-    Não há respostas "certas" reveladas durante o exercício: o debrief é no plenário.</div>
+    Durante o exercício não se revelam respostas "certas"; no fim, o <strong>debrief do CISO</strong> avalia cada decisão como o faria um responsável de segurança com muitos anos de campo.</div>
     <label for="grupo">Nome do grupo *</label>
     <input id="grupo" maxlength="40" placeholder="ex.: Grupo 2 — Célula de Crise Norte">
     <label for="membros">Primeiros nomes dos elementos (opcional)</label>
@@ -99,14 +107,13 @@
   <!-- ECRÃ FINAL -->
   <section class="painel" id="ecra-final" style="display:none">
     <span class="fase-tag">Fim do exercício</span>
-    <h2 style="color:var(--azul); margin:12px 0 10px">O registo de decisões do vosso grupo</h2>
+    <h2 style="color:var(--azul); margin:12px 0 10px">🧭 Debrief do CISO — as vossas decisões, avaliadas</h2>
+    <p style="font-size:.92rem; color:var(--cinza)">Cada decisão foi avaliada como o faria um CISO com muitos anos de operação: ✔ alinhada com a prática · ⚠️ defensável, com reservas · ✘ um caminho que a experiência ensina a evitar. Onde havia mais do que uma resposta profissional válida, o critério de escolha está explicado.</p>
+    <div class="sintese" id="sintese"></div>
     <div id="resumo"></div>
-    <h3 style="color:var(--azul); margin:20px 0 6px">Entregar ao formador</h3>
-    <p style="font-size:.93rem; color:var(--cinza)">Copiem o registo de decisões (botão abaixo), colem-no na <strong>Ficha de Respostas Word</strong> — onde acrescentam a vossa reflexão final — e enviem-na ao formador conforme combinado em sala.</p>
     <p style="margin-top:16px">
-      <button class="botao" onclick="copiar()" id="btnCopiar">📋 Copiar registo de decisões</button>
-      <a class="botao sec" href="fichas/Ficha_Tabletop_DCE.docx" download>📄 Descarregar Ficha Word</a>
-      <button class="botao sec" onclick="descarregar()">💾 Guardar registo (.txt)</button>
+      <button class="botao" onclick="copiar()" id="btnCopiar">📋 Copiar registo + debrief</button>
+      <button class="botao sec" onclick="descarregar()">💾 Guardar registo + debrief (.txt)</button>
     </p>
     <div class="estado" id="estado"></div>
   </section>
@@ -243,7 +250,7 @@ const FASES = [
      "Só a CNPD — os dados são o único problema confirmado",
      "Só os doentes — as autoridades já sabem do incidente"],
     cons:["Conjunto completo: NIS2 (serviço), RGPD/CNPD (dados) e titulares (alto risco com dados de saúde). Três obrigações distintas, três relógios distintos.",
-     "O incidente de SERVIÇO continua a existir para a NIS2 — o relatório final (1 mês) é devido na mesma.",
+     "O incidente de SERVIÇO continua a existir para a NIS2 — o relatório final (30 dias úteis) é devido na mesma.",
      "A comunicação aos titulares não substitui as notificações às autoridades — são obrigações separadas."]},
    {q:"D13. As 3 medidas prioritárias para a administração (escolham o pacote mais defensável):", opts:[
      "1) Cláusulas obrigatórias de segurança/notificação/auditoria em todos os contratos críticos; 2) segmentação e credenciais dedicadas nas integrações com terceiros; 3) exercícios regulares de crise com fornecedores críticos",
@@ -255,6 +262,38 @@ const FASES = [
   ]
  }
 ];
+
+/* Debrief do CISO: avaliação por decisão. best = alinhada(s) com a prática; ok = defensável com reservas; resto = a evitar. */
+const AV = [
+ [ // Fase 1
+  { best:[0], ok:[1], ciso:`Contenção é uma decisão de risco, não um favor à técnica — e sem visibilidade própria sobre os sistemas do fornecedor (os logs são da MedSoft), manter a ligação é confiar às cegas. Um CISO experiente isola cedo mas não às escuras: coordena com o COO, ativa o modo papel no mesmo movimento e regista hora e fundamento da decisão. Manter com monitorização reforçada só seria defensável com telemetria própria sobre aquela ligação — que aqui não existe. Na prática: os primeiros 15 minutos de um incidente determinam as próximas 48 horas.` },
+  { best:[0], ciso:`Ativa já. Desconvocar uma célula por falso alarme custa uma anedota na máquina do café; ativá-la três horas tarde custa prazos legais queimados e decisões que ninguém tomou. O gatilho de ativação escreve-se no plano antes do incidente — e «fornecedor crítico + impacto clínico» é gatilho disparado. Informar a administração «na segunda-feira» acaba sempre da mesma maneira: ela sabe primeiro por terceiros, e a primeira pergunta passa a ser sobre vocês, não sobre o atacante.` },
+  { best:[0], ciso:`O relógio é vosso e arranca com o vosso conhecimento do impacto — se dependesse da confirmação do fornecedor, bastava ao fornecedor calar-se para nenhum prazo existir. Rigor da régua portuguesa: concluindo-se que o incidente é significativo, o alerta inicial ao CNCS segue em ≤24 horas a partir dessa conclusão (arts. 41.º–44.º do DL n.º 125/2025). E não trocar réguas: o alerta NIS2 mede impacto no serviço; os dados pessoais têm relógio próprio — o do RGPD.` }
+ ],
+ [ // Fase 2
+  { best:[0], ciso:`Submete com a incerteza declarada — «em investigação, impacto em avaliação» é linguagem que o CNCS lê todos os dias; silêncio acumulado é que não tem leitura boa. O «quadro completo» nunca chega dentro do prazo num incidente a decorrer, e a sondagem informal é pior do que nada: cria registo de que sabiam sem notificar. Heurística de campo: notifica cedo, corrige depois — a atualização (≤72h) existe exatamente para isso.` },
+  { best:[0,1], ciso:`Duas respostas profissionais e uma armadilha. Manter com papel é a resposta certa SE a capacidade existir de facto — agendas impressas ainda hoje, equipas reforçadas, circuito manual para farmácia e exames. Cancelar as não urgentes é a resposta certa quando essa capacidade não existe: reduz risco clínico e gere expectativas. O critério não é coragem, é capacidade real, medida com o COO ao lado — é para isto que a BIA e o BCP existem. «Decidir às 7h» é a armadilha: a essa hora já não há como avisar 340 pessoas; adiar a decisão foi decidi-la.` },
+  { best:[0], ciso:`As contas de integração são a ponte entre as duas casas — e tráfego invulgar na véspera é o rasto clássico de quem a atravessou. Rodar credenciais partilhadas e caçar na própria rede custa horas; assumir que «o problema é deles» pode custar o hospital. Em incidente de fornecedor, a heurística é sempre a mesma: primeiro fecham-se as pontes (credenciais, VPN, integrações), depois pergunta-se se era preciso.` }
+ ],
+ [ // Fase 3
+  { best:[0,2], ciso:`Inegociável: as notificações às autoridades são vossas, e nenhum fornecedor vos «empresta» o incumprimento dele — a responsabilidade legal não se transfere. Já na comunicação pública há espaço de gestão: silêncio temporário pode ser prudente, desde que temporizado pela vossa estratégia — nunca pela negociação de terceiros com criminosos. Por isso tanto a recusa frontal como o «autoridades sim, público por agora» são posições de CISO; as 48 horas de silêncio total são assinar o incumprimento por procuração.` },
+  { best:[0], ciso:`O relógio do RGPD arranca com o conhecimento razoável da violação — e uma amostra num site de leaks com dados que parecem vossos é conhecimento razoável a trabalhar desde já. Com dados de saúde (categoria especial), a avaliação de risco puxa quase de certeza a comunicação aos próprios doentes (art. 34.º). Esperar pela «confirmação formal» de um fornecedor em negociação com atacantes é entregar-lhes o vosso prazo de 72 horas de bandeja.` },
+  { best:[0], ciso:`Um canal, um dono, um registo. Em crise, a comunicação com o fornecedor centraliza-se em quem gere o incidente — o CISO — com guião aprovado pela célula e tudo por escrito: cada chamada registada vale ouro no relatório final e num eventual litígio. O gestor de conta não sabe o que pode prometer; o advogado assessora, não gere. No campo, a comunicação descontrolada mata mais respostas a incidentes do que os próprios atacantes.` }
+ ],
+ [ // Fase 4
+  { best:[0], ciso:`A história sai esta noite com ou sem vocês — a única variável é se sai com a vossa versão dentro. Declaração curta, factual e humana: incidente num fornecedor, medidas tomadas, doentes primeiro, autoridades notificadas. «Sem comentários» com hospitais em papel à vista de todos escreve a história por vós; negar hoje o que se confirma amanhã converte um incidente de segurança num incidente de credibilidade — e para credibilidade não há backup.` },
+  { best:[0], ciso:`O conselho de administração não gere firewalls — gere risco, dinheiro e reputação. As cinco linhas certas: factos, impacto, decisões já tomadas, próximos passos, e o que precisam do CA (mandato? orçamento? porta-voz?). A cronologia técnica é para o relatório final; o litígio é conversa para daqui a semanas. Falar a língua do board na pior hora é o que distingue o CISO que se senta à mesa daquele que espera lá fora.` }
+ ],
+ [ // Fase 5
+  { best:[0], ciso:`Três obrigações, três réguas, três relógios — e nenhuma substitui outra. CNCS pela NIS2 (o serviço foi atingido; o relatório final segue em 30 dias úteis), CNPD pelo RGPD (violação de dados pessoais confirmada) e a comunicação aos doentes (art. 34.º — com dados de saúde, o alto risco é quase automático). O erro clássico de campo: «as autoridades já sabem». Saber informalmente não é ser notificado formalmente — e é o registo formal que vos protege.` },
+  { best:[0], ciso:`A pergunta de um CISO experiente não é «quem nos fez isto?» — é «o que falhou de NOSSO?». A MedSoft foi o vetor; a causa-raiz foi a InterMed sem instrumentos: contrato de 6 anos sem cláusula de notificação nem auditoria, integrações sem segmentação nem credenciais dedicadas, zero exercícios com fornecedores. O pacote defensável ataca exatamente essas três falhas — cláusulas, segmentação, exercícios — e é executável e mensurável já. Trocar de fornecedor, processar e «comprar seguro» são reações de conforto: nenhuma impede o próximo sábado às 17h47.` }
+ ]
+];
+const ROTULO = { b:"✔ Alinhada com a prática de um CISO experiente", m:"⚠️ Defensável, com reservas", x:"✘ Um CISO experiente evitaria este caminho" };
+function catDe(fi, di, oi){
+  const A = AV[fi][di];
+  return A.best.includes(oi) ? "b" : (A.ok || []).includes(oi) ? "m" : "x";
+}
 
 let fase = -1, grupo = "", membros = "", registo = [], tFase = null, segRestantes = 0;
 const $ = id => document.getElementById(id);
@@ -320,10 +359,11 @@ function confirmarFase(){
     escolhas.push({
       pergunta: F.decisoes[di].q,
       resposta: F.decisoes[di].opts[+sel.value],
-      justificacao: $(`just-${di}`).value.trim()
+      justificacao: $(`just-${di}`).value.trim(),
+      di: di, oi: +sel.value
     });
   }
-  registo.push({ fase: F.tag, decisoes: escolhas });
+  registo.push({ fase: F.tag, fi: fase, decisoes: escolhas });
   clearInterval(tFase);
   const cons = F.decisoes.map((d, di) => {
     const sel = document.querySelector(`input[name="d${di}"]:checked`);
@@ -344,9 +384,29 @@ function faseSeguinte(){
   else {
     $('ecra-fase').style.display = 'none';
     $('ecra-final').style.display = 'block';
+    const c = { b: 0, m: 0, x: 0 };
+    registo.forEach(f => f.decisoes.forEach(d => c[catDe(f.fi, d.di, d.oi)]++));
+    const total = c.b + c.m + c.x;
+    const leitura = c.b >= 11 ? 'Célula de crise de nível profissional — num incidente real, esta equipa dava conforto à administração.'
+      : c.b >= 8 ? 'Boa gestão de crise, com os pontos cegos do costume — os selos amarelos e vermelhos abaixo são o vosso plano de melhoria pessoal.'
+      : c.b >= 5 ? 'Sobreviveram, mas pagaram caro em prazos e credibilidade. A boa notícia: cada decisão marcada abaixo diz exatamente o que treinar.'
+      : 'É para isto que os exercícios servem: mais vale falhar aqui, à mesa, do que no sábado às 9h30 com a jornalista ao telefone.';
+    $('sintese').innerHTML = `
+      <div class="numeros">✔ ${c.b} de ${total} alinhadas · ⚠️ ${c.m} defensáveis com reservas · ✘ ${c.x} a evitar</div>
+      <p style="margin-top:6px">${leitura}</p>
+      <p style="margin-top:6px; font-size:.9rem; color:var(--cinza)">E a lição que atravessa o exercício inteiro: <em>os primeiros 15 minutos determinam as próximas 48 horas — e as cláusulas que não se negociaram há 6 anos determinaram os primeiros 15 minutos.</em> O contrato joga-se nos <a href="templates.html#clausulas"><b>Templates</b></a>, o processo completo está n'<a href="processo.html"><b>O Processo</b></a>.</p>`;
     $('resumo').innerHTML = registo.map(f => `
       <h4 style="color:var(--azul); margin:14px 0 8px">${f.fase}</h4>
-      ${f.decisoes.map(d => `<div class="resumo-item"><div class="q">${d.pergunta}</div><div class="a">${d.resposta}</div>${d.justificacao ? `<div class="j">"${d.justificacao}"</div>` : ''}</div>`).join('')}
+      ${f.decisoes.map(d => {
+        const cat = catDe(f.fi, d.di, d.oi);
+        return `<div class="resumo-item">
+          <div class="q">${d.pergunta}</div>
+          <div class="a">${d.resposta}</div>
+          ${d.justificacao ? `<div class="j">"${d.justificacao}"</div>` : ''}
+          <span class="selo-av ${cat}">${ROTULO[cat]}</span>
+          <div class="caixa-ciso"><span class="tit">👤 O que faria um CISO experiente:</span> ${AV[f.fi][d.di].ciso}</div>
+        </div>`;
+      }).join('')}
     `).join('');
     window.scrollTo({top: 0});
   }
@@ -360,11 +420,17 @@ function textoRegisto(){
   let t = 'TABLETOP — INCIDENTE NO FORNECEDOR DO DCE (InterMed)\n';
   t += 'Grupo: ' + grupo + (membros ? '  |  Elementos: ' + membros : '') + '\n';
   t += 'Concluído: ' + new Date().toLocaleString('pt-PT') + '\n\n';
+  const c = { b: 0, m: 0, x: 0 };
+  registo.forEach(f => f.decisoes.forEach(d => c[catDe(f.fi, d.di, d.oi)]++));
+  t += 'DEBRIEF DO CISO — SÍNTESE: ' + c.b + ' alinhadas · ' + c.m + ' defensáveis com reservas · ' + c.x + ' a evitar (em ' + (c.b + c.m + c.x) + ' decisões)\n\n';
   for(const f of registo){
     t += '=== ' + f.fase + ' ===\n';
     for(const d of f.decisoes){
+      const cat = catDe(f.fi, d.di, d.oi);
       t += d.pergunta + '\n  DECISÃO: ' + d.resposta + '\n';
       if(d.justificacao) t += '  JUSTIFICAÇÃO: ' + d.justificacao + '\n';
+      t += '  AVALIAÇÃO: ' + ROTULO[cat] + '\n';
+      t += '  O CISO FARIA: ' + AV[f.fi][d.di].ciso + '\n';
     }
     t += '\n';
   }
@@ -376,7 +442,7 @@ async function copiar(){
   try{
     await navigator.clipboard.writeText(textoRegisto());
     est.className = 'estado show ok';
-    est.textContent = '✓ Registo copiado! Colem-no na secção 2 da Ficha Word.';
+    est.textContent = '✓ Registo e debrief copiados!';
   }catch(e){
     est.className = 'estado show erro';
     est.textContent = 'O browser bloqueou a cópia — usem o botão "Guardar registo (.txt)".';
