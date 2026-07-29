@@ -42,3 +42,7 @@ table.ref td{padding:10px 12px; border-top:1px solid #eee; vertical-align:top}
 .crumb a{color:var(--azul2); text-decoration:none}
 input,select,textarea{font-family:inherit; font-size:1rem; padding:10px 12px; border:1.5px solid var(--borda); border-radius:8px; width:100%}
 label{font-weight:600; font-size:.92rem; display:block; margin:12px 0 6px}
+
+/* aterragem por âncora nas tabelas (ex.: templates.html#maturidade) */
+tr:target > td{ background:#fff3cd !important; }
+tr:target{ scroll-margin-top:70px; }
