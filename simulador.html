@@ -64,6 +64,11 @@
   .dossier summary{cursor:pointer; font-weight:700; color:var(--azul); padding:10px 12px; list-style-position:inside}
   .dossier details p{padding:0 14px 12px; font-size:.92rem}
   .dossier .perfil{background:var(--claro); border-radius:10px; padding:12px 14px; font-size:.92rem}
+  .proc-banner{margin-top:14px; background:linear-gradient(120deg,var(--claro),#fff); border:2px solid var(--azul2); border-radius:14px; padding:13px 18px; display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+  .proc-banner .ico{font-size:1.7rem}
+  .proc-banner .txt{flex:1; min-width:230px; font-size:.93rem}
+  .proc-banner a.cta{background:var(--azul); color:#fff; text-decoration:none; font-weight:700; border-radius:10px; padding:10px 18px; white-space:nowrap; font-size:.95rem}
+  .proc-banner a.cta:hover{background:var(--azul2)}
   /* ===== jogada 1: classificar ===== */
   .prog{font-size:.8rem; font-weight:700; color:var(--cinza); text-transform:uppercase; letter-spacing:.04em}
   .ficha-sis{background:var(--claro); border-radius:10px; padding:14px 16px; margin:10px 0}
@@ -122,6 +127,12 @@
       <details><summary>10 · Email &amp; colaboração (M365)</summary><p>O correio e a colaboração de <b>toda a empresa</b>: email, chat, reuniões, ficheiros partilhados. <b>Exemplo em crise:</b> quando há avaria grande, os piquetes coordenam-se pelo chat. E é, como em todo o lado, <b>o vetor de entrada n.º 1</b> — o phishing chega por aqui.</p></details>
       <div class="perfil" style="margin-top:10px">📘 <b>Biblioteca do CISO:</b> <a href="processo.html"><b>O Processo — como a EnerVale gere a cadeia de fornecimento</b></a> — o manual interno que liga as seis fases (planear → sair) aos instrumentos do curso, à régua legal e a exemplos públicos reais. O Capítulo 4 joga-se melhor com isto lido.</div>
     </div>
+  </div>
+
+  <div class="proc-banner">
+    <span class="ico">📘</span>
+    <div class="txt"><b>O Processo — o manual da EnerVale.</b> As seis fases da cadeia de fornecimento (planear → sair), com os instrumentos do curso, a régua legal e <b>exemplos públicos reais</b> em cada fase.</div>
+    <a class="cta" href="processo.html">Abrir o manual →</a>
   </div>
 
   <div id="jogo"></div>
