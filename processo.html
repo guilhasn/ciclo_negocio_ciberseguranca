@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Processo · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+  .pilulas{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:14px 0 4px}
+  .pilulas a{display:inline-block; background:#fff; border:1.5px solid var(--azul2); color:var(--azul); border-radius:99px; padding:5px 14px; font-size:.88rem; font-weight:600; text-decoration:none}
+  .pilulas a:hover{background:var(--claro)}
+  .pilulas .seta{color:var(--cinza); font-weight:700}
+  .fase{background:#fff; border:1px solid var(--borda); border-radius:14px; margin-top:18px; box-shadow:0 1px 4px rgba(0,0,0,.06); overflow:hidden}
+  .fase-cab{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; background:var(--claro); padding:12px 18px}
+  .fase-cab .n{font-weight:800; color:var(--azul2); font-size:1.45rem; line-height:1}
+  .fase-cab h3{color:var(--azul); font-size:1.12rem; margin:0}
+  .fase-cab .lema{margin-left:auto; font-size:.85rem; color:var(--cinza); font-style:italic}
+  .fase-corpo{padding:14px 18px 16px}
+  .fase-corpo p{font-size:.95rem}
+  .regua{font-size:.87rem; color:#333; background:#f6f8fa; border-left:4px solid var(--azul2); border-radius:8px; padding:9px 13px; margin-top:12px}
+  .abre{margin-top:12px; font-size:.93rem}
+  .abre ul{list-style:none; margin-top:6px}
+  .abre li{padding:6px 0 6px 26px; position:relative}
+  .abre li::before{content:"🔍"; position:absolute; left:0; font-size:.85rem; top:7px}
+  .fase{scroll-margin-top:70px}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="simulador.html">🎮 Simulador</a> / O Processo</p>
+  <h1 style="color:var(--azul); margin-bottom:6px">📘 O Processo — como a EnerVale gere a cadeia de fornecimento</h1>
+  <p style="color:var(--cinza)">O manual interno da empresa do simulador: as seis fases da relação com um fornecedor, os instrumentos do curso em cada uma, a régua legal portuguesa — e, em cada fase, <strong>exemplos públicos reais que podes abrir</strong> e comparar com o que fazes na tua organização.</p>
+
+  <div class="pilulas">
+    <a href="#gov">0 · Governar</a><span class="seta">→</span>
+    <a href="#f1">1 · Planear</a><span class="seta">→</span>
+    <a href="#f2">2 · Especificar</a><span class="seta">→</span>
+    <a href="#f3">3 · Avaliar</a><span class="seta">→</span>
+    <a href="#f4">4 · Contratar</a><span class="seta">→</span>
+    <a href="#f5">5 · Operar</a><span class="seta">→</span>
+    <a href="#f6">6 · Sair</a>
+  </div>
+
+  <div class="tese" style="margin-top:14px">A ideia inteira numa frase: <strong>o poder está antes de assinar</strong> — o que não ficar escrito na especificação e no contrato vai mendigar-se durante anos na monitorização; e a relação só termina quando o último acesso for revogado. É exatamente isto que o <a href="simulador.html"><strong>Capítulo 4 do simulador</strong></a> põe a jogo.</div>
+
+  <p style="margin-top:12px; font-size:.92rem; color:var(--cinza)">💡 A <strong>EnerVale, SA</strong> é a distribuidora de eletricidade fictícia do simulador — 340 colaboradores, 400 mil clientes, SCADA, 380 mil contadores inteligentes e um piloto de IA (o dossier completo está na página do simulador). Serve aqui de fio condutor: cada fase mostra o que a EnerVale faz. Troca «EnerVale» pelo nome da tua organização — o processo é o mesmo.</p>
+
+  <!-- ======================= GOVERNAÇÃO ======================= -->
+  <div class="fase" id="gov">
+    <div class="fase-cab"><span class="n">0</span><h3>Governar — antes da primeira contratação</h3><span class="lema">quem manda, com que regras</span></div>
+    <div class="fase-corpo">
+      <p>⚡ <strong>Na EnerVale:</strong> a Direção aprovou uma <a href="templates.html#politica-tprm"><strong>Política TPRM</strong></a> (<em>Third-Party Risk Management</em> — gestão do risco de terceiros) antes de existir qualquer instrumento operacional. Fixa os princípios (<strong>proporcionalidade</strong>, <strong>herança da criticidade</strong>, <strong>evidência em vez de declarações</strong>), os papéis — o dono do serviço pede, as compras conduzem, a segurança exige e avalia, o jurídico fecha, o board conhece os fornecedores críticos — e as regras mínimas por Tier (nível de criticidade do fornecedor). E a frase que nenhum contrato apaga: <strong>a responsabilidade legal não se transfere</strong> — subcontrata-se o serviço, não a responsabilidade.</p>
+      <div class="regua">⚖️ <strong>A régua:</strong> QNRCS v2 <strong>GR.CA-1</strong> (políticas e processos da cadeia) · <strong>GR.CA-2</strong> (papéis e responsabilidades das partes) · <strong>GR.CA-3</strong> (integração na gestão de riscos) · art. 28.º do DL n.º 125/2025 · ISO/IEC 27036-1/-2 (a norma internacional das relações com fornecedores — Módulo 4).</div>
+      <div class="abre"><strong>Abre e vê — exemplos públicos reais:</strong>
+        <ul>
+          <li><a href="https://www.ncsc.gov.uk/collection/supply-chain/guidance/12-principles" target="_blank" rel="noopener"><strong>NCSC — 12 princípios de segurança da cadeia</strong></a> — o regulador britânico (National Cyber Security Centre) resume o programa inteiro em 12 princípios, do «percebe o risco» ao «melhora continuamente». Boa leitura para estruturar (ou auditar) o teu programa.</li>
+          <li><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-161r1-upd1.pdf" target="_blank" rel="noopener"><strong>NIST SP 800-161r1 — C-SCRM</strong></a> — o catálogo-mãe americano de práticas de gestão do risco de cibersegurança na cadeia (<em>Cybersecurity Supply Chain Risk Management</em>): denso, mas é a referência de onde quase tudo o resto bebe.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= FASE 1 · PLANEAR ======================= -->
+  <div class="fase" id="f1">
+    <div class="fase-cab"><span class="n">1</span><h3>Planear</h3><span class="lema">primeiro o serviço, depois o fornecedor</span></div>
+    <div class="fase-corpo">
+      <p>⚡ <strong>Na EnerVale:</strong> ninguém abre um procedimento sem responder a três perguntas — <em>que processo de negócio serve? que quadrante do McFarlan? que dados e acessos vai tocar?</em> Se o serviço toca no SCADA, nos contadores ou na faturação, aplica-se a regra da herança: <strong>o fornecedor de um sistema crítico é ele próprio crítico</strong>, seja qual for o valor da fatura. Instrumentos: a <a href="sca.html"><strong>SCA Framework</strong></a> F0 (Perfil e Âmbito) e F1 (Quickscan) apuram o <strong>nível do objeto</strong> — que dita a profundidade de tudo o resto — e a F2 gera os riscos candidatos; a <a href="templates.html#matriz"><strong>Matriz de Classificação</strong></a> posiciona o fornecedor na carteira (Tier 1/2/3).</p>
+      <div class="regua">⚖️ <strong>A régua:</strong> <strong>GR.CA-7</strong> (avaliar os riscos de cibersegurança da cadeia) · <strong>GR.CA-3</strong> · a proporcionalidade do art. 28.º do DL n.º 125/2025 — medidas adequadas ao risco, não a mesma exigência para tudo.</div>
+      <div class="abre"><strong>Abre e vê — exemplos públicos reais:</strong>
+        <ul>
+          <li><a href="https://www.ncsc.gov.uk/collection/supply-chain/guidance/12-principles" target="_blank" rel="noopener"><strong>NCSC — princípios 1 a 3</strong></a> — «percebe o que precisa de ser protegido e porquê» <em>antes</em> de ir ao mercado: a mesma lógica do Quickscan, dita por um regulador.</li>
+          <li><a href="https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-161r1-upd1.pdf" target="_blank" rel="noopener"><strong>NIST SP 800-161r1</strong></a> — repara como os controlos são organizados por <em>nível</em> (empresa → processo → sistema): proporcionalidade em formato de catálogo.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= FASE 2 · ESPECIFICAR ======================= -->
+  <div class="fase" id="f2">
+    <div class="fase-cab"><span class="n">2</span><h3>Especificar</h3><span class="lema">escreve antes de anunciar</span></div>
+    <div class="fase-corpo">
+      <p>⚡ <strong>Na EnerVale:</strong> os requisitos de segurança escrevem-se <strong>antes de o procedimento sair porta fora</strong> — depois é tarde. Três gavetas: <strong>eliminatórios</strong> (sem isto a proposta não entra — p. ex., MFA em todos os acessos remotos a sistemas críticos: a lição do fabricante de inversores do dossier), <strong>valorizados</strong> (pontuam na avaliação — certificações, maturidade demonstrada) e <strong>contratuais</strong> (obrigações de execução — notificação de incidentes, direito a evidência periódica). A <a href="sca.html"><strong>SCA</strong></a> F3 (Mercado e DD) e F4 (Requisitos e Peças) geram as peças do procedimento com os requisitos do nível apurado; as <a href="templates.html#clausulas"><strong>Cláusulas Contratuais</strong></a> dão o texto-modelo já redigido.</p>
+      <div class="regua">⚖️ <strong>A régua:</strong> <strong>GR.CA-5</strong> (definir os requisitos a integrar nos contratos) · a <em>Technical Implementation Guidance</em> (TIG) da ENISA como referência técnica — indicativa, não vinculativa.</div>
+      <div class="abre"><strong>Abre e vê — exemplos públicos reais:</strong>
+        <ul>
+          <li><a href="https://www.enisa.europa.eu/publications/procurement-guidelines-for-the-cybersecurity-of-hospitals-and-healthcare-providers" target="_blank" rel="noopener"><strong>ENISA — Procurement Guidelines (hospitais)</strong></a> — o guia europeu de <em>compras</em> com cibersegurança: requisitos organizados por tipo de aquisição. Está escrito para a saúde, mas o método transpõe-se a qualquer setor — incluindo uma distribuidora de energia.</li>
+          <li><a href="https://github.com/vendorsec/mvsp" target="_blank" rel="noopener"><strong>MVSP — Minimum Viable Secure Product</strong></a> — o «chão» mínimo que um produto ou serviço deve cumprir, numa única página de controlos. Nasceu na Google e é usado por várias empresas como requisito de entrada em compras: um bom modelo de gaveta «eliminatórios».</li>
+          <li><strong>EVB-IT</strong> — o Estado alemão contrata TI com minutas-tipo de cláusulas de segurança: o exemplo está desenvolvido na página <a href="casos-cadeia.html"><strong>Casos</strong></a>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= FASE 3 · AVALIAR ======================= -->
+  <div class="fase" id="f3">
+    <div class="fase-cab"><span class="n">3</span><h3>Avaliar (due diligence)</h3><span class="lema">perguntar é fácil — provar é que custa</span></div>
+    <div class="fase-corpo">
+      <p>⚡ <strong>Na EnerVale:</strong> a devida diligência (<em>due diligence</em>, DD) é proporcional ao Tier: um Tier 3 leva a versão curta; um Tier 1 leva o <a href="templates.html#due-diligence"><strong>Questionário de Due Diligence</strong></a> completo — 54 perguntas em 9 domínios, cada uma com a <strong>evidência a pedir</strong> (certificado, relatório, extrato de configuração), porque declaração sem evidência vale zero. Na <a href="sca.html"><strong>SCA</strong></a>, a avaliação faz-se <em>por proponente</em>: F5 (propostas), F6 (DD), F7 (revisão do fornecedor), F8 (conformidade com os mínimos — não se pontuam vantagens antes de verificar os mínimos) e F9 (risco residual e <strong>decisão formal registada</strong>, com responsável e condições).</p>
+      <div class="regua">⚖️ <strong>A régua:</strong> <strong>GR.CA-6</strong> (devida diligência antes de contratar) · art. 28.º do DL n.º 125/2025 — que admite <em>relatórios de certificação ou auditorias</em>, com proporcionalidade: a lei não exige auditar tudo e todos.</div>
+      <div class="abre"><strong>Abre e vê — exemplos públicos reais:</strong>
+        <ul>
+          <li><a href="https://cloudsecurityalliance.org/star/registry" target="_blank" rel="noopener"><strong>CSA STAR Registry</strong></a> — o registo público da Cloud Security Alliance: procura AWS, Microsoft ou Google e abre o <strong>CAIQ preenchido</strong> (<em>Consensus Assessments Initiative Questionnaire</em>, ~260 perguntas). É uma due diligence real, à vista de todos — vê <em>como</em> um grande fornecedor responde antes de desenhares as tuas perguntas.</li>
+          <li><a href="https://github.com/google/vsaq" target="_blank" rel="noopener"><strong>Google VSAQ</strong></a> — os questionários interativos (<em>Vendor Security Assessment Questionnaire</em>) que a Google usa com os seus fornecedores, publicados em código aberto — podes abri-los e adaptá-los.</li>
+          <li><a href="https://www.vanta.com/collection/trust/vendor-security-alliance-questionnaire" target="_blank" rel="noopener"><strong>VSA Questionnaire</strong></a> — o questionário anual da Vendor Security Alliance (consórcio que inclui Uber, Docker e outros), pensado para reduzir a fadiga de questionários entre empresas.</li>
+          <li><a href="https://www.ncsc.gov.uk/guidance/supplier-assurance-questions" target="_blank" rel="noopener"><strong>NCSC — Supplier Assurance Questions</strong></a> — as perguntas de garantia do regulador britânico, organizadas em 10 áreas: excelente guião para a conversa técnica com um Tier 1.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= FASE 4 · CONTRATAR ======================= -->
+  <div class="fase" id="f4">
+    <div class="fase-cab"><span class="n">4</span><h3>Contratar</h3><span class="lema">o poder negocial morre na assinatura</span></div>
+    <div class="fase-corpo">
+      <p>⚡ <strong>Na EnerVale:</strong> tudo o que importa entra no contrato <strong>antes</strong> de assinar: <strong>notificação de incidentes com prazo fixado em contrato, por criticidade</strong> — nota fina de rigor: o DL n.º 125/2025 fixa os prazos <em>da entidade para o CNCS</em>; os prazos <em>do fornecedor para ti</em> és tu que os fixas, no contrato; <strong>evidência periódica</strong> (relatórios de certificação ou auditoria — proporcional); <strong>aprovação prévia de subcontratação</strong> (as quartas partes); <strong>apoio em incidentes e participação nos testes</strong> do plano de resposta; e <strong>reversibilidade e plano de saída desde o dia 1</strong>. As 13 <a href="templates.html#clausulas"><strong>Cláusulas Contratuais</strong></a> trazem o texto-modelo e a nota de negociação (onde ceder, onde nunca); na <a href="sca.html"><strong>SCA</strong></a>, a F10 passa as condições da decisão para as cláusulas.</p>
+      <div class="regua">⚖️ <strong>A régua:</strong> <strong>GR.CA-5</strong> (requisitos integrados nos contratos) · <strong>GR.CA-8</strong> (testes do IRP/DRP com o acompanhamento dos fornecedores) · art. 28.º do DL n.º 125/2025.</div>
+      <div class="abre"><strong>Abre e vê — exemplos públicos reais:</strong>
+        <ul>
+          <li><a href="https://www.bankofengland.co.uk/-/media/boe/files/paper/2020/december/gl-outsourcing-arrangements.pdf" target="_blank" rel="noopener"><strong>EBA — Guidelines on outsourcing (GL/2019/02)</strong></a> — vai à secção 13.3: a lista <em>exata</em> do que a Autoridade Bancária Europeia obriga a banca a pôr em cada contrato de outsourcing. Um checklist contratual de regulador, real e testado em milhares de contratos.</li>
+          <li><a href="https://eur-lex.europa.eu/legal-content/PT/TXT/?uri=CELEX:32022R2554" target="_blank" rel="noopener"><strong>DORA — art. 30.º (Reg. UE 2022/2554)</strong></a> — os elementos contratuais <em>obrigatórios</em> no setor financeiro europeu (em português, no EUR-Lex): a referência mais exigente em vigor. Mesmo fora da banca, é a melhor lista de onde «roubar» cláusulas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= FASE 5 · OPERAR ======================= -->
+  <div class="fase" id="f5">
+    <div class="fase-cab"><span class="n">5</span><h3>Operar e monitorizar</h3><span class="lema">nunca renovar sem reavaliar</span></div>
+    <div class="fase-corpo">
+      <p>⚡ <strong>Na EnerVale:</strong> a assinatura não fecha o processo — abre a relação. O <a href="templates.html#monitorizacao"><strong>Mapa de Monitorização</strong></a> gere os KPIs/KRIs por fornecedor com limiares, a <strong>revalidação calculada</strong> (12 meses para Tier 1, 24 para Tier 2) e os <strong>gatilhos fora do ciclo</strong>: mudança de dono (<em>change-of-control</em>), incidente público, novo subcontratante, perda de certificação — tudo registado e <strong>aprovado formalmente</strong>. Os fornecedores críticos participam nos testes do plano de resposta e recuperação. E a regra de ouro da renovação: <strong>nunca renovar sem reavaliar</strong> — a F10 da <a href="sca.html"><strong>SCA</strong></a> é o dashboard da relação.</p>
+      <div class="regua">⚖️ <strong>A régua:</strong> <strong>GR.CA-4</strong> (fornecedores periodicamente avaliados) · <strong>GR.CA-9</strong> (desempenho monitorizado ao longo da relação) · <strong>GR.CA-8</strong> (testes com fornecedores).</div>
+      <div class="abre"><strong>Abre e vê — exemplos públicos reais:</strong>
+        <ul>
+          <li><a href="https://cloudsecurityalliance.org/star/registry" target="_blank" rel="noopener"><strong>CSA STAR Registry</strong></a> (outra vez, com outros olhos) — repara nas <strong>datas e versões</strong> das entradas: a revalidação periódica é pública. É o hábito que o Mapa de Monitorização instala na tua carteira.</li>
+          <li><a href="casos-cadeia.html"><strong>Os casos reais da página Casos</strong></a> — Nichirei, SolarWinds, MOVEit… cada um é um exercício de gatilho: <em>«se este fosse meu fornecedor, o que fazia amanhã de manhã?»</em> A monitorização também se treina com os desastres dos outros.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= FASE 6 · SAIR ======================= -->
+  <div class="fase" id="f6">
+    <div class="fase-cab"><span class="n">6</span><h3>Sair</h3><span class="lema">o contrato acaba numa data — a relação, no último acesso revogado</span></div>
+    <div class="fase-corpo">
+      <p>⚡ <strong>Na EnerVale:</strong> o offboarding é executável, não é uma intenção — a <a href="templates.html#terminacao"><strong>Checklist de Terminação</strong></a> fecha a relação em 6 blocos: <strong>inventário final</strong> (incluindo quartas partes e backups), <strong>revogação de acessos verificada nos logs</strong> (não «pedida» — <em>verificada</em>), <strong>devolução ou destruição certificada</strong> dos dados, cadeia de custódia e retenção legal, transição do serviço e lições aprendidas. O <a href="simulador.html"><strong>Capítulo 4 do simulador</strong></a> joga exatamente esta fase — com as consequências de a saltar.</p>
+      <div class="regua">⚖️ <strong>A régua:</strong> <strong>GR.CA-10</strong> (disposições para as atividades durante e após a cessação dos contratos).</div>
+      <div class="abre"><strong>Abre e vê — exemplos públicos reais:</strong>
+        <ul>
+          <li><a href="https://www.bankofengland.co.uk/-/media/boe/files/paper/2020/december/gl-outsourcing-arrangements.pdf" target="_blank" rel="noopener"><strong>EBA Guidelines — secção 15 (exit strategies)</strong></a> — a banca europeia é obrigada a ter o plano de saída <em>antes</em> de precisar dele. A pergunta a copiar para qualquer setor: <em>«conseguíamos sair deste fornecedor em N meses sem parar o serviço?»</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= TRILHO DE EVIDÊNCIA ======================= -->
+  <h2 class="sec">O trilho de evidência — o que fica no dossier, fase a fase</h2>
+  <p style="font-size:.94rem">A pergunta de um auditor raramente é <em>«tens política?»</em> — é <em>«mostra-me este fornecedor do princípio ao fim»</em>. Cada fase do processo deixa um documento; a soma é o trilho:</p>
+  <table class="ref" style="margin-top:10px">
+    <tr><th style="width:22%">Fase</th><th>A evidência que fica</th></tr>
+    <tr><td><strong>0 · Governar</strong></td><td>Política TPRM aprovada pela Direção, com data, papéis e regras por Tier.</td></tr>
+    <tr><td><strong>1 · Planear</strong></td><td>Perfil e nível apurado (SCA F0–F1), riscos candidatos (F2) e a posição do fornecedor na Matriz (Tier, com justificação).</td></tr>
+    <tr><td><strong>2 · Especificar</strong></td><td>Peças do procedimento com os requisitos nas três gavetas (F4) — eliminatórios, valorizados, contratuais.</td></tr>
+    <tr><td><strong>3 · Avaliar</strong></td><td>Questionário DD respondido <em>com as evidências anexas</em> e a decisão formal (F9): quem decidiu, com que condições, aceitando que risco residual.</td></tr>
+    <tr><td><strong>4 · Contratar</strong></td><td>Contrato com as cláusulas de segurança e o mapa de rastreabilidade cláusula → norma → lei.</td></tr>
+    <tr><td><strong>5 · Operar</strong></td><td>Dashboard de monitorização, atas de revisão periódica, registo de alterações aprovadas, relatórios/auditorias recebidos.</td></tr>
+    <tr><td><strong>6 · Sair</strong></td><td>Checklist de terminação fechada com assinaturas — e o certificado de destruição dos dados.</td></tr>
+  </table>
+  <p style="margin-top:10px; font-size:.92rem">Na <a href="sca.html"><strong>SCA Framework</strong></a>, a folha <em>REF. Mapa Mestre</em> mostra este trilho de uma ponta à outra — Quickscan → risco → requisito → evidência → cláusula → teste → KPI → consequência — e o <em>Mapa Legal</em> faz a leitura inversa a partir do artigo da lei.</p>
+
+  <!-- ======================= CONTRATAÇÃO PÚBLICA ======================= -->
+  <h2 class="sec">E no setor público? A veste do CCP</h2>
+  <div class="tese">No setor público português, este processo veste-se de <strong>CCP</strong> (Código dos Contratos Públicos): os requisitos da Fase 2 entram como <strong>especificações técnicas do caderno de encargos</strong> e obrigações de execução do contrato — com atenção à fronteira clássica entre <em>requisitos de admissão</em> e <em>critérios de adjudicação</em>. Para serviços de cibersegurança, o CNCS mantém a <a href="https://www.cncs.gov.pt/pt/certificacao-servicos-de-ciberseguranca/" target="_blank" rel="noopener"><strong>certificação de prestadores de serviços</strong></a> — o selo nacional para escolher quem contratar. Lá fora, o Estado alemão contrata TI com minutas-tipo (<strong>EVB-IT</strong>) e a agência checa <strong>NÚKIB</strong> regulou por decreto os fornecedores das entidades reguladas — ambos os exemplos estão desenvolvidos na página <a href="casos-cadeia.html"><strong>Casos</strong></a>.</div>
+
+  <!-- ======================= LIGAÇÕES ======================= -->
+  <h2 class="sec">Como se liga ao resto do curso</h2>
+  <ul class="lista-limpa">
+    <li>A <a href="sca.html"><strong>SCA Framework</strong></a> percorre este processo de ponta a ponta num único ficheiro — do perfil ao contrato, com a fundamentação legal por regra.</li>
+    <li>Os <a href="templates.html"><strong>Templates</strong></a> são os instrumentos de cada fase: <a href="templates.html#politica-tprm">Política TPRM</a> · <a href="templates.html#matriz">Matriz</a> · <a href="templates.html#due-diligence">Due Diligence</a> · <a href="templates.html#clausulas">Cláusulas</a> · <a href="templates.html#monitorizacao">Monitorização</a> · <a href="templates.html#terminacao">Terminação</a> — e a <a href="templates.html#maturidade">Avaliação de Maturidade</a> diz-te em que fase está o teu programa.</li>
+    <li>Os controlos <a href="qnrcs.html"><strong>GR.CA do QNRCS v2</strong></a> citados fase a fase — a régua nacional, com as referências cruzadas para ISO e NIST.</li>
+    <li>Os <a href="casos-cadeia.html"><strong>Casos</strong></a> são os desastres reais que justificam cada fase — e o material de treino da Fase 5.</li>
+    <li>A teoria está nos <a href="m3.html"><strong>Módulos 3</strong></a> e <a href="m4.html"><strong>4</strong></a>; a prática joga-se no <a href="simulador.html"><strong>simulador</strong></a> — o Capítulo 3 treina a classificação, o Capítulo 4 o ciclo de vida completo.</li>
+  </ul>
+
+  <div class="aviso" style="margin-top:18px">ℹ️ Os exemplos externos são de entidades terceiras, na maioria em inglês, e servem para comparação e inspiração — mostram como reguladores e grandes empresas resolvem o mesmo problema. A régua vinculativa em Portugal é o <strong>DL n.º 125/2025</strong> e a regulamentação do CNCS; a aplicação concreta é sempre responsabilidade de cada entidade.</div>
+</main>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>
