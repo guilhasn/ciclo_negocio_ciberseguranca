@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · Credenciais roubadas ao fornecedor · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / Credenciais roubadas ao fornecedor</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">🔑 Credenciais roubadas ao fornecedor</h1>
+  <p style="color:var(--cinza)">O SaaS de RH é comprometido e as passwords de todos vazam. A seguir: <em>password stuffing</em> contra os teus próprios serviços — e um atacante lá dentro.</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "software",
+  titulo: "Credenciais roubadas ao fornecedor",
+  origem: "Third party software compromise",
+  tempo: "30–45 minutos",
+  cenario: "A plataforma de <b>RH &amp; vencimentos</b> da EnerVale é um serviço em outsourcing (é o sistema 9 do dossier do simulador). O fornecedor escreve por email: foi comprometido, e <b>toda a informação de utilizadores — nomes de utilizador e passwords — foi roubada</b>. São as contas dos 340 colaboradores. E há um detalhe incómodo: quantas dessas pessoas usam a mesma password noutros sítios?",
+  objetivos: [
+    "Avaliar o risco de usar software e serviços de terceiros — e a preparação para o compromisso de um deles.",
+    "Testar as defesas contra o uso de credenciais roubadas: exposição de serviços, bloqueio de contas, MFA, política de passwords.",
+    "Verificar a capacidade de detetar e seguir um atacante dentro da rede.",
+    "Confirmar que a continuidade aguenta a indisponibilidade prolongada do serviço do terceiro."
+  ],
+  papeis: [
+    { p: "Decisor sénior", d: "decide suspensões de serviço e mudanças forçadas de password — e responde pelos salários pagos a tempo." },
+    { p: "Perfil técnico / segurança", d: "conhece os serviços expostos à internet, os logs e as proteções de autenticação." },
+    { p: "Comunicação / RH", d: "neste cenário os afetados são os próprios colaboradores — a comunicação interna é o palco principal." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções; no fim exporta o registo." }
+  ],
+  fundo: [
+    { t: "O que é password stuffing?", d: "Um ataque em que credenciais roubadas num serviço são testadas automaticamente noutros serviços, na esperança de que as pessoas tenham reutilizado a mesma password. Depende de um só hábito humano — reutilizar passwords — e é por isso que gestores de passwords (muitas passwords únicas geridas sem esforço) e um segundo fator (MFA) o tornam muito mais difícil." },
+    { t: "Porque interessa a superfície exposta?", d: "Só os serviços realmente necessários devem estar acessíveis da internet — cada portal público (email, VPN, RH, finanças) é uma porta onde o atacante pode experimentar as credenciais roubadas. Reduzir a superfície de ataque é a defesa mais barata que existe." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · O aviso do fornecedor",
+      nar: "O email chega ao fim da manhã: «Fomos alvo de um acesso não autorizado. A informação de utilizadores armazenada na plataforma, incluindo nomes de utilizador e palavras-passe, foi exfiltrada.» A plataforma gere férias, vencimentos e dados dos <b>340 colaboradores</b> da EnerVale.",
+      guia: "O NCSC usa uma ferramenta de e-commerce como exemplo e convida a substituí-la por um serviço que faça sentido para o grupo — aqui usamos o SaaS de RH do dossier da EnerVale. Este inject mede se o risco de terceiros foi pensado e se existe um procedimento para o compromisso de um deles.",
+      pontos: [
+        { q: "Já pesámos os benefícios e os riscos de usar fornecedores de serviços?", sub: ["Quais são os riscos para a nossa organização?", "A quantos dos nossos dados sensíveis têm acesso?"] },
+        { q: "Que processos temos para responder ao compromisso de um terceiro que usamos?", sub: ["Qual é a resposta imediata? As contas comprometidas ainda podem ser acedidas? Devemos revogar o acesso ao serviço?", "Temos processo para determinar que serviços nossos ficam mais expostos após o compromisso de um dado terceiro? As passwords serão mudadas? Quem o faz?"] },
+        { q: "Como determinamos que credenciais de utilizadores foram roubadas?", sub: ["Mantemos registos exatos de quem, na organização, tem acesso a cada serviço de terceiros?", "Temos procedimento para investigar contas comprometidas nesses serviços?", "Quem administra os nossos utilizadores nos serviços de terceiros?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> dados de RH são dados pessoais (IBANs, moradas, saúde ocupacional) — a violação no fornecedor obriga a avaliar a notificação à <b>CNPD em ≤72h</b> e a comunicação aos titulares (RGPD arts. 33.º–34.º): os titulares são os vossos colaboradores. E o contrato devia obrigar o fornecedor a avisar-vos depressa (<b>GR.CA-5</b> — prazo fixado em contrato).",
+      obs: [
+        { t: "Considerámos o risco dos fornecedores de serviços e temos um procedimento definido para lidar com o compromisso de um deles.", rec: "O playbook «compromisso de fornecedor» escreve-se antes: revogar/suspender acessos, reset de credenciais, avaliação de exposição — e o inventário de quem acede a quê.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" }
+      ]
+    },
+    {
+      t: "Inject 2 · Password stuffing contra os nossos serviços",
+      nar: "Doze horas depois, os logs mostram <b>vagas de tentativas de login automatizadas</b> contra o M365, a VPN e o portal do cliente — com as credenciais roubadas ao fornecedor de RH. É <em>password stuffing</em>: o atacante aposta que as pessoas reutilizam passwords. Estatisticamente, vai acertar nalgumas.",
+      guia: "Este inject cobre as mitigações que impedem que o compromisso do terceiro se torne compromisso da organização: reduzir a superfície exposta, bloquear tentativas, exigir MFA e passwords únicas.",
+      pontos: [
+        { q: "Que serviços da nossa rede estão acessíveis a partir da internet? Registamos as tentativas de acesso?", sub: ["Exemplos típicos: acesso remoto (RDP), M365, VPN, soluções de finanças, contabilidade ou RH.", "Estes serviços precisam mesmo de ser públicos — ou podem ficar limitados a VPN, restrição de IP ou diretório interno?", "Porque é que reduzir a superfície de ataque é bom?", "Como sabemos que identificámos TODOS os serviços expostos? Há forma de verificar ou monitorizar?"] },
+        { q: "O login nos serviços acessíveis bloqueia a conta após tentativas falhadas repetidas?", sub: ["Que dados ajudariam a reforçar — tentativas por IP, localização, browser?", "O bloqueio é por conta — ou detetamos também uma pessoa a tentar muitas contas diferentes?", "E se o objetivo do ataque for precisamente trancar utilizadores fora das contas?"] },
+        { q: "Que proteções temos contra o uso de credenciais roubadas?", sub: ["Política de passwords fortes e únicas, gestores de passwords, autenticação multifator (MFA) — o ataque depende da reutilização; o MFA acrescenta a segunda camada.", "Os utilizadores são formados para escolher passwords seguras e únicas? Com que frequência mudam?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> isto é o QNRCS a valer — controlo de acessos e autenticação (<b>PR.AA</b>: MFA «multifator ou contínua» conforme o risco) e monitorização (<b>DE.MC</b>). Nota do dossier da EnerVale: o fabricante dos inversores tem acesso remoto <em>sem MFA</em>… este inject explica porque é que isso tira o sono.",
+      obs: [
+        { t: "Só temos acessíveis a partir da internet os serviços estritamente necessários.", rec: "Levantamento da superfície exposta (o atacante fá-lo de graça): tudo o que puder, atrás de VPN; o que ficar público, com logging e alertas.", link: "qnrcs.html", linkTxt: "QNRCS v2 (PR/DE)" },
+        { t: "Temos uma política de passwords forte, com passwords únicas obrigatórias.", rec: "Passwords únicas só são realistas com gestor de passwords — política + ferramenta + formação, não apenas o papel.", link: "qnrcs.html", linkTxt: "QNRCS v2 (PR.AA)" },
+        { t: "Todos os sistemas da organização estão configurados com autenticação multifator.", rec: "Prioriza: acessos remotos, email, administração e fornecedores (o inversor sem MFA do dossier!) — e exige o mesmo aos terceiros por contrato.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais" }
+      ]
+    },
+    {
+      t: "Inject 3 · Há alguém lá dentro",
+      nar: "Uma das apostas do atacante acertou: <b>entrou na rede da EnerVale por uma interface externa não identificada</b>, com credenciais válidas de um colaborador, e está a mover-se à procura de dados sensíveis. Neste momento, é um utilizador «legítimo» a abrir portas.",
+      guia: "As perguntas giram em torno da capacidade de detetar um atacante com credenciais válidas — o cenário mais difícil — e de o travar antes de chegar ao que interessa.",
+      pontos: [
+        { q: "O compromisso da ferramenta do terceiro dá vantagens específicas a um atacante que também tenha acesso à nossa infraestrutura?", sub: ["O atacante encontraria na ferramenta informação útil para localizar dados de interesse na nossa rede?", "Encontraria referências a dados comercialmente sensíveis que só existem na nossa rede?", "A informação de utilizadores roubada permite identificar alvos por função ou senioridade (o CFO, os administradores de sistemas)?"] },
+        { q: "Sabemos quais são os nossos dados sensíveis e onde estão guardados?", sub: ["Temos métodos para rastrear onde os dados estão?", "Que proteção extra damos à informação mais sensível? Há segregação interna dos ficheiros?"] },
+        { q: "Avaliámos as implicações de estes dados serem comprometidos?", sub: ["Sabemos quem tem acesso à informação sensível?", "Quais seriam as implicações se fossem roubados, corrompidos ou apagados?"] },
+        { q: "A equipa técnica consegue identificar o ataque? Em quanto tempo detetávamos atividade suspeita?", sub: ["Temos deteção de intrusões capaz de identificar um login anómalo? Usa dados adicionais — localização geográfica, hora de acesso?", "Gera alertas? Quanto tempo até sermos alertados?", "Porque é que o tempo importa tanto na resposta?"] },
+        { q: "Conseguiríamos reconstituir o que o atacante fez?", sub: ["Os logs têm detalhe suficiente para perceber a atividade do atacante?", "Cobrem a rede toda?", "Se um utilizador detetar atividade maliciosa, sabe a quem reportar?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> monitorização contínua e deteção (<b>DE.MC</b> — incluindo a atividade dos fornecedores, <b>DE.MC-6</b>) e capacidade de investigar (logs preservados). O tempo conta em dobro cá dentro e lá fora: o relógio da notificação ao CNCS só começa quando concluímos que é significativo — mas concluir depressa exige detetar depressa.",
+      obs: [
+        { t: "Sabemos quais são os nossos dados mais sensíveis e onde estão guardados.", rec: "Inventário de informação por sistema crítico — o dossier da EnerVale mostra o formato; sem mapa não há defesa dirigida.", link: "templates.html#matriz", linkTxt: "Matriz (criticidade por sistema)" },
+        { t: "Protegemos adequadamente os dados sensíveis, tendo em conta as implicações de serem atacados.", rec: "Segregação, cifra e privilégio mínimo nos repositórios que doem — proporcional ao impacto, não igual para tudo.", link: "qnrcs.html", linkTxt: "QNRCS v2 (PR.DS)" },
+        { t: "A nossa monitorização recolhe eventos com detalhe suficiente para determinar os movimentos de um atacante.", rec: "Logging central, relógios sincronizados e retenção — verifica com um teste: «mostra-me tudo o que a conta X fez ontem».", link: "qnrcs.html", linkTxt: "QNRCS v2 (DE.MC)" },
+        { t: "Temos um procedimento de resposta para impedir que um atacante comprometa mais a rede.", rec: "Contas suspensas, sessões terminadas, segmentos isolados — o guião de contenção do plano de resposta, exercitado.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" }
+      ]
+    },
+    {
+      t: "Inject 4 · Travado — mas o serviço ficou em baixo",
+      nar: "Final feliz técnico: a equipa <b>detetou e bloqueou</b> os acessos comprometidos, e todos os utilizadores expostos mudaram as passwords. Mas a plataforma de RH <b>continua indisponível</b> na sequência do compromisso do fornecedor — e o processamento de salários é <b>daqui a seis dias</b>.",
+      guia: "O ataque foi travado; as perguntas agora medem a dependência dos serviços de terceiros e as opções de recurso quando um deles falha por período prolongado.",
+      pontos: [
+        { q: "Temos um plano para gerir serviços perturbados na organização?", sub: ["Temos uma solução de recurso para onde mudar temporariamente?", "Temos backups dos dados que estão guardados no sistema do terceiro?", "É preciso mudar passwords em toda a organização? Conseguimos impor essa mudança a todos?"] },
+        { q: "Temos um plano de continuidade de negócio para o caso de um compromisso parar o processamento de dados críticos?", sub: ["Quem ativa o plano?", "O plano tem orçamento associado?", "É atualizado regularmente em linha com as necessidades do negócio?"] },
+        { q: "Conhecemos bem os SLA e os planos de contingência acordados com o fornecedor?", sub: ["Podíamos usar uma solução temporária enquanto o plano de contingência do fornecedor arranca?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a aquisição inclui a operação e a saída — contingência e reversibilidade negoceiam-se na Fase 4 do Processo (<b>GR.CA-5</b>), e a dependência mede-se antes (BIA). Salários atrasados não são um incidente de segurança — mas são um incidente com o sindicato.",
+      obs: [
+        { t: "Temos um plano para gerir disrupções temporárias do negócio por falhas técnicas ou incidentes ciber.", rec: "BCP com o cenário «terceiro indisponível N dias» — incluindo o plano B para o processamento de salários.", link: "templates.html", linkTxt: "BCP (Templates)" },
+        { t: "Temos um plano de continuidade que mantém a organização a funcionar mesmo severamente impactados.", rec: "BIA primeiro (o que dói e quando), BCP depois (como se aguenta) — e exercita-o como estás a fazer agora.", link: "templates.html", linkTxt: "BIA + BCP" },
+        { t: "Conhecemos bem os SLA e os planos de contingência com os nossos fornecedores.", rec: "Se a resposta foi «mais ou menos», relê os contratos dos Tier 1 este mês — o Mapa de Monitorização tem onde registar o que encontrares.", link: "templates.html#monitorizacao", linkTxt: "Mapa de Monitorização" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 <b>O método NCSC:</b> implementa e volta a correr. No curso: o caso <a href='casos-cadeia.html'><b>Kaseya</b></a> mostra o mesmo mecanismo à escala industrial (um fornecedor de software → ~1.500 vítimas) — e o Capítulo 4 do <a href='simulador.html'><b>simulador</b></a> pergunta-te no fim se ficaram contas vivas de ex-fornecedores. Agora sabes porquê."
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>

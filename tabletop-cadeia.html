@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · Do contrato à violação · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / Do contrato à violação</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">🗂️ Do contrato à violação</h1>
+  <p style="color:var(--cinza)">Escolher um fornecedor, vê-lo cair, descobrir que foi violação — e decidir o que fazer com a relação. O ciclo de vida completo num exercício de discussão.</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "cadeia",
+  titulo: "Do contrato à violação",
+  origem: "Supply chain",
+  tempo: "30–60 minutos",
+  cenario: "A EnerVale vai contratar um novo <b>sistema de gestão de ordens de trabalho dos piquetes</b> — quem repara o quê, onde e quando, com app no terreno. No mercado há soluções SaaS em cloud e soluções para instalar no datacenter próprio. O exercício começa na escolha do fornecedor; salta depois uns meses para o dia em que o sistema cai — e a história complica-se a partir daí.",
+  objetivos: [
+    "Perceber até que ponto a nossa segurança depende da segurança dos fornecedores.",
+    "Meter a segurança no processo de compras — para que as novas soluções nasçam seguras, em vez de se remendarem depois.",
+    "Saber que visibilidade temos dos nossos dados quando estão guardados por um terceiro — e a que riscos estão expostos os dados de clientes.",
+    "Entender a complexidade da cadeia (incluindo os subcontratantes dos fornecedores).",
+    "Testar capacidades num ambiente sem culpa e sem consequências."
+  ],
+  papeis: [
+    { p: "Decisor sénior", d: "toma decisões de negócio e de TI e conhece os planos de continuidade — na EnerVale, alguém que possa dizer «assinamos» ou «não assinamos»." },
+    { p: "Perfil técnico / segurança", d: "conhece as defesas e a exposição técnica; sabe o que significa dar acessos a terceiros." },
+    { p: "Comunicação", d: "gere a comunicação interna e externa — incluindo durante um incidente." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções no campo de notas de cada inject; no fim exporta tudo num ficheiro." }
+  ],
+  fundo: [
+    { t: "O que é um SLA de segurança?", d: "Um acordo de nível de serviço (SLA) fixa formalmente o que se espera do fornecedor. Com foco em segurança, pode incluir: prazos de escalada de incidentes de segurança, tempo de resposta a um incidente potencial, disponibilidade de uma equipa de resposta, proteções dos dados (por exemplo, cifra <em>at-rest</em>), medidas específicas do serviço e garantia de disponibilidade (uptime). O que não estiver aqui, não existe — na prática, só se pode exigir o que está escrito." },
+    { t: "Fornecedores terceiros — de que estamos a falar?", d: "Organizações a quem confiámos parte dos nossos dados ou acessos ao nosso património digital: email em cloud, chat alojado por terceiros, software como serviço (SaaS), portais de RH e partilha de documentos na web, hardware instalado ou mantido por terceiros. Um único fornecedor comprometido pode atingir centenas de clientes — é por isso que este tipo de ataque compensa a quem o faz." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · Avaliar potenciais fornecedores",
+      nar: "A administração aprovou a compra. Em cima da mesa das compras estão sete propostas: quatro SaaS em cloud com app para os piquetes, três para instalar no nosso datacenter. A pergunta desta reunião: <b>como escolhemos — e o que exigimos antes de assinar?</b>",
+      guia: "Se o grupo for de outra organização, troquem o sistema do cenário por uma compra real que todos conheçam — a discussão rende muito mais (sugestão do próprio NCSC).",
+      pontos: [
+        { q: "Que processos temos para conhecer potenciais fornecedores?", sub: ["Como é que essa informação entra no processo de compra?", "Procuramos saber quem são os subcontratantes do fornecedor? Confiamos na palavra dele ou investigamos por nós?"] },
+        { q: "Quem, na organização, é responsável por negociar o contrato e os níveis mínimos de serviço?", sub: ["Formalizávamos um SLA para fixar os níveis de serviço?", "Que processos temos para verificar se os SLA e os termos estão a ser cumpridos?"] },
+        { q: "Que componentes esperamos ver cobertos por um SLA com o fornecedor?", sub: ["Acordávamos métricas de desempenho?", "Que medidas de segurança incluímos? Procedimentos de tratamento de incidentes e tempo de resposta esperado?", "Acordávamos um plano de contingência para o caso de o fornecedor não conseguir cumprir o SLA?"] },
+        { q: "O contrato ou SLA fixaria um padrão mínimo de segurança que o fornecedor tem de cumprir?", sub: ["Formalizado como SLA?", "O padrão incluiria o tempo para responder a preocupações de segurança?", "Haveria acordos sobre a investigação de potenciais incidentes?"] },
+        { q: "Temos um processo para decidir o nível de risco de usar determinado fornecedor?", sub: ["Que fatores entrariam no perfil de risco?", "Como é que essa avaliação mudaria o tratamento que damos ao fornecedor?", "Rejeitaríamos um fornecedor com base nesse risco?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> devida diligência antes de contratar (<b>GR.CA-6</b>) e requisitos integrados no contrato (<b>GR.CA-5</b>), com a proporcionalidade do art. 28.º do DL n.º 125/2025. No curso, este inject é as <b>Fases 1–4</b> da página O Processo.",
+      obs: [
+        { t: "Temos um processo claro e completo para conhecer potenciais fornecedores e avaliar o risco de trabalhar com eles.", rec: "Começa por classificar (a Matriz dá o Tier pela criticidade de negócio) e avalia com evidência, não com declarações — o questionário de 54 perguntas indica a evidência a pedir em cada uma.", link: "templates.html#due-diligence", linkTxt: "Questionário de Due Diligence" },
+        { t: "Fixamos requisitos mínimos de segurança que todos os fornecedores têm de cumprir.", rec: "Escreve os requisitos nas três gavetas — eliminatórios, valorizados, contratuais — antes de o procedimento sair porta fora; há texto-modelo pronto a usar.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais de Segurança" }
+      ]
+    },
+    {
+      t: "Inject 2 · O sistema cai",
+      nar: "Avançámos com um SaaS. Seis meses depois, numa manhã de temporal — precisamente quando mais ordens de trabalho há para despachar — <b>a plataforma não abre</b>. Os piquetes no terreno não recebem ordens, o call center não sabe o que dizer, e ninguém na EnerVale consegue aceder. Do fornecedor, por enquanto: silêncio.",
+      guia: "Ajuda pré-definir a duração da indisponibilidade para criar pressão realista — por exemplo: «assumam que isto dura 48 horas». Ajusta ao que faça doer na tua organização.",
+      pontos: [
+        { q: "Quem contactamos no fornecedor numa emergência — e que informação esperamos que nos dê?", sub: ["Que vias de escalada existiriam?", "Quem pode escalar problemas — e estaria disponível a qualquer hora?", "Que canais de comunicação haveria?", "Em que formato esperamos a informação?", "Que informação nos seria útil para investigarmos o incidente por nós próprios?"] },
+        { q: "Temos alguma forma de perceber se a indisponibilidade é um incidente de segurança ou apenas uma falha técnica?", sub: ["Que informação técnica precisaríamos para o determinar?", "Temos processos para obter essa informação — ou dependemos do fornecedor para a dar?"] },
+        { q: "Como determinamos se o problema exige ação nossa ou do fornecedor?", sub: ["Como apurávamos se a causa está do nosso lado ou do lado deles?", "Que pessoa ou equipa é responsável por isso?"] },
+        { q: "Qual é o nosso plano para gerir serviços perturbados durante uma indisponibilidade?", sub: ["Como continuaria a operação no curto prazo?", "Qual seria o impacto ao fim de um dia ou mais?", "Como acederíamos aos nossos dados se o terceiro estivesse indisponível?"] },
+        { q: "Teríamos um plano de contingência acordado com o próprio fornecedor?", sub: ["Continuávamos a pagar enquanto o serviço estivesse em baixo?", "Como operávamos se o fornecedor ficasse indisponível uma semana?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> o desempenho monitoriza-se ao longo da relação (<b>GR.CA-9</b>) e a continuidade prepara-se antes (BIA/BCP). Os prazos de resposta do fornecedor valem o que o contrato fixar — é a Fase 4 do Processo a pagar-se (ou a cobrar-se) aqui.",
+      obs: [
+        { t: "Temos um processo para minimizar a disrupção causada pela indisponibilidade de serviços-chave.", rec: "A BIA diz-te quanto tempo aguentas sem cada serviço (RTO); o BCP dá-te o modo alternativo de operar — e treina-se antes de fazer falta.", link: "templates.html", linkTxt: "BIA + BCP (Templates)" },
+        { t: "Temos uma política de contactos de emergência dos fornecedores — e as pessoas certas sabem quem contactar.", rec: "O painel por fornecedor do Mapa de Monitorização guarda contactos, escalada e KPIs — mantém-no vivo, não numa gaveta.", link: "templates.html#monitorizacao", linkTxt: "Mapa de Monitorização" }
+      ]
+    },
+    {
+      t: "Inject 3 · Afinal, foi violação",
+      nar: "Ao fim de horas de silêncio, chega o email: o fornecedor <b>sofreu uma violação de segurança</b> e desligou os próprios sistemas por precaução — foi isso que causou a indisponibilidade. Não diz que dados foram afetados. Entretanto, alguém lembra o óbvio: a app dos piquetes guarda utilizadores, moradas de clientes com avaria e fotografias das nossas instalações.",
+      guia: "A confirmação de atividade maliciosa (e não avaria) muda o jogo: deixou de ser uma falha de serviço deles — passou a ser um incidente <em>nosso</em> a gerir. As perguntas são sobre como processamos esta informação nova.",
+      pontos: [
+        { q: "Quem trata a resposta a um incidente num fornecedor que gere um serviço-chave da nossa organização?", sub: ["Como se iniciaria a resposta?", "A quem se reporta ou escala?", "Um administrador ou o dono do serviço seriam envolvidos?", "Temos capacidade técnica interna para determinar o impacto?"] },
+        { q: "Que nível de acesso aos nossos dados tem o fornecedor?", sub: ["Sabemos exatamente que dados detém?", "Os utilizadores interagem diretamente com o sistema dele? Ficam lá nomes e passwords?", "O fornecedor tem acesso a sistemas nossos? Detém credenciais ou tokens de acesso?"] },
+        { q: "Que componentes do SLA esperávamos que cobrissem uma violação de segurança?", sub: ["Há tempos de resposta a incidentes acordados?", "Há acordos sobre mecanismos de proteção de dados — por exemplo, cifra at-rest?"] },
+        { q: "Como investigamos se algum termo do contrato ou SLA foi violado e conduziu ao incidente?", sub: ["Que processo seguiríamos para decidir se o acordo foi violado?", "Temos acesso a uma cópia do contrato que assinámos?", "Em que ponto mudaríamos de fornecedor?", "O fornecedor teria responsabilidade financeira?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> se o incidente do fornecedor tiver <b>impacto significativo nos nossos serviços</b>, a notificação ao CNCS é <b>nossa</b>: alerta inicial ≤24h <em>após concluirmos</em> que é significativo, atualização ≤72h e relatório final em 30 dias úteis (arts. 41.º–44.º do DL n.º 125/2025). Havendo dados pessoais, avaliar a CNPD em ≤72h (RGPD, art. 33.º).",
+      obs: [
+        { t: "Gerimos que dados corporativos cada fornecedor — e os subcontratantes dele — conseguem aceder.", rec: "A pergunta «que dados tem este fornecedor?» responde-se antes do incidente: os domínios de dados e acessos da due diligence constroem esse inventário.", link: "templates.html#due-diligence", linkTxt: "Questionário de Due Diligence" },
+        { t: "Temos um processo para responder a um incidente num fornecedor que gere serviços-chave.", rec: "O playbook de cadeia de abastecimento do plano de resposta define papéis, canais e a decisão difícil de isolar a ligação ao fornecedor.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" }
+      ]
+    },
+    {
+      t: "Inject 4 · «Está resolvido»",
+      nar: "Três dias depois, novo email: <b>«incidente resolvido, serviço reposto — a investigação não encontrou evidência de roubo de dados sensíveis»</b>. E agora? Acreditamos? Assinamos a renovação que está na gaveta? E o que dizemos aos clientes cujas moradas estavam na app?",
+      guia: "Este inject testa a relação com o fornecedor: até onde confiamos na investigação <em>dele</em> — e o que muda na forma como geriremos a relação daqui para a frente.",
+      pontos: [
+        { q: "Como verificamos que o fornecedor fez uma investigação diligente?", sub: ["Pediríamos cópia do relatório pós-incidente?", "Que confiança teríamos nessa informação vinda do fornecedor?", "Pediríamos mais detalhe sobre a investigação?", "Se questionássemos parte da investigação, como garantíamos resposta?", "E se suspeitássemos que o fornecedor não foi verdadeiro?"] },
+        { q: "Que processos temos para informar os nossos clientes de uma violação destas e dar garantias de que os dados deles foram protegidos?", sub: ["Quem seria responsável por contactar os clientes?", "Sem evidência de compromisso da informação de clientes, informávamos na mesma?", "Como tratávamos perguntas de clientes que exigem informação adicional do fornecedor?"] },
+        { q: "Somos fornecedores de outras organizações cujos dados guardamos?", sub: ["Registamos de quem são os dados que guardamos?", "Outras entidades externas seriam afetadas pela potencial violação?", "De quem é, na nossa organização, a responsabilidade de avisar quem está acima na cadeia?"] },
+        { q: "Temos forma de saber que áreas do negócio dependem de serviços fora do nosso controlo direto?", sub: ["Quando se adicionam ou adquirem serviços novos, isso fica documentado?", "Que métodos ou processos usaríamos para o apurar?"] },
+        { q: "Como propagamos as lições aprendidas deste incidente aos fornecedores e subcontratantes, para mitigar incidentes futuros?", sub: ["Faríamos uma reunião final de fecho para garantir que o problema ficou resolvido?", "Reveríamos os dados recolhidos na compra deste fornecedor?", "Se a política de compras se revelasse insuficiente, conseguíamos mudá-la?", "Reveríamos outros fornecedores à luz das lições aprendidas?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> nunca renovar sem reavaliar (<b>GR.CA-4</b>) — e, se a resposta for sair, a cessação tem regras (<b>GR.CA-10</b>): acessos revogados e verificados, dados devolvidos ou destruídos com certificado. Comunicação a titulares: RGPD art. 34.º quando houver alto risco.",
+      obs: [
+        { t: "Temos um processo claro para comunicar os detalhes de uma violação aos nossos clientes.", rec: "Plano de comunicação de crise dentro do plano de resposta: porta-voz, mensagens-tipo e o gatilho legal do RGPD (art. 34.º) já pensados.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" },
+        { t: "É claro de quem é a responsabilidade de avisar as organizações acima na cadeia após uma violação.", rec: "Também és fornecedor de alguém: fixa na política quem avisa os teus clientes-organizações — papéis definidos antes valem ouro durante.", link: "templates.html#politica-tprm", linkTxt: "Política TPRM" },
+        { t: "Temos métodos para partilhar as lições aprendidas pelos incidentes ao longo da cadeia.", rec: "Reunião de fecho, revisão do procedimento de compras e reavaliação da carteira — e mede a maturidade do programa antes e depois para provar a evolução.", link: "templates.html#maturidade", linkTxt: "Avaliação de Maturidade TPRM" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 <b>O método NCSC:</b> implementa as recomendações e volta a correr o exercício para medir a diferença. No curso: o percurso completo deste ciclo está na página <a href='processo.html'><b>O Processo</b></a> — e os Capítulos 3 e 4 do <a href='simulador.html'><b>simulador</b></a> treinam-no com consequências."
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>

@@ -46,3 +46,51 @@ label{font-weight:600; font-size:.92rem; display:block; margin:12px 0 6px}
 /* aterragem por âncora nas tabelas (ex.: templates.html#maturidade) */
 tr:target > td{ background:#fff3cd !important; }
 tr:target{ scroll-margin-top:70px; }
+
+/* ===== Exercícios Tabletop ===== */
+.tt-passos{display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 6px}
+.tt-passo{font-size:.78rem; font-weight:700; border:1.5px solid var(--borda); border-radius:99px; padding:3px 11px; color:var(--cinza); cursor:pointer; user-select:none; background:#fff}
+.tt-passo.feito{border-color:var(--ok); color:var(--ok); background:var(--okbg)}
+.tt-passo.ativo{border-color:var(--azul2); color:#fff; background:var(--azul2)}
+.tt-barra{height:7px; background:#e7eaee; border-radius:99px; overflow:hidden; margin-bottom:14px}
+.tt-barra i{display:block; height:100%; background:var(--azul2); border-radius:99px; transition:width .4s}
+.tt-cartao{background:#fff; border:1px solid var(--borda); border-radius:14px; padding:20px 22px; box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.tt-cartao h2{color:var(--azul); font-size:1.2rem; margin:14px 0 8px}
+.tt-cartao h2:first-of-type{margin-top:4px}
+.tt-cartao h3{color:var(--azul2); font-size:1.02rem; margin:18px 0 8px}
+.tt-cartao ul{margin:6px 0 6px 22px}
+.tt-cartao li{margin:5px 0}
+.tt-origem{font-size:.85rem; color:var(--cinza); background:var(--fundo); border-radius:8px; padding:8px 12px}
+.tt-narrativa{background:var(--claro); border-left:5px solid var(--azul2); border-radius:8px; padding:12px 15px; margin:8px 0 4px}
+.tt-guia{background:#f6f1ff; border:1.5px solid #d8c9f2; border-radius:8px; padding:8px 12px; margin:10px 0; font-size:.92rem}
+.tt-guia summary{cursor:pointer; font-weight:700; color:#5b2d86}
+.tt-ponto{border-top:1px dashed var(--borda); padding:9px 0 4px}
+.tt-sub{margin:4px 0 6px 20px; font-size:.9rem; color:#333}
+.tt-sub summary{cursor:pointer; color:var(--azul2); font-weight:600; font-size:.86rem}
+.tt-fundo{border:1.5px solid var(--borda); border-radius:8px; padding:8px 12px; margin-top:8px; font-size:.93rem}
+.tt-fundo summary{cursor:pointer; font-weight:700; color:var(--azul)}
+.tt-regua{font-size:.87rem; background:#f6f8fa; border-left:4px solid var(--azul2); border-radius:8px; padding:9px 13px; margin-top:12px}
+.tt-obs{border:1.5px solid var(--borda); border-radius:10px; padding:10px 14px; margin-top:8px}
+.tt-obs > p{font-style:italic}
+.tt-escala{display:flex; align-items:center; gap:6px; margin-top:8px; flex-wrap:wrap}
+.tt-nota{width:38px; height:38px; border-radius:9px; border:1.5px solid var(--borda); background:#fff; font-weight:800; font-size:1rem; cursor:pointer; color:var(--cinza)}
+.tt-nota:hover{border-color:var(--azul2); color:var(--azul2)}
+.tt-nota.sel{background:var(--azul); border-color:var(--azul); color:#fff}
+.tt-rotulo{font-size:.85rem; color:var(--cinza); margin-left:4px}
+.tt-mini{font-size:.88rem; color:var(--cinza)}
+.tt-lbl{font-weight:600; font-size:.9rem; display:block; margin:12px 0 6px}
+.tt-cartao textarea{width:100%; font-family:inherit; font-size:.95rem; padding:9px 12px; border:1.5px solid var(--borda); border-radius:8px}
+.tt-nav{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:16px; flex-wrap:wrap}
+.tt-res{display:flex; align-items:center; gap:10px; margin:7px 0}
+.tt-res-rot{width:34%; min-width:150px; font-size:.88rem; font-weight:600}
+.tt-res-barra{flex:1; height:13px; background:#e7eaee; border-radius:99px; overflow:hidden}
+.tt-res-barra i{display:block; height:100%; border-radius:99px}
+.tt-recs{list-style:none; margin-left:0 !important}
+.tt-recs li{border-top:1px dashed var(--borda); padding:9px 0}
+.tt-pill{display:inline-block; width:26px; height:26px; border-radius:99px; text-align:center; line-height:26px; font-weight:800; color:#fff; font-size:.85rem}
+.tt-pill.n1{background:var(--erro)} .tt-pill.n2{background:#e07b39} .tt-pill.n3{background:var(--amarelo)}
+@media print{
+  .topo, .tt-passos, .tt-barra, .no-print, .rodape, .crumb{display:none !important}
+  .tt-cartao{border:none; box-shadow:none; padding:0}
+  body{background:#fff}
+}

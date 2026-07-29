@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · Ransomware na cadeia · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / Ransomware na cadeia</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">🔥 Ransomware na cadeia</h1>
+  <p style="color:var(--cinza)">O fornecedor arde — e o fogo salta para a tua rede. Do aviso do fornecedor à extorsão, à decisão de pagar (ou não) e à crise mediática.</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "ransomware",
+  titulo: "Ransomware na cadeia",
+  origem: "Supply chain ransomware",
+  tempo: "45–60 minutos",
+  cenario: "O fornecedor do <b>sistema comercial e de faturação</b> da EnerVale — o que transforma leituras em dinheiro, ~9 M€/mês em débitos diretos — avisa os clientes: está a gerir um <b>ataque de ransomware em curso</b>, atribuído a um adversário sofisticado, e espera operações afetadas «por um período de tempo». O exercício começa na gestão dessa dependência… e piora de inject para inject, até à extorsão e aos jornalistas ao telefone.",
+  objetivos: [
+    "Avaliar a robustez da cadeia à perda temporária de um fornecedor importante.",
+    "Testar a preparação para um ransomware dentro da nossa própria rede: contenção, playbooks, backups.",
+    "Discutir a decisão mais difícil — pagar ou não pagar — antes de ela ser real.",
+    "Perceber o papel (e os limites) do ciberseguro.",
+    "Testar o plano de comunicação de crise: colaboradores, clientes, fornecedores e media."
+  ],
+  papeis: [
+    { p: "Decisor sénior", d: "é dele a decisão sobre o resgate e a autoridade para parar operações — precisa de conhecer o plano de continuidade." },
+    { p: "Perfil técnico / segurança", d: "conhece backups, segmentação da rede, logs e a capacidade real de contenção e recuperação." },
+    { p: "Comunicação", d: "no inject final é a peça central: mensagens para dentro e para fora, com a rede em baixo." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções; no fim exporta o registo." }
+  ],
+  fundo: [
+    { t: "Porquê «na cadeia»?", d: "Um ransomware num fornecedor atinge-te duas vezes: primeiro pela indisponibilidade do serviço que ele te presta; depois porque a ligação entre as redes (acessos, integrações, emails confiáveis) pode ser o caminho de entrada para a tua. Vê os casos reais na página Casos — a Nichirei (julho de 2026) é exatamente esta história." },
+    { t: "Dupla extorsão", d: "Os grupos modernos não se limitam a cifrar: primeiro exfiltram dados e depois ameaçam publicá-los — pagar pela decifragem não impede a publicação, e pagar pela não-publicação não a garante. É por isso que a decisão se discute ANTES, com sangue frio." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · O fornecedor está a arder",
+      nar: "O email do fornecedor da faturação é claro: ransomware, adversário avançado, operações afetadas por tempo indefinido. O batch noturno de faturação da EnerVale corre às 2h — <b>dentro de 11 horas</b>. A pergunta na mesa: e agora?",
+      guia: "Vale a pena fixar já a duração da perda do fornecedor (ex.: «assumam 10 dias») e identificar, na vossa organização real, qual seria o fornecedor «grande» equivalente — o exercício rende mais com nomes concretos.",
+      pontos: [
+        { q: "A nossa cadeia é suficientemente robusta para aguentar a perda temporária de um fornecedor importante?", sub: ["Quanto tempo conseguimos continuar a operar?", "Temos fornecedores alternativos?", "Isto impõe custos extra à organização?", "Conseguimos identificar os nossos fornecedores críticos? Quais são os mais importantes para a continuidade?", "Há fornecedores menos óbvios cujo impacto seria maior do que se espera?"] },
+        { q: "Do ponto de vista ciber, que nível de risco temos AO fornecedor?", sub: ["Se é um fornecedor de software: temos software dele instalado na nossa rede? Em sistemas críticos de negócio?", "Ele detém dados nossos? Se fossem publicados, o dano seria grande?", "Existe conectividade de rede entre nós e o fornecedor? Está monitorizada para atividade anómala ou maliciosa?"] },
+        { q: "Que passos internos podemos dar já para garantir que os nossos sistemas não são impactados?", sub: ["Pediríamos aos colaboradores cautela extra com anexos e links vindos do fornecedor?", "Temos acesso a threat intelligence com indicadores de compromisso (IoC) úteis?", "Temos — ou contratamos — capacidade de threat hunting?"] },
+        { q: "Temos um ponto de contacto de emergência para os principais fornecedores?", sub: ["Está atualizado? Quando foi a última vez que falámos com esse contacto?", "Já discutimos com eles a coordenação da gestão de incidentes?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> o risco da cadeia avalia-se e monitoriza-se em contínuo (<b>GR.CA-7</b> e <b>GR.CA-9</b>); o incidente do fornecedor é um gatilho de reavaliação fora do ciclo (Fase 5 do Processo). E cautela redobrada com o email: um fornecedor comprometido é um remetente «confiável» nas mãos do atacante.",
+      obs: [
+        { t: "Entendemos como uma infeção de ransomware num fornecedor pode impactar a nossa organização.", rec: "Mapeia a dependência: a Matriz herda a criticidade do processo de negócio para o fornecedor — e diz-te onde o fogo pega primeiro.", link: "templates.html#matriz", linkTxt: "Matriz de Classificação" },
+        { t: "O nosso plano de gestão de risco cobre estes pontos e ajudaria a minimizar o impacto nas operações.", rec: "Liga o risco da cadeia à gestão de risco geral (GR.CA-3): cenário «perda do fornecedor X durante N dias» na BIA e no plano de continuidade.", link: "templates.html", linkTxt: "BIA + BCP (Templates)" },
+        { t: "Temos uma lista completa e atualizada de contactos de emergência de cada fornecedor principal.", rec: "A ficha por fornecedor do Mapa de Monitorização guarda contactos e escalada — e a revalidação periódica obriga a mantê-la fresca.", link: "templates.html#monitorizacao", linkTxt: "Mapa de Monitorização" }
+      ]
+    },
+    {
+      t: "Inject 2 · Agora é na nossa rede",
+      nar: "48 horas depois, o pior cenário: <b>o ransomware está a propagar-se na rede da EnerVale</b>. Infraestrutura significativa afetada, colaboradores sem conseguir entrar nas máquinas, a empresa parada. O centro de condução da rede elétrica está — para já — isolado e operacional.",
+      guia: "O NCSC deixa a origem da infeção deliberadamente em aberto (phishing? a ligação ao fornecedor?) — quem facilita pode fixá-la para orientar a discussão. Aqui, a ligação ao fornecedor da faturação é a hipótese óbvia.",
+      pontos: [
+        { q: "O nosso plano de gestão de incidentes cobre este tipo de ataque?", sub: ["Onde está o plano? Temos cópia offline (se a rede está cifrada, o plano também está?)", "Que lacunas foram identificadas no último exercício — e foram corrigidas?", "Tem os contactos-chave: equipa de resposta, jurídico, comunicação?", "De onde se coordena centralmente a gestão do incidente?", "É exercitado com frequência?"] },
+        { q: "Que processos defensivos e medidas técnicas temos na rede que ajudem a travar a propagação?", sub: ["Temos diagramas de rede atualizados para apoiar a contenção?", "Conseguimos isolar partes-chave da rede? Como o faríamos?", "Conseguimos monitorizar ou bloquear ligações de saída?", "Que passos adicionais protegeriam os sistemas ainda não afetados?", "Temos controlos que limitem o movimento lateral?"] },
+        { q: "Temos playbooks de resposta a incidentes para ransomware?", sub: ["Foram exercitados e atualizados às tendências atuais de ransomware?", "Quem é responsável por os manter em dia?"] },
+        { q: "Temos mantido backups offline? Confiamos que resistem a um ransomware?", sub: ["Onde estão: na rede, na cloud, fora de instalações?", "Quando testámos o restauro pela última vez?", "Os backups são suficientemente frequentes para repor os dados críticos?", "Como verificamos que não estão infetados antes de repor?", "A estratégia de backup protege as «joias da coroa»?"] },
+        { q: "Sabemos onde reportar o incidente e obter apoio?", sub: ["A que autoridades reportávamos?", "Se houve roubo de dados, há entidades que somos obrigados a contactar?", "Temos uma empresa externa de resposta a incidentes ou consultoria a que recorrer?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> incidente significativo → notificação ao <b>CNCS</b>: alerta ≤24h após concluirmos que é significativo, atualização ≤72h, relatório final em 30 dias úteis (arts. 41.º–44.º, DL n.º 125/2025). Dados pessoais → <b>CNPD ≤72h</b> (RGPD art. 33.º). Crime → queixa à <b>PJ</b>. E os fornecedores críticos participam nos testes destes planos (<b>GR.CA-8</b>).",
+      obs: [
+        { t: "Estamos confiantes de que o nosso plano de gestão de incidentes seria eficaz neste cenário.", rec: "Política aprovada + plano operacional com as 6 fases e os prazos PT certos — e cópia offline, testada.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" },
+        { t: "A nossa organização tem defesa-em-profundidade capaz de mitigar um ataque de ransomware.", rec: "Segmentação, bloqueio de saídas, contas com privilégio mínimo e MFA — verifica no QNRCS (PR/DE) o que existe só no papel.", link: "qnrcs.html", linkTxt: "QNRCS v2" },
+        { t: "O nosso playbook de ransomware está atualizado e seria eficaz.", rec: "O guião das primeiras 2 horas — isolar sem desligar, proteger backups, preservar evidência — existe pronto a adaptar.", link: "templates.html", linkTxt: "Playbook Ransomware" }
+      ]
+    },
+    {
+      t: "Inject 3 · Pagar ou não pagar",
+      nar: "O grupo criminoso contacta a EnerVale «para discutir opções de pagamento»: <b>sem pagamento nas próximas 24 horas, começam a publicar os nossos dados sensíveis</b>. Na mesa da administração, a pergunta que ninguém queria fazer em voz alta.",
+      guia: "Discutir isto antes de acontecer é o objetivo — com um valor concreto ajuda (ex.: o limite do vosso ciberseguro). As perguntas puxam a informação-chave necessária, seja qual for a decisão.",
+      pontos: [
+        { q: "Pagamos o resgate? Qual o impacto se pagarmos — e se não pagarmos?", sub: ["Qual é a política da empresa sobre pagar resgates?", "Confiaríamos num criminoso para decifrar os ficheiros depois de pago?", "O que achamos que farão aos dados, paguemos ou não?", "Os nossos dados sensíveis estão cifrados por nós?"] },
+        { q: "Estamos em condições de apoiar a recuperação dos sistemas e recolher evidência para análise?", sub: ["Temos capacidade de recuperar sozinhos?", "Precisaríamos de especialistas externos para a limpeza?", "Os logs de endpoint e rede estão seguros e fora do alcance do ransomware?", "Se recuperarmos os sistemas, conseguimos garantir que os atacantes não voltam a entrar e cifrar de novo?"] },
+        { q: "Que fontes externas usaríamos para ajuda ou orientação?", sub: ["Conhecemos boas fontes de orientação (CNCS, No More Ransom)?", "Temos relações estabelecidas com consultoras de segurança ou empresas de resposta a incidentes?"] },
+        { q: "Qual seria o impacto de os nossos dados sensíveis aparecerem na internet?", sub: ["Que tipo de informação detemos? Dados pessoais identificáveis?", "Os dados publicados permitiriam outros ataques futuros?", "O negócio assenta em propriedade intelectual ou segredos comerciais?", "Os dados podiam ser usados por concorrentes? Com que impacto?"] },
+        { q: "Se temos ciberseguro, o que cobre — e o que esperamos que cubra?", sub: ["Que limites e condições tem a cobertura?", "Sabemos exatamente o que está coberto?", "Há condições específicas — por exemplo, cobre se a origem foi phishing?", "Cobre pagamentos de resgate?", "Cobre uma equipa externa de resposta a incidentes? Sabemos onde encontrar empresas qualificadas?"] }
+      ],
+      regua: "⚖️ <b>Nota honesta PT:</b> as autoridades (CNCS, Europol/No More Ransom) desaconselham pagar — financia o crime, não garante nada e pode criar exposição legal (sanções da UE se o grupo estiver listado). Não há, porém, proibição geral expressa em Portugal — por isso a política interna decide-se ANTES, por escrito, na direção.",
+      obs: [
+        { t: "Entendemos as implicações de pagar o resgate.", rec: "Escreve a posição na política de gestão de incidentes — quem decide, com que aconselhamento jurídico, e o que se faz em alternativa.", link: "templates.html", linkTxt: "Política de Gestão de Incidentes" },
+        { t: "Conseguimos identificar todos os nossos dados sensíveis.", rec: "Sem inventário de informação não há resposta possível à pergunta «o que é que eles têm?» — começa pelo mapa de dados dos sistemas críticos (o dossier do simulador dá o exemplo).", link: "templates.html#matriz", linkTxt: "Matriz (mapa de criticidade)" },
+        { t: "Entendemos o impacto de os dados sensíveis ficarem disponíveis online.", rec: "Avalia por categoria: clientes (RGPD), colaboradores, segredos de negócio, OT — a BIA dá a moldura de impacto.", link: "templates.html", linkTxt: "BIA" }
+      ]
+    },
+    {
+      t: "Inject 4 · O parêntesis do ciberseguro",
+      nar: "Entre reuniões de crise, o CFO pergunta: <b>«e o nosso ciberseguro, cobre isto?»</b> Recuperar de um ransomware é complexo e caro — o seguro não evita o ataque, mas pode acelerar a recuperação. Se estiver bem comprado.",
+      guia: "Reflexão importante: ter seguro não pode gerar complacência — o ransomware continua a ser uma ameaça séria com ou sem apólice.",
+      pontos: [
+        { q: "Já pesámos os benefícios e as desvantagens do ciberseguro?", sub: ["Seria benéfico para a nossa organização?", "O board pode ficar complacente com a segurança por haver seguro? Que riscos adicionais traria isso?"] },
+        { q: "Que perguntas-chave faríamos a uma potencial seguradora?", sub: ["Cobre indemnizações a terceiros — por exemplo, por violação de dados?", "Quais são os limites da apólice?", "Que serviços presta a seguradora durante e após um ataque?", "Num ransomware como este, o que esperávamos ver coberto?"] },
+        { q: "Quem juntamos na organização para avaliar uma apólice?", sub: ["Que peritos técnicos precisamos — internos ou consultores?", "Que funções de negócio devem rever a apólice (RH, comercial, financeiro)?", "Temos acesso a aconselhamento jurídico?"] }
+      ],
+      regua: "⚖️ <b>A régua:</b> o seguro transfere parte do impacto financeiro — nunca a responsabilidade legal (a lição do RACI do Módulo 2). As exclusões típicas (negligência grave, MFA em falta, guerra) são exatamente os controlos que o QNRCS pede.",
+      obs: [
+        { t: "Entendemos o que o ciberseguro pode e não pode cobrir.", rec: "Antes de comprar: lista de exclusões, limites, e o que a seguradora exige de controlos — muitos contratos falham no dia do sinistro por MFA em falta.", link: "qnrcs.html", linkTxt: "QNRCS v2 (controlos exigidos)" },
+        { t: "Considerámos os benefícios e desvantagens do ciberseguro na gestão do nosso risco.", rec: "Trata o seguro como tratamento de risco residual — depois dos controlos, não em vez deles; documenta a decisão na gestão de risco.", link: "m2.html", linkTxt: "Módulo 2 (gestão do risco)" }
+      ]
+    },
+    {
+      t: "Inject 5 · Os dados estão na praça pública",
+      nar: "O grupo publicou parte da informação mais sensível da EnerVale num fórum público — <b>listas de clientes com moradas e IBANs à vista</b> — e a comunicação social começou a ligar para a empresa a pedir comentário. A rede interna ainda está parcialmente em baixo.",
+      guia: "É imperativo que exista um plano de comunicação de crise disponível e atualizado ANTES de um incidente sério. Ajuda a discussão sugerir um exemplo concreto dos vossos dados sensíveis publicados.",
+      pontos: [
+        { q: "Temos um plano de comunicação — ou uma secção de comunicação no plano de gestão de incidentes?", sub: ["Há um porta-voz nomeado? A equipa sabe quem é?", "Há obrigações contratuais de informar certos clientes ou parceiros?", "Existe lista de stakeholders internos e externos?", "Quem são os pontos de contacto técnicos que alimentam a comunicação?", "Com que frequência o plano é revisto?"] },
+        { q: "Quão danosa é a publicação destes dados para a organização?", sub: ["Como fica a reputação?", "Os dados publicados embaraçam ou prejudicam os nossos clientes?", "Há implicações RGPD?", "Que impacto teria uma coima da autoridade de proteção de dados (em Portugal, a CNPD)?", "A publicação pode danificar a relação com os nossos colaboradores?"] },
+        { q: "Qual é a nossa mensagem para dentro — para os colaboradores?", sub: ["Como comunicamos com o staff se a rede está em baixo?", "Se a paragem durar, mandamos para casa quem não é essencial?", "Como mantemos contacto fora de horas?", "Como apoiamos o bem-estar das pessoas durante o período?"] },
+        { q: "Qual é a mensagem para fora — media, fornecedores e clientes?", sub: ["Quanta informação divulgamos externamente?", "Como tranquilizamos clientes e fornecedores?", "Temos guiões e declarações preparados? São revistos regularmente?", "A nossa infeção pode alastrar a terceiros — o que precisam eles de saber?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> com dados pessoais publicados, a comunicação aos titulares é quase certa (RGPD art. 34.º — alto risco) além da CNPD; e a NIS2 prevê informar os destinatários dos serviços quando relevante. A mensagem tem de bater certo com o que foi notificado ao CNCS — coerência entre canais é credibilidade.",
+      obs: [
+        { t: "Estamos confiantes de que o nosso plano de comunicação seria eficaz neste cenário.", rec: "Porta-voz único, mensagens-tipo por audiência e o princípio «diz o que sabes, não especules» — escreve-o no plano de resposta.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" },
+        { t: "A organização tem mecanismos para apoiar os colaboradores durante o incidente.", rec: "Canal alternativo de contacto (fora da rede comprometida), instruções claras e apoio ao bem-estar — as pessoas também são vítimas do incidente.", link: "templates.html", linkTxt: "IRP (papéis e canais)" },
+        { t: "O nosso plano de comunicação tranquilizaria eficazmente fornecedores e clientes.", rec: "Prepara as declarações-tipo ANTES (violação de dados, indisponibilidade, extorsão) e testa-as num exercício como este.", link: "casos-cadeia.html", linkTxt: "Casos (como comunicaram os outros)" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 <b>O método NCSC:</b> corrige, implementa e volta a jogar. No curso: o Caso 6 (<a href='casos-cadeia.html'><b>Nichirei</b></a>) é este exercício acontecido a sério em julho de 2026 — compara as vossas respostas com as decisões deles."
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>

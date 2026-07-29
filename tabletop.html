@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercícios Tabletop · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+<style>
+  .ex-cartao{background:#fff; border:1px solid var(--borda); border-radius:14px; padding:18px 20px; box-shadow:0 1px 4px rgba(0,0,0,.06); display:flex; flex-direction:column}
+  .ex-cartao h3{color:var(--azul); font-size:1.08rem; margin-bottom:6px}
+  .ex-cartao .meta{font-size:.8rem; color:var(--cinza); margin-bottom:8px}
+  .ex-cartao p{font-size:.92rem; color:#333; flex:1}
+  .ex-cartao .botao{margin-top:12px; align-self:flex-start}
+  .grelha-ex{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-top:12px}
+</style>
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="index.html">Início</a> / Exercícios Tabletop</p>
+  <h1 style="color:var(--azul); margin-bottom:6px">🎲 Exercícios Tabletop</h1>
+  <p style="color:var(--cinza)">Exercícios de discussão em grupo sobre a cadeia de fornecimento — para correr aqui na formação e, depois, <strong>levar para a tua organização</strong> e jogar com a tua equipa de verdade.</p>
+
+  <h2 class="sec">O que é (e porque conta)</h2>
+  <div class="tese">Um <strong>tabletop</strong> é um incidente simulado jogado à mesa: um cenário revelado por etapas (<em>injects</em>), perguntas de discussão, e o grupo a descobrir — num ambiente <strong>sem culpa e sem consequências</strong> — o que sabe, o que assume e o que não tem. Não há respostas certas: no fim de cada etapa, o grupo autoavalia a sua <strong>confiança (1–5)</strong> em afirmações-chave, e o relatório final aponta as áreas fracas ao instrumento do curso que as resolve. É também isto que a régua pede: <strong>testar os planos com o acompanhamento dos fornecedores (GR.CA-9 e GR.CA-8 do QNRCS v2)</strong> — um plano nunca exercitado é uma hipótese, não um plano.</div>
+
+  <h2 class="sec">Os três exercícios</h2>
+  <div class="grelha-ex">
+    <div class="ex-cartao">
+      <h3>🗂️ Do contrato à violação</h3>
+      <div class="meta">4 injects · 30–60 min · NCSC «Supply chain»</div>
+      <p>O ciclo de vida completo num só exercício: escolher o fornecedor do novo sistema dos piquetes, vê-lo cair meses depois, descobrir que foi violação de segurança — e decidir o que fazer com a relação (e com os clientes). O par natural do <strong>Módulo 3</strong> e da página O Processo.</p>
+      <a class="botao" href="tabletop-cadeia.html">Abrir o exercício →</a>
+    </div>
+    <div class="ex-cartao">
+      <h3>🔥 Ransomware na cadeia</h3>
+      <div class="meta">5 injects · 45–60 min · NCSC «Supply chain ransomware»</div>
+      <p>O fornecedor da faturação arde — e o fogo salta para a rede da EnerVale: contenção, backups, a decisão de <strong>pagar ou não pagar</strong>, o ciberseguro e a crise mediática quando os dados aparecem na internet. O caso <strong>Nichirei</strong> jogado na primeira pessoa.</p>
+      <a class="botao" href="tabletop-ransomware.html">Abrir o exercício →</a>
+    </div>
+    <div class="ex-cartao">
+      <h3>🔑 Credenciais roubadas ao fornecedor</h3>
+      <div class="meta">4 injects · 30–45 min · NCSC «Third party software compromise»</div>
+      <p>O SaaS de RH é comprometido e as passwords dos 340 colaboradores vazam. Segue-se <em>password stuffing</em> contra os serviços expostos da EnerVale, um atacante lá dentro com credenciais válidas — e os salários por processar. MFA, superfície de ataque e deteção em ação.</p>
+      <a class="botao" href="tabletop-software.html">Abrir o exercício →</a>
+    </div>
+  </div>
+
+  <h2 class="sec">Como conduzir (em aula ou na tua organização)</h2>
+  <ul class="lista-limpa">
+    <li><strong>Quem convocar:</strong> um decisor sénior (negócio/TI e continuidade), um perfil técnico de segurança e alguém da comunicação — mais um <strong>escriba</strong> para registar. Em aula, o formador projeta e modera; na organização, escolhe um facilitador que não «dê as respostas».</li>
+    <li><strong>Como correr:</strong> revela um inject de cada vez; deixa a discussão andar antes de abrir as perguntas «para aprofundar»; no fim de cada inject, o grupo vota a confiança 1–5 em cada afirmação — em conjunto, depois de discutir, não em segredo.</li>
+    <li><strong>O que sai:</strong> o relatório final mostra a confiança por inject, o elo mais fraco e as recomendações — cada área fraca ligada ao template ou instrumento do curso que a trata. Exporta o registo (CSV) ou imprime: é evidência de exercício realizado, com data.</li>
+    <li><strong>Depois:</strong> método NCSC — atribui cada recomendação a um responsável, implementa, e <strong>volta a correr o exercício</strong> para medir a diferença. O progresso fica guardado neste browser até recomeçares.</li>
+  </ul>
+
+  <div class="aviso">📄 <strong>Origem e créditos:</strong> estes exercícios são adaptações em português — com cenário fictício (EnerVale, SA) e régua legal portuguesa — dos exercícios tabletop <em>Supply chain</em>, <em>Supply chain ransomware</em> e <em>Third party software compromise</em> do <a href="https://www.ncsc.gov.uk/section/exercise-in-a-box/overview" target="_blank" rel="noopener"><strong>Exercise in a Box</strong></a> do NCSC britânico (conteúdo original © UK Crown Copyright). O serviço original — gratuito, mediante registo — inclui mais exercícios e vale a visita.</div>
+
+  <h2 class="sec">Como se liga ao resto do curso</h2>
+  <ul class="lista-limpa">
+    <li>O <a href="simulador.html"><strong>simulador</strong></a> treina decisões individuais com consequências; o tabletop treina o <strong>processo de grupo</strong> — são complementares, e a EnerVale é a mesma.</li>
+    <li>As áreas fracas apontam para os <a href="templates.html"><strong>Templates</strong></a> e para a <a href="sca.html"><strong>SCA Framework</strong></a>; o percurso completo está na página <a href="processo.html"><strong>O Processo</strong></a>.</li>
+    <li>Os <a href="casos-cadeia.html"><strong>Casos</strong></a> são os mesmos cenários acontecidos a sério — compara as tuas respostas com as decisões reais.</li>
+  </ul>
+</main>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>
