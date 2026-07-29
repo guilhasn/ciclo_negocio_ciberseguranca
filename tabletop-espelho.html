@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · Hoje, o fornecedor és tu · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / Hoje, o fornecedor és tu</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">🪞 Hoje, o fornecedor és tu</h1>
+  <p style="color:var(--cinza)">Um grande cliente manda-te 287 perguntas, exige auditoria e cláusulas duras — exatamente o que este curso te ensinou a exigir. O espelho da ISO/IEC 27036: a norma tem dois lados, e hoje estás no outro.</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "espelho",
+  titulo: "Hoje, o fornecedor és tu",
+  origem: "original",
+  origemTxt: "🧭 Exercício original do curso, no formato dos tabletops do NCSC «Exercise in a Box» — cenário fictício EnerVale, do lado da mesa onde raramente se treina.",
+  tempo: "30–45 minutos",
+  cenario: "A <b>Ferrolusa</b> — grande metalúrgica, cliente de média tensão da EnerVale, com integração B2B de faturação e telemetria — está a implementar a NIS2. E fez as contas: a EnerVale é <b>fornecedora crítica dela</b>. O pacote chega numa segunda-feira: <b>questionário de segurança com 287 perguntas</b> (prazo: 15 dias), minuta de aditamento contratual com <b>auditoria anual on-site, notificação de incidentes em 4 horas, responsabilidade ilimitada e aprovação prévia de todos os subcontratantes</b>. É tudo o que este curso ensina a exigir — visto do outro lado do espelho.",
+  objetivos: [
+    "Viver a perspetiva de fornecedor da ISO/IEC 27036 — a norma cobre as duas partes da relação, e a maioria só treina uma.",
+    "Preparar a organização para responder a clientes exigentes: pacote de evidência pronto, verdade estratégica, prazos operáveis.",
+    "Treinar a contraproposta fundamentada a cláusulas duras — com os mesmos argumentos de proporcionalidade que usamos como clientes.",
+    "Transformar a conformidade demonstrável em vantagem comercial: quem responde depressa e com evidência ganha contratos."
+  ],
+  papeis: [
+    { p: "Decisor sénior / comercial", d: "o cliente vale milhões por ano — mas nem tudo se aceita para o manter; a fronteira é dele." },
+    { p: "Perfil técnico / segurança", d: "sabe o que é verdade nas 287 respostas — e o que é operável nas cláusulas (4 horas?)." },
+    { p: "Jurídico", d: "responsabilidade ilimitada e direitos de auditoria não se assinam de olhos fechados." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções; no fim exporta o registo." }
+  ],
+  fundo: [
+    { t: "Porque é que isto está a acontecer (e vai acontecer mais)?", d: "A NIS2 obriga cada entidade a gerir o risco da SUA cadeia — por isso cada cliente sujeito à diretiva passa a exigir garantias aos fornecedores. Se a tua organização vende a entidades essenciais ou importantes (indústria, saúde, Estado…), vai receber pacotes destes com frequência crescente. As exigências deles nascem do mesmo art. 28.º que as tuas." },
+    { t: "Verdade estratégica num questionário", d: "Mentir num questionário de segurança é dar ao cliente o direito de rescindir (e, num litígio pós-incidente, uma arma). A resposta profissional a uma lacuna não é «sim» embelezado — é «não temos X; plano de remediação com data Y». Clientes maduros preferem honestidade com plano a perfeição suspeita: 287 «sim» seguidos são, por si só, um red flag." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · O pacote chega",
+      nar: "O email da Ferrolusa cai na caixa do <b>gestor comercial</b> — que o reencaminha ao diretor de IT com um «tratas disto?». As 287 perguntas cobrem governação, acessos, cifra, incidentes, continuidade, subcontratantes. Prazo: <b>15 dias</b>. Ninguém na EnerVale respondeu a um destes antes — e a conta da Ferrolusa vale <b>4% da receita</b>.",
+      guia: "O primeiro tema é organização: isto não é um formulário para «despachar» — é um processo comercial-técnico-jurídico com dono. O segundo: quanto do trabalho devia estar feito ANTES de o email chegar.",
+      pontos: [
+        { q: "Quem é o dono desta resposta — e quem contribui?", sub: ["Comercial (relação), segurança (verdade técnica), jurídico (compromissos) — quem coordena e assina?", "O prazo de 15 dias é negociável? Pedir extensão é sinal de fraqueza ou de seriedade?", "O que fazemos igual/diferente do que EXIGIMOS aos nossos fornecedores quando somos nós a perguntar?"] },
+        { q: "Quanto disto já devia estar pronto — o «pacote do fornecedor»?", sub: ["Certificações, políticas partilháveis, descrição da arquitetura de segurança, resposta-tipo às 50 perguntas mais comuns: existe?", "Quem o mantém atualizado — e quando foi a última revisão?", "Quanto tempo pouparíamos se existisse? (façam a conta: 287 perguntas × primeira vez)"] },
+        { q: "Que informação NÃO partilhamos — e como se recusa bem?", sub: ["Topologias detalhadas, resultados de pentests, segredos de configuração: onde é a linha?", "Alternativas elegantes: sumários executivos, evidência sob NDA, sessão presencial em vez de documento?", "Quem decide as exceções — caso a caso ou por política?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a ISO/IEC 27036-2 define processos para <b>as duas partes</b> — adquirente e fornecedor; responder a clientes é um processo teu, com dono e evidência (GR.CA-2: papéis definidos ao longo da cadeia). E as exigências da Ferrolusa nascem do mesmo art. 28.º do DL n.º 125/2025 que fundamenta as tuas.",
+      obs: [
+        { t: "Existe um dono claro (e um circuito) para responder a exigências de segurança de clientes.", rec: "Define o triângulo comercial-segurança-jurídico com um coordenador — o mesmo desenho do teu processo de compras, invertido.", link: "templates.html#politica-tprm", linkTxt: "Política TPRM (papéis)" },
+        { t: "Temos um pacote de evidência de fornecedor preparado e atualizado — antes de ser pedido.", rec: "Compila uma vez: certificações, políticas partilháveis, FAQ de segurança, sumário de arquitetura. Cada pedido novo passa a custar horas, não semanas.", link: "processo.html", linkTxt: "O Processo (trilho de evidência)" },
+        { t: "Sabemos o que não partilhamos — e temos alternativas elegantes para o recusar sem perder o negócio.", rec: "Política de classificação + o menu de alternativas (sumário, NDA, sessão): decide a frio o que se responde a quente.", link: "qnrcs.html", linkTxt: "QNRCS v2 (classificação da informação)" }
+      ]
+    },
+    {
+      t: "Inject 2 · As perguntas difíceis",
+      nar: "A meio do questionário, as perguntas que ninguém quer responder: <b>«Listem os vossos subcontratantes críticos»</b> (interessa-lhes a nossa cadeia — como a nossa nos interessa a nós). <b>«Descrevam os incidentes de segurança dos últimos 24 meses»</b> (contamos o quê?). <b>«Todos os acessos têm MFA?»</b> — e a resposta verdadeira é <em>«não todos»</em> (o dossier que o diga). <b>«Anexem as vossas políticas internas»</b> (dar documentos internos a um cliente?).",
+      guia: "O coração do exercício: verdade estratégica. Cada pergunta difícil tem três respostas possíveis — a mentira confortável, a verdade nua que assusta, e a verdade profissional com contexto e plano. Treinem a terceira.",
+      pontos: [
+        { q: "Os subcontratantes: quanta transparência devemos — e queremos?", sub: ["Listar os críticos com função (sem detalhe operacional) chega?", "Se recusarmos totalmente: aceitaríamos essa recusa de um fornecedor NOSSO?", "O aviso de alteração de subcontratantes: conseguimos cumpri-lo de facto?"] },
+        { q: "Os incidentes dos últimos 24 meses: o que se conta?", sub: ["O que foi notificado a autoridades é factual e verificável — a coerência é obrigatória.", "Incidentes menores não notificáveis: critério de materialidade para o que se partilha?", "Um «zero incidentes» seco é credível — ou um red flag que convida a auditoria?"] },
+        { q: "O MFA que falta: como se responde a uma lacuna verdadeira?", sub: ["«Sim» embelezado = risco contratual; «não» seco = risco comercial; qual é a formulação profissional?", "Plano de remediação com âmbito e data — quem o assume e orçamenta?", "Esta pergunta do cliente acabou de fazer pela segurança interna o que dois anos de pedidos não fizeram: aproveitamos?"] },
+        { q: "Documentos internos: o que sai porta fora?", sub: ["Políticas completas ou sumários fiéis? Versões «partilháveis» mantidas em paralelo?", "Sob NDA muda alguma coisa?", "Tudo o que enviarmos pode voltar num litígio: quem revê com esses óculos?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> coerência acima de tudo — o que se responde ao cliente tem de bater certo com o que foi notificado ao CNCS/CNPD e com a realidade auditável (as respostas a questionários são <em>representações contratuais</em>). A transparência da subcontratação que nos pedem é a mesma do <b>GR.CA-2/6</b> que nós pedimos.",
+      obs: [
+        { t: "Respondemos com verdade estratégica: lacunas admitidas com plano e data — nunca embelezadas.", rec: "Cria o formato-tipo de resposta a lacunas («estado atual + mitigação + plano + data») e usa-o em todas — consistência é credibilidade.", link: "templates.html#maturidade", linkTxt: "Avaliação de Maturidade (o teu retrato honesto)" },
+        { t: "Há uma política de partilha de informação sensível com clientes — com alternativas e aprovações.", rec: "Classifica os documentos de segurança em três níveis (público/NDA/nunca) e cria as versões partilháveis uma vez.", link: "qnrcs.html", linkTxt: "QNRCS v2" },
+        { t: "O que dizemos a clientes, auditores e reguladores é a mesma história — verificável.", rec: "Um registo único de incidentes e notificações alimenta todas as respostas — a versão dupla é uma bomba-relógio.", link: "templates.html", linkTxt: "Política de Gestão de Incidentes" }
+      ]
+    },
+    {
+      t: "Inject 3 · As cláusulas draconianas",
+      nar: "O aditamento contratual, lido em voz alta na reunião: <b>notificação de qualquer incidente em 4 horas</b>; <b>auditoria on-site anual</b> com acesso a instalações e sistemas; <b>responsabilidade ilimitada</b> por danos de segurança; <b>aprovação prévia de TODOS os subcontratantes</b>; rescisão imediata por incumprimento. O jurídico sublinha metade a vermelho. O comercial lembra: 4% da receita. E alguém pergunta baixinho: <em>«nós não mandámos cláusulas parecidas aos nossos fornecedores no mês passado?»</em>",
+      guia: "A negociação espelho: contrapropor com os MESMOS princípios de proporcionalidade que o curso ensina a usar como cliente. E a pergunta desconfortável do fim da narrativa merece 5 minutos a sério.",
+      pontos: [
+        { q: "Notificação em 4 horas: assinável? Operável?", sub: ["4 horas a partir de quê — deteção, confirmação, classificação? A definição importa mais do que o número.", "Contraproposta profissional: prazos por severidade, com «incidente relevante para o serviço do cliente» bem definido?", "O que a nossa equipa real consegue cumprir às 3h de sábado — assinamos isso, não o ideal."] },
+        { q: "Auditoria on-site anual: aceitar, moldar ou recusar?", sub: ["Contrapropor a escada da proporcionalidade: certificação + relatórios anuais + auditoria por causa justificada — o mesmo argumento do art. 28.º que usamos como clientes.", "Se aceitarmos: âmbito, pré-aviso, confidencialidade, custos — de quem?", "Auditoria partilhada/relatório único para vários clientes: propomos?"] },
+        { q: "Responsabilidade ilimitada: onde é a linha vermelha?", sub: ["Limites proporcionais ao contrato + seguro: qual é a contraproposta padrão?", "Carve-outs habituais (dolo, violação de dados por negligência grave): o que é negociável?", "O jurídico e o seguro já falaram um com o outro sobre isto?"] },
+        { q: "E a pergunta do espelho: as NOSSAS minutas passam neste teste?", sub: ["As cláusulas que enviámos aos nossos fornecedores: aceitá-las-íamos como fornecedores?", "Pedimos 24h de notificação a startups de 9 pessoas — é operável para elas?", "O que muda nas nossas minutas depois de hoje — sem perder o essencial?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> os prazos de notificação entre privados fixam-se <b>em contrato</b> — e um prazo inoperável assinado é um incumprimento agendado. A proporcionalidade do art. 28.º (relatórios OU auditoria, ajustado ao risco) vale nos dois sentidos da mesa — é o teu melhor argumento hoje, como era o teu dever ontem.",
+      obs: [
+        { t: "Contrapropomos cláusulas duras com fundamento técnico e proporcionalidade — não apenas com «o jurídico não deixa».", rec: "Usa as 13 cláusulas do curso lidas ao contrário: para cada exigência, a contraproposta proporcional já está desenhada — com a nota «onde ceder, onde nunca».", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais (ao espelho)" },
+        { t: "Só assinamos prazos e obrigações que a nossa equipa real consegue operar — testados, não desejados.", rec: "Antes de assinar SLAs de notificação, simula-os: este tabletop com o relógio na mão diz-te o que é verdade.", link: "tabletop.html", linkTxt: "Exercícios Tabletop" },
+        { t: "As nossas próprias minutas de cliente passam no teste do espelho — exigentes, mas operáveis e proporcionais.", rec: "Revê as tuas minutas com os olhos de hoje: o poder negocial usa-se para obter segurança real, não cláusulas decorativas que ninguém cumpre.", link: "processo.html#f4", linkTxt: "O Processo · Fase 4 — Contratar" }
+      ]
+    },
+    {
+      t: "Inject 4 · Ser fornecedor auditável (e ganhar com isso)",
+      nar: "Acordo fechado: questionário entregue (com três lacunas admitidas e planos datados), cláusulas negociadas para versões operáveis, primeira revisão anual marcada. O diretor comercial, surpreendido: <b>«a Ferrolusa disse que fomos o fornecedor que melhor respondeu — e perguntou se vendemos também serviços de flexibilidade»</b>. A conformidade demonstrável acabou de se tornar argumento de venda. Como se industrializa isto?",
+      guia: "Fecho estratégico: passar de «responder a pedidos» para «evidência como ativo comercial» — e a síntese das duas caras da 27036 no mesmo sistema de gestão.",
+      pontos: [
+        { q: "Como se transforma isto em vantagem comercial permanente?", sub: ["O pacote de fornecedor evolui para um «trust pack»: certificações, sumários, FAQ, contactos — pronto a enviar em 24h?", "Publicar evidência (como os grandes fazem no CSA STAR) faria sentido para nós?", "Nas propostas comerciais a clientes exigentes: a segurança demonstrável entra como diferenciador explícito?"] },
+        { q: "Quem mantém o pacote vivo — e alinhado com a verdade?", sub: ["Dono nomeado, revisão semestral, gatilhos de atualização (nova certificação, incidente, mudança relevante)?", "O pacote alimenta-se do mesmo sistema que responde a auditores e reguladores — uma fonte, várias vistas?", "As lacunas admitidas à Ferrolusa: quem garante que os planos prometidos se cumprem? (a promessa a um cliente é um contrato)"] },
+        { q: "As duas caras da 27036 na mesma casa: o que aprendemos?", sub: ["O que exigimos como clientes e o que oferecemos como fornecedores saem do MESMO sistema de gestão — onde é que hoje não batem certo?", "A empatia negocial muda as nossas exigências a fornecedores pequenos — em quê, concretamente?", "Se cada formando levar UMA mudança para a organização segunda-feira: qual é?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a <b>ISO/IEC 27036</b> escreve-se para adquirentes E fornecedores — e a NIS2 faz de quase todas as organizações as duas coisas ao mesmo tempo. A evidência que serve o CNCS, os auditores e os clientes é a mesma: um sistema, várias vistas (o trilho de evidência do Processo, agora também como argumento de venda).",
+      obs: [
+        { t: "A evidência de segurança é tratada como ativo comercial — pronta, apresentável e verdadeira.", rec: "Batiza o «trust pack», dá-lhe dono e prazo de resposta (24h) — e mede quantas propostas ganhas o mencionam no debrief comercial.", link: "processo.html", linkTxt: "O Processo (trilho de evidência)" },
+        { t: "O pacote de fornecedor tem dono, revisão periódica e uma única fonte de verdade.", rec: "Liga-o à Avaliação de Maturidade anual: o retrato interno e o pacote externo atualizam-se no mesmo ciclo — sem versões divergentes.", link: "templates.html#maturidade", linkTxt: "Avaliação de Maturidade TPRM" },
+        { t: "Gerimos as duas perspetivas — cliente e fornecedor — no mesmo programa, com coerência total.", rec: "No próximo comité, põe as duas listas lado a lado: o que exigimos vs o que oferecemos. As diferenças são o teu plano de trabalho.", link: "templates.html#politica-tprm", linkTxt: "Política TPRM" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 Repete o exercício quando chegar o primeiro pacote real — e compara os tempos. No curso: o caso <a href='casos-cadeia.html'><b>ISO 27001 no concurso da ANACOM</b></a> mostra o que acontece a quem apresenta o certificado no sítio errado, e as <a href='templates.html#clausulas'><b>Cláusulas</b></a> lidas ao espelho são a tua mesa de negociação."
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>

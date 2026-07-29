@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · O bucket aberto do piloto de IA · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / O bucket aberto do piloto de IA</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">🪣 O bucket aberto do piloto de IA</h1>
+  <p style="color:var(--cinza)">Os dados dos contadores estão públicos na cloud da startup — e o DPA nunca chegou a ser assinado. Responsabilidade partilhada, RGPD e inovação com guarda-corpos (ISO/IEC 27036-4).</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "cloud",
+  titulo: "O bucket aberto do piloto de IA",
+  origem: "original",
+  origemTxt: "🧭 Exercício original do curso, no formato dos tabletops do NCSC «Exercise in a Box» — cenário fictício EnerVale, com um esqueleto no armário que o dossier do simulador já anunciava.",
+  tempo: "30–45 minutos",
+  cenario: "O <b>piloto de IA de previsão</b> da EnerVale corre com a startup <b>NeuraGrid</b>: os dados dos contadores saem para a cloud dela — e, como o dossier do simulador avisava, <b>o acordo de tratamento de dados (DPA) está por assinar</b>. Sexta ao fim da tarde, chega um email ao endereço geral: um <b>investigador de segurança</b> encontrou um repositório de armazenamento <em>publicamente acessível</em> com telemetria «que parece ser da EnerVale». Amostra em anexo. Divulgação responsável: <b>30 dias</b>.",
+  objetivos: [
+    "Perceber a responsabilidade partilhada na cloud: o fornecedor dá o cofre — a porta aberta é de quem configurou (ISO/IEC 27036-4).",
+    "Distinguir responsável e subcontratante no RGPD — e o que significa correr um piloto sem contrato de tratamento de dados.",
+    "Treinar a resposta a uma divulgação responsável: investigador, avaliação de exposição, CNPD, titulares.",
+    "Fechar a governação dos pilotos: inovação com guarda-corpos, não inovação com isenções."
+  ],
+  papeis: [
+    { p: "Decisor sénior", d: "o piloto é a menina dos olhos do board — e a decisão matar/suspender/regularizar é dele." },
+    { p: "Jurídico / DPO", d: "responsável vs subcontratante, art. 28.º do RGPD, CNPD e titulares — este cenário é o dia dele." },
+    { p: "Perfil técnico / segurança", d: "avalia a exposição real: que dados, há quanto tempo, quem acedeu." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções; no fim exporta o registo." }
+  ],
+  fundo: [
+    { t: "Responsabilidade partilhada na cloud", d: "O prestador de cloud responde pela segurança DA cloud (instalações, hardware, hipervisor); o cliente responde pela segurança NA cloud (configurações, acessos, dados). Um repositório público por má configuração é, quase sempre, falha de quem configurou — não do prestador. A ISO/IEC 27036-4 trata exatamente os riscos de segurança na aquisição e uso de serviços cloud." },
+    { t: "Responsável vs subcontratante (RGPD)", d: "A EnerVale decide porquê e como se tratam os dados dos clientes — é a <b>responsável</b>. A NeuraGrid trata dados por conta dela — é <b>subcontratante</b>. O art. 28.º do RGPD exige contrato escrito (o DPA) com instruções, segurança, confidencialidade e apoio nas obrigações. Sem DPA, a EnerVale está em incumprimento — mesmo antes de qualquer fuga. E «dados técnicos» de consumo são pessoais: os padrões de 15 em 15 minutos contam a vida de uma casa." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · O email do investigador",
+      nar: "«Encontrei um bucket público com ficheiros de telemetria que aparentam ser da vossa rede. Segue amostra. Pratico divulgação coordenada: 30 dias.» O ficheiro anexo tem <b>leituras de 15 em 15 minutos e identificadores de contador</b>. O estagiário que leu o email do geral@ quase o apagou como spam.",
+      guia: "Duas discussões em paralelo: o circuito (um alerta destes chega a quem, em quanto tempo?) e o mapa de responsabilidades — antes de discutir culpas, desenhar no quadro quem responde pelo quê: prestador de cloud, NeuraGrid, EnerVale.",
+      pontos: [
+        { q: "Este email chegava às pessoas certas — e a tempo?", sub: ["Temos canal público para reportes de segurança (security.txt, endereço dedicado) ou dependemos da sorte do geral@?", "Quem responde ao investigador, com que tom e em que prazo? Agradecer e cooperar — ou mandar o jurídico ameaçar (e sair no Twitter)?", "Os 30 dias de divulgação: são um prazo de trabalho realista para nós?"] },
+        { q: "De quem é a falha — desenhem o mapa antes de apontar dedos:", sub: ["O prestador de cloud deu o cofre: a configuração pública foi de quem?", "A NeuraGrid configurou mal — mas quem lhe entregou dados sem exigências escritas?", "Responsabilidade legal perante clientes e CNPD: de quem é? (spoiler: de quem decide os fins — a EnerVale)"] },
+        { q: "O DPA por assinar: o que significa juridicamente ESTE detalhe?", sub: ["O art. 28.º do RGPD exige contrato escrito com o subcontratante — corremos meses sem ele: porquê?", "Quem aprovou o envio de dados reais para o piloto — e com que base?", "Há mais pilotos ou provas de conceito na casa nesta situação?"] },
+        { q: "Primeiras 24 horas: o que fazemos já?", sub: ["Pedir à NeuraGrid o fecho imediato do bucket — e a confirmação com evidência?", "Preservar: logs de acesso ao bucket, listagem do conteúdo, datas — antes que se percam?", "Congelar novos envios de dados até haver contrato e configuração revista?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a EnerVale é <b>responsável pelo tratamento</b>; a NeuraGrid, <b>subcontratante</b> — e o contrato do art. 28.º do RGPD não é opcional nem «para assinar depois». Na régua da cadeia: devida diligência antes de entregar dados (<b>GR.CA-6</b>) e a divisão de responsabilidades cloud é o coração da <b>ISO/IEC 27036-4</b>.",
+      obs: [
+        { t: "Temos um canal público e um circuito interno para alertas de investigadores de segurança — testado.", rec: "Um security.txt e uma regra de encaminhamento custam uma tarde; perder um alerta destes no geral@ custa os 30 dias.", link: "templates.html", linkTxt: "Política de Gestão de Incidentes" },
+        { t: "Para cada serviço cloud que usamos, a divisão de responsabilidades está escrita e é conhecida.", rec: "Uma tabela por serviço (prestador/fornecedor/nós) na ficha do fornecedor — a 27036-4 em meia página.", link: "templates.html#monitorizacao", linkTxt: "Mapa de Monitorização" },
+        { t: "Nenhum dado pessoal sai para um terceiro sem contrato de tratamento (DPA) assinado — sem exceções para pilotos.", rec: "Regra de ouro na política: «sem DPA, sem dados» — e o inventário dos tratamentos diz-te se há mais NeuraGrids escondidas.", link: "templates.html#politica-tprm", linkTxt: "Política TPRM" }
+      ]
+    },
+    {
+      t: "Inject 2 · Que dados são — e quão maus?",
+      nar: "A análise confirma: telemetria de <b>~30 mil contadores</b> do piloto — consumos de 15 em 15 minutos ao longo de 4 meses — com o <b>identificador do contador</b>. «Mas não tem nomes», diz alguém, com esperança. O DPO respira fundo: os padrões de consumo revelam rotinas (quando a casa está vazia, quando acordam, férias) e o ID cruza com a base de clientes em segundos.",
+      guia: "O ponto pedagógico central: «não tem nomes» não é o mesmo que «não é pessoal». A pseudonimização não retira os dados do RGPD — e dados de consumo detalhado são dos mais reveladores que uma utility detém.",
+      pontos: [
+        { q: "Isto são dados pessoais — e o grupo concorda porquê?", sub: ["O ID do contador liga-se a um contrato e a uma morada: reidentificação é trivial para quem?", "O que revelam 4 meses de consumos de 15 em 15 minutos sobre uma família?", "Se fossem dados agregados por dia/por bairro, a conversa mudava — porquê? (minimização: o piloto precisava mesmo deste detalhe?)"] },
+        { q: "A exposição real: conseguimos medi-la?", sub: ["Há quanto tempo estava o bucket público — desde o início do piloto?", "Existem logs de acesso? Quem mais o encontrou antes do investigador (motores de indexação de buckets abertos existem e são usados)?", "Sem logs: assumimos o quê — o pior cenário plausível?"] },
+        { q: "Notificação: CNPD, titulares, CNCS — o que se aplica aqui?", sub: ["Violação de dados pessoais com risco: notificação à CNPD em ≤72h a partir do conhecimento — quem prepara e decide?", "Alto risco para os titulares (rotinas de 30 mil casas expostas): comunicamos aos clientes? Como e quando?", "E a NIS2? Não houve impacto no SERVIÇO — mas o registo interno do incidente faz-se na mesma."] },
+        { q: "O que dizemos ao investigador — e ao mundo?", sub: ["Confirmamos a correção e agradecemos publicamente (boa prática) — ou tentamos silêncio?", "Se ele publicar daqui a 30 dias, a nossa comunicação está pronta ANTES?", "Coerência total entre o que dizemos à CNPD, aos clientes e à imprensa — quem garante?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> dados de consumo com identificador são <b>dados pessoais</b> (a reidentificação é razoavelmente provável) — violação com risco: <b>CNPD em ≤72h</b> a partir do conhecimento (RGPD art. 33.º) e comunicação aos titulares se o risco for elevado (art. 34.º). A avaliação e a decisão documentam-se — mesmo quando a decisão é «não notificar».",
+      obs: [
+        { t: "Sabemos reconhecer dados «técnicos» que são pessoais — e tratamo-los como tal desde o desenho.", rec: "Minimização à cabeça: o piloto funcionava com dados agregados ou IDs truncados? Essa pergunta faz-se na Fase 2, não depois da fuga.", link: "processo.html#f2", linkTxt: "O Processo · Fase 2 — Especificar" },
+        { t: "Conseguimos medir a exposição de um incidente destes: duração, acessos, pior cenário plausível.", rec: "Logs de acesso ativados por omissão em qualquer repositório com dados nossos — exige-o por contrato e verifica-o.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais" },
+        { t: "As decisões de notificação (CNPD, titulares) são tomadas a tempo, fundamentadas e documentadas.", rec: "Um fluxograma de uma página no plano de resposta: conhecimento → avaliação de risco → decisão assinada → registo. O relógio das 72h não espera pela reunião de segunda.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" }
+      ]
+    },
+    {
+      t: "Inject 3 · A conversa com a startup",
+      nar: "Segunda de manhã, videochamada com a NeuraGrid: <b>9 pessoas, sem responsável de segurança</b>, o CEO explica que «o bucket era do ambiente de desenvolvimento, foi um lapso de um estagiário», fecharam tudo em duas horas e estão «100% comprometidos com a segurança». Entretanto: o piloto está a dar resultados <b>acima do esperado</b> e o board adora-o. Matar, suspender ou regularizar?",
+      guia: "Aqui joga-se a proporcionalidade sem ingenuidade: uma startup de 9 pessoas não vai ter um SOC — mas os dados de 30 mil clientes não descem de criticidade por o fornecedor ser pequeno. O Tier vem da criticidade dos dados, não do tamanho da fatura.",
+      pontos: [
+        { q: "Matar, suspender ou regularizar — com que critérios?", sub: ["O valor do piloto justifica o risco — e quem faz essa conta com números?", "Suspender envios até cumprir condições: que condições exatamente, e verificadas por quem?", "Se matar: os dados que lá estão — devolvidos e apagados com que evidência? (a terminação também se aplica a pilotos)"] },
+        { q: "O que exigimos para continuar — proporcional mas inegociável?", sub: ["DPA assinado esta semana — com instruções, segurança e subcontratantes autorizados?", "Configuração revista com evidência (relatório, capturas, verificação nossa ou de terceiro)?", "Minimização: o modelo treina com IDs truncados ou agregados — porquê não?", "Um mínimo de práticas (MFA, ambientes separados, logs) — o MVSP como chão realista para uma startup?"] },
+        { q: "«É só um piloto» — quantas vezes esta frase já criou incidentes?", sub: ["O caminho piloto→produção: quando os dados passaram a ser reais, quem reavaliou o risco?", "Startups em processos de inovação: fast-track do processo de fornecedores (leve mas real) — como seria?", "Quem, na casa, tem autoridade para dizer «este piloto não avança sem X»?"] },
+        { q: "E o prestador de cloud da NeuraGrid — interessa-nos?", sub: ["Quarta parte outra vez: onde corre fisicamente o bucket, em que região, com que certificações?", "Transferências para fora da UE: alguém verificou?", "Que evidência pública existe (relatórios, certificações do prestador) que possamos usar sem auditar ninguém?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> proporcionalidade (art. 28.º do DL n.º 125/2025) não é isenção — é exigência ajustada: a criticidade herda-se <b>dos dados</b>, não do tamanho do fornecedor. O Quickscan da SCA dá o nível pelo objeto; o DPA (RGPD art. 28.º) e a minimização (art. 5.º) não têm versão «piloto».",
+      obs: [
+        { t: "Pilotos e provas de conceito passam pelo processo de fornecedores — numa via rápida, mas real.", rec: "Desenha o fast-track: Quickscan + DPA + mínimos de segurança + revisão em 90 dias. Inovação com guarda-corpos, não com isenções.", link: "sca.html", linkTxt: "SCA Framework (F1 Quickscan)" },
+        { t: "As exigências a fornecedores pequenos são proporcionais mas inegociáveis no que toca a dados.", rec: "Usa o MVSP como chão para startups: uma página de mínimos que uma equipa de 9 consegue cumprir — e que protege o essencial.", link: "processo.html#f2", linkTxt: "O Processo (MVSP na Fase 2)" },
+        { t: "A regra da herança aplica-se sempre: o Tier vem da criticidade dos dados e do processo — não da fatura.", rec: "Reclassifica o piloto na Matriz com os dados reais que ele usa hoje — e vê que Tier sai. Depois age em conformidade.", link: "templates.html#matriz", linkTxt: "Matriz de Classificação" }
+      ]
+    },
+    {
+      t: "Inject 4 · Cloud nas compras, daqui para a frente",
+      nar: "Fechado o incidente (bucket corrigido, DPA assinado, CNPD notificada com relatório sólido), a administração quer a resposta estrutural: <b>«o que muda na forma como compramos e usamos cloud — sem matar a inovação?»</b> A resposta certa cabe numa página. Escrevam-na.",
+      guia: "Fecho construtivo: transformar o episódio em requisitos-tipo para aquisições cloud e numa governação de pilotos que o board consiga defender — rigor E velocidade, não rigor OU velocidade.",
+      pontos: [
+        { q: "Que requisitos cloud entram em todas as novas aquisições?", sub: ["Divisão de responsabilidades escrita por serviço — quem configura, quem monitoriza, quem responde?", "Evidência contínua de configuração (relatórios, verificações), não promessas de kick-off?", "Localização dos dados e transferências — verificadas, não assumidas?", "Saída: exportação em formatos abertos e apagamento certificado (a Fase 6 também existe na cloud)?"] },
+        { q: "Como se governa a inovação sem a matar?", sub: ["O fast-track de pilotos: prazos garantidos (o processo responde em N dias) em troca de mínimos inegociáveis?", "Dados sintéticos ou anonimizados por omissão nos pilotos — reais só com justificação e DPA?", "Um dono claro da governação de pilotos — inovação COM o processo, não contra ele?"] },
+        { q: "Que evidência pública usamos para avaliar prestadores cloud — sem auditar gigantes?", sub: ["Registos públicos (CSA STAR/CAIQ) e certificações como primeira camada de due diligence?", "O que fazemos quando o fornecedor é pequeno e não tem nada disto — o chão MVSP outra vez?", "Revalidação anual: quem verifica que a evidência continua válida?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a aquisição e utilização segura de serviços cloud é o objeto da <b>ISO/IEC 27036-4</b>; os requisitos fixam-se nas peças do procedimento (<b>GR.CA-5</b>, Fase 2 do Processo) e a evidência pede-se com proporcionalidade (art. 28.º). E a regra que este exercício deixa: <em>sem DPA, sem dados — nem em piloto</em>.",
+      obs: [
+        { t: "Temos requisitos-tipo para aquisições cloud: responsabilidades, evidência de configuração, localização, saída.", rec: "O bloco «cloud» dos requisitos da Fase 2 escreve-se uma vez — a SCA carrega-o em cada procedimento novo.", link: "sca.html", linkTxt: "SCA Framework (F4)" },
+        { t: "A inovação tem via rápida formal — com mínimos inegociáveis e dados reais só com justificação.", rec: "Leva o fast-track ao comité: rigor com prazos garantidos é a única versão de governação que os inovadores aceitam — e cumpre.", link: "templates.html#politica-tprm", linkTxt: "Política TPRM" },
+        { t: "Usamos evidência pública (STAR/CAIQ, certificações) como primeira camada da due diligence cloud.", rec: "Está tudo ligado na página do Processo (Fase 3): registos abertos primeiro, questionário próprio depois — esforço onde ele rende.", link: "processo.html#f3", linkTxt: "O Processo · Fase 3 — Avaliar" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 Repete o exercício trocando a NeuraGrid pelo próximo piloto que aí vem — a resposta ao investigador devia demorar horas, não dias. No curso: a divisão de responsabilidades e os requisitos cloud vivem n'<a href='processo.html#f2'><b>O Processo</b></a>, e o <a href='simulador.html'><b>Capítulo 3 do simulador</b></a> já te tinha perguntado que Tier davas à startup do piloto. 😉"
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>

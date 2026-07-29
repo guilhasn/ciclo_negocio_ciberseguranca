@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabletop · A atualização envenenada · Ciclo do Negócio de Cibersegurança</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<nav class="topo">
+  <span class="marca">🛡️ Ciclo do Negócio de Cibersegurança</span>
+  <a href="index.html">Início</a>
+  <a href="m1.html">Módulo 1</a>
+  <a href="m2.html">Módulo 2</a>
+  <a href="m3.html">Módulo 3</a>
+  <a href="m4.html">Módulo 4</a>
+  <a href="templates.html">Templates</a>
+  <a href="simulador.html">🎮 Simulador</a>
+  <a href="tabletop.html">Tabletop</a>
+  <a href="casos-cadeia.html">Casos</a>
+  <a href="qnrcs.html">QNRCS</a>
+  <a href="sca.html">SCA</a>
+</nav>
+
+<main class="wrap">
+  <p class="crumb"><a href="tabletop.html">Exercícios Tabletop</a> / A atualização envenenada</p>
+  <h1 style="color:var(--azul); margin-bottom:4px">☣️ A atualização envenenada</h1>
+  <p style="color:var(--cinza)">O software veio do fornecedor legítimo, assinado e tudo — e trazia um hóspede. Integridade na cadeia de software (ISO/IEC 27036-3), jogada nos parques renováveis da EnerVale.</p>
+  <div id="tt"></div>
+</main>
+
+<script>
+const EX = {
+  id: "atualizacao",
+  titulo: "A atualização envenenada",
+  origem: "original",
+  origemTxt: "🧭 Exercício original do curso, no formato dos tabletops do NCSC «Exercise in a Box» — cenário fictício EnerVale, inspirado nos compromissos reais de cadeias de software (SolarWinds, Kaseya).",
+  tempo: "30–45 minutos",
+  cenario: "A plataforma que gere os <b>6 parques renováveis</b> da EnerVale é da <b>GreenFlow Systems</b>. Numa terça-feira, a GreenFlow publica a versão <b>14.2</b> — correções e um módulo novo de previsão — e recomenda aplicação «assim que possível». O exercício começa aí, na rotina mais banal que existe: <em>aplicar uma atualização de um fornecedor de confiança</em>. Cinco dias depois, deixa de ser banal.",
+  objetivos: [
+    "Testar o processo de gestão de atualizações de software de fornecedores — aprovação, teste, janelas, verificação de integridade.",
+    "Treinar a resposta ao cenário mais traiçoeiro da cadeia: software legítimo e assinado, comprometido na origem (ISO/IEC 27036-3).",
+    "Discutir o que exigir a um fornecedor de software antes (desenvolvimento seguro, SBOM) e depois (prova forense, reconstrução) de um compromisso.",
+    "Levar a lição às compras: requisitos de integridade que passam a entrar em todos os cadernos de encargos de software."
+  ],
+  papeis: [
+    { p: "Decisor sénior", d: "arbitra a tensão produção-vs-segurança: parar parques custa dinheiro por hora; não parar pode custar muito mais." },
+    { p: "Perfil técnico / OT", d: "conhece a segmentação dos parques, o inventário de versões e o que é realista isolar." },
+    { p: "Compras / jurídico", d: "sabe o que o contrato com a GreenFlow exige — e o que devia ter exigido." },
+    { p: "Escriba (recomendado)", d: "regista decisões e assunções; no fim exporta o registo." }
+  ],
+  fundo: [
+    { t: "O que é um ataque à cadeia de software?", d: "Em vez de atacar mil clientes um a um, o atacante compromete o <em>pipeline</em> de desenvolvimento ou distribuição do fornecedor — e são os próprios clientes que instalam o implante, embrulhado numa atualização legítima e <b>assinada digitalmente</b>. SolarWinds (2020) e Kaseya (2021) são os exemplos de manual. Lição incómoda: a assinatura prova de onde veio, não prova que é inofensivo." },
+    { t: "SBOM — a lista de ingredientes", d: "O <em>Software Bill of Materials</em> é a lista dos componentes (incluindo bibliotecas de terceiros) dentro de um software. Sem SBOM, a pergunta «estamos expostos ao componente X?» demora dias; com SBOM, minutos. A ISO/IEC 27036-3 trata a integridade e a proveniência na cadeia TIC; o Cyber Resilience Act europeu (Reg. UE 2024/2847, aplicação faseada) vai obrigar os fabricantes a práticas destas — boa alavanca para exigir já." }
+  ],
+  injects: [
+    {
+      t: "Inject 1 · A release de terça-feira",
+      nar: "O email da GreenFlow: «versão 14.2 disponível — recomendamos atualização na próxima janela». A janela de manutenção da EnerVale é <b>quinta às 22h</b>. O engenheiro de OT pergunta: «aplico nos 6 parques de uma vez, ou faço faseado?» — e alguém devia ter uma resposta escrita para isto.",
+      guia: "Este inject mede a rotina ANTES do drama: se a resposta a «como gerimos atualizações de fornecedores» for «instalamos quando eles mandam», o resto do exercício escreve-se sozinho.",
+      pontos: [
+        { q: "Temos um processo de gestão de atualizações de software de fornecedores?", sub: ["Quem aprova a aplicação — e com que critérios (criticidade, urgência, risco)?", "Testamos em ambiente de pré-produção antes de tocar em produção OT?", "Aplicamos faseado (1 parque primeiro, observar, depois os restantes) ou tudo de uma vez?", "E o inverso: quanto tempo podemos ADIAR uma atualização de segurança sem criar risco por omissão?"] },
+        { q: "Verificamos a integridade do que instalamos — ou confiamos?", sub: ["Conferimos assinaturas e hashes contra o canal oficial?", "Lemos o changelog e questionamos alterações inesperadas (novos módulos, novas permissões, novas ligações à internet)?", "O software dos parques comunica com o exterior — sabemos exatamente com quê?"] },
+        { q: "O inventário: sabemos que versões correm onde?", sub: ["Se perguntarem «que parques têm a 14.2?», a resposta demora minutos ou exige ir ver?", "O inventário inclui os componentes internos (SBOM) ou só o nome do produto?", "Quem o mantém atualizado — e quando foi a última verificação?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a gestão de vulnerabilidades e atualizações é medida básica do QNRCS v2 (família <b>PR</b>) — mas a confiança no fornecedor não dispensa verificação própria: a integridade e a proveniência do software são exatamente o tema da <b>ISO/IEC 27036-3</b>.",
+      obs: [
+        { t: "Temos um processo escrito de gestão de atualizações de terceiros — com aprovação, teste e aplicação faseada nos sistemas críticos.", rec: "Uma página chega: quem aprova, o que se testa, ordem de aplicação, critério de rollback. Cola-a à janela de manutenção.", link: "qnrcs.html", linkTxt: "QNRCS v2 (PR)" },
+        { t: "Verificamos a integridade (assinatura, hash, canal) do software de fornecedores antes de instalar.", rec: "Verificação de integridade e changelog crítico entram no procedimento de atualização — dois minutos que valem um SolarWinds.", link: "casos-cadeia.html", linkTxt: "Casos (Kaseya)" },
+        { t: "O inventário de versões e componentes responde em minutos à pergunta «onde corre X?».", rec: "Começa pelo crítico: inventário de versões dos sistemas OT e pede a SBOM aos fornecedores nas renovações.", link: "templates.html#due-diligence", linkTxt: "Due Diligence (domínio operação)" }
+      ]
+    },
+    {
+      t: "Inject 2 · O alerta",
+      nar: "Domingo, 07h12. O CERT.PT reencaminha um aviso urgente da GreenFlow: <b>o pipeline de build foi comprometido</b> — os instaladores assinados publicados entre os dias 12 e 26 <b>contêm um implante</b>. Indicadores de compromisso em anexo. A EnerVale aplicou a 14.2 na quinta… <b>em 2 dos 6 parques</b>. O implante veio de dentro do canal oficial, com a assinatura certa.",
+      guia: "O relógio importa: quanto tempo entre o alerta e a resposta à pergunta «estamos afetados, onde?». Grupos com inventário respondem em minutos — e o resto da manhã fica para conter em vez de procurar.",
+      pontos: [
+        { q: "Estamos afetados — e em quanto tempo o sabemos com certeza?", sub: ["O inventário diz já quais parques têm a 14.2, ou vamos verificar máquina a máquina?", "Os IoCs do aviso: quem os corre contra os nossos logs — temos logs suficientes na rede OT?", "E as máquinas de gestão (portáteis dos engenheiros) que tocaram no instalador?"] },
+        { q: "Conter: o que isolamos, e a que custo?", sub: ["Isolar os 2 parques afetados do resto do OT e da rede corporativa — como e em quanto tempo?", "Os parques continuam a produzir isolados? Quem decide parar produção, se preciso?", "O acesso remoto permanente do fabricante dos inversores (o tal sem MFA…) — fecha-se já por precaução?"] },
+        { q: "«Estava assinado» — o que fazemos a essa confiança?", sub: ["A assinatura prova origem, não inocência: o que muda na nossa verificação daqui em diante?", "Suspendemos TODAS as atualizações da GreenFlow até haver prova — e as dos outros fornecedores OT?", "Que canais alternativos temos para validar avisos (CERT.PT, fabricante, pares do setor)?"] },
+        { q: "Quem notificamos — e quando começa o relógio?", sub: ["Com implante confirmado em sistemas de produção: isto é significativo? Quem o conclui e quando?", "O que pedimos já à GreenFlow por escrito: âmbito, análise do implante, linha temporal?", "A ERSE e o setor: partilhamos com os pares (o mesmo software corre noutras renováveis)?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> concluído que o incidente é <b>significativo</b>, o alerta inicial ao CNCS segue em ≤24h a partir dessa conclusão, atualização ≤72h, relatório final em 30 dias úteis (arts. 41.º–44.º do DL n.º 125/2025). E a monitorização da atividade de fornecedores nos nossos sistemas (<b>DE.MC-6</b>) é o que permite responder «o implante fez o quê?».",
+      obs: [
+        { t: "Entre o alerta e a resposta «estamos afetados, onde» passam minutos — não dias.", rec: "É o inventário do Inject 1 a pagar-se. Sem ele, cada alerta futuro custa uma manhã de pânico.", link: "templates.html", linkTxt: "Plano de Resposta a Incidentes (NIS2)" },
+        { t: "Conseguimos isolar segmentos OT depressa — com critérios de decisão escritos para parar (ou não) produção.", rec: "A decisão «parar produção» tem dono e critérios ANTES do incidente — escreve-a no plano com o COO, não durante.", link: "templates.html", linkTxt: "BIA + Plano de Resposta" },
+        { t: "O nosso plano de resposta cobre o cenário «software legítimo comprometido» — não só malware clássico.", rec: "Acrescenta o playbook: suspender canal do fornecedor, correr IoCs, isolar, exigir prova — este tabletop é o primeiro ensaio.", link: "templates.html", linkTxt: "Playbook (adaptar do Ransomware)" }
+      ]
+    },
+    {
+      t: "Inject 3 · A prova antes do perdão",
+      nar: "Quarta-feira. A GreenFlow anuncia: «incidente contido, publicámos a <b>14.3</b>, atualizem por favor». O engenheiro de OT pergunta o óbvio: <b>«e porque haveria eu de confiar na 14.3, saída do mesmo pipeline?»</b> Entretanto, a análise forense dos 2 parques mostra que o implante fez reconhecimento — mapeou a rede e os equipamentos — mas não há evidência de comandos destrutivos. Ainda.",
+      guia: "O centro deste inject é a reconstrução da confiança: que prova se exige antes de voltar a instalar seja o que for deste fornecedor — e o que o contrato nos dá (ou não) direito a exigir.",
+      pontos: [
+        { q: "Que prova exigimos antes de confiar na 14.3?", sub: ["Relatório forense independente do compromisso — âmbito, causa, janela temporal?", "Evidência de reconstrução limpa do pipeline (rebuild, chaves novas, assinaturas novas)?", "Auditoria externa às práticas de desenvolvimento — ou aceitamos a palavra deles?", "Aplicamos a 14.3 primeiro num parque «sacrificável», com monitorização reforçada?"] },
+        { q: "A nossa investigação: o que fez o implante em nossa casa?", sub: ["Os logs OT cobrem o período — e alguém os sabe ler?", "O reconhecimento mapeou o quê: topologia, credenciais, firmwares dos inversores?", "Preservámos evidência (imagens, memória) antes de limpar — ou limpámos depressa demais?"] },
+        { q: "O contrato dava-nos direito a exigir isto tudo?", sub: ["Práticas de desenvolvimento seguro eram exigíveis por contrato? E notificação de compromissos do pipeline?", "Temos direito a relatórios ou auditoria neste cenário (art. 28.º: proporcional — isto justifica)?", "Se a GreenFlow recusar a prova: quais são as nossas opções reais?"] },
+        { q: "Religar os 2 parques: quem assina a decisão?", sub: ["Critérios de religação: limpeza confirmada, credenciais rodadas, monitorização reforçada por N semanas?", "Quem aceita formalmente o risco residual — e com que fundamentação escrita?"] }
+      ],
+      regua: "⚖️ <b>A régua PT:</b> a evidência pede-se — relatórios ou auditoria, com a proporcionalidade do art. 28.º do DL n.º 125/2025, e um pipeline comprometido é o caso de escola da causa justificada. Requisitos de desenvolvimento seguro nos contratos de software: <b>GR.CA-5</b> + <b>ISO/IEC 27036-3</b>. E o risco residual aceita-o quem tem autoridade E suporta o impacto.",
+      obs: [
+        { t: "Temos critérios escritos para voltar a confiar num fornecedor comprometido — prova primeiro, perdão depois.", rec: "Faz a lista agora, a frio: forense independente, rebuild com chaves novas, aplicação faseada, monitorização reforçada. Cola-a ao playbook.", link: "processo.html#f5", linkTxt: "O Processo · Fase 5 — Operar" },
+        { t: "Conseguimos investigar em OT: logs suficientes, competência para os ler, evidência preservada.", rec: "Se a resposta foi ⚠️ ou ✘: logging OT e retenção entram no próximo orçamento — sem logs não há «o implante não fez nada», há «não sabemos».", link: "qnrcs.html", linkTxt: "QNRCS v2 (DE.MC)" },
+        { t: "Os contratos de software crítico exigem desenvolvimento seguro, notificação de compromissos e direito a evidência.", rec: "Três cláusulas a acrescentar na próxima renovação da GreenFlow — o texto-modelo já existe, falta o teu caso concreto.", link: "templates.html#clausulas", linkTxt: "Cláusulas Contratuais" }
+      ]
+    },
+    {
+      t: "Inject 4 · As compras nunca mais foram iguais",
+      nar: "Um mês depois, a reunião de lições aprendidas. A frase que fica, dita pela administradora não-executiva: <b>«nós não comprámos software — comprámos o pipeline de quem o faz»</b>. A pergunta para a mesa: o que muda, a partir de hoje, em todos os cadernos de encargos de software da EnerVale?",
+      guia: "Fechar em modo compras: transformar o susto em requisitos concretos e verificáveis — é aqui que o exercício deixa sementes permanentes.",
+      pontos: [
+        { q: "Que requisitos de integridade entram nas novas compras de software?", sub: ["SBOM entregue e atualizada a cada versão?", "Assinatura, distribuição por canal verificável, changelog obrigatório?", "Notificação contratual de compromissos do pipeline em prazo curto — fixado por nós?", "Evidência periódica das práticas de desenvolvimento seguro (não uma declaração, evidência)?"] },
+        { q: "Como avaliamos a maturidade de desenvolvimento dos fornecedores na due diligence?", sub: ["Perguntamos pelo ciclo de desenvolvimento seguro, testes, gestão de dependências?", "Pedimos o historial de vulnerabilidades e o tempo de correção (é bom sinal ter CVEs corrigidas depressa — mau sinal é não ter nenhuma)?", "Diferenciamos exigência por criticidade — o software dos parques não é o software da sala de reuniões?"] },
+        { q: "Que alavancas de mercado temos — e quais vêm a caminho?", sub: ["O Cyber Resilience Act (Reg. UE 2024/2847) vai obrigar fabricantes a gestão de vulnerabilidades e reporte — como usamos isso já como referência nas negociações?", "Compramos preferencialmente a quem publica evidência (advisories transparentes, SBOM, canal de divulgação)?", "No setor: partilhamos requisitos com os pares para elevar o mercado (a régua também sobe por procura)?"] }
+      ],
+      regua: "⚖️ <b>A régua PT (e europeia):</b> devida diligência antes de contratar (<b>GR.CA-6</b>) e requisitos integrados no contrato (<b>GR.CA-5</b>), com a <b>ISO/IEC 27036-3</b> como guia para a cadeia de software — e o <b>CRA</b> (Reg. UE 2024/2847, aplicação faseada) a transformar em obrigação legal do fabricante muito do que hoje se negoceia cláusula a cláusula.",
+      obs: [
+        { t: "Os cadernos de encargos de software crítico exigem integridade: SBOM, canal verificável, notificação de compromissos.", rec: "Acrescenta o bloco «integridade de software» aos requisitos-tipo da Fase 2 do Processo — escreve-o uma vez, usa-o sempre.", link: "processo.html#f2", linkTxt: "O Processo · Fase 2 — Especificar" },
+        { t: "A due diligence avalia a maturidade de desenvolvimento do fornecedor — proporcional à criticidade.", rec: "Meia dúzia de perguntas novas no domínio da operação/desenvolvimento do questionário — com a evidência a pedir em cada uma.", link: "templates.html#due-diligence", linkTxt: "Questionário de Due Diligence" },
+        { t: "Usamos as réguas europeias (CRA) como alavanca de negociação e critério de escolha.", rec: "Nas próximas consultas ao mercado (SCA F3), pergunta como se preparam para o CRA — a resposta separa os adultos das promessas.", link: "sca.html", linkTxt: "SCA Framework (F3)" }
+      ]
+    }
+  ],
+  fechoNota: "🔁 Repete com outro software crítico no papel da GreenFlow — o do AMI é o candidato que tira o sono. No curso: o caso <a href='casos-cadeia.html'><b>Kaseya</b></a> é este mecanismo à escala industrial, e a fase <b>Especificar</b> d'<a href='processo.html#f2'><b>O Processo</b></a> é onde os requisitos de integridade ganham dentes."
+};
+</script>
+<script src="tabletop-motor.js"></script>
+
+<footer class="rodape">Ciclo do Negócio de Cibersegurança · Formação <a href="https://www.c-academy.pt/CNCS/web/detalhe/?P1=12389" target="_blank" rel="noopener">C-Academy</a> (CNCS) · Formador: Nuno Salvador</footer>
+</body>
+</html>
